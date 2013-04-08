@@ -3,7 +3,7 @@
 <style type="text/css">
 body
 {
-	height: 240px; /* Default = 125px */
+	height: 280px; /* Default = 125px */
 	width: 250px;
 }
 ul
@@ -12,12 +12,12 @@ ul
 }
 </style>
 <script type="text/javascript" src="functions.js"></script>
-<script type="text/javascript" src="options.js"></script>
 <script>
-System.Gadget.onSettingsClosing = save_options; //Die Funktion save wird ausgeführt, wenn das Gadget geschlossen wirdfunction save(event) //Beginn der Funktion save mit dem Funktionsparameter event, der bestimmt ob der Dialog geschlossen wird oder geöffnet bleibt
+System.Gadget.onSettingsClosing = save_options; //Die Funktion save wird ausgeführt, wenn das Gadget geschlossen wird
+//function save(event) //Beginn der Funktion save mit dem Funktionsparameter event, der bestimmt ob der Dialog geschlossen wird oder geöffnet bleibt
 </script>
 </head>
-<body alink="#0000FF" vlink="#0000FF" link="#0000FF" onLoad="load_options();"><!-- Wenn der body geladen wird, wird die Funktion loadSettings aufgerufen !-->
+<body alink="#0000FF" vlink="#0000FF" link="#0000FF"><!-- Wenn der body geladen wird, wird die Funktion loadSettings aufgerufen !-->
 	<div id="error" style="display: none; color: red; font-weight: bold;">Fehlermeldung:<br/></div><!-- der unsichtbare div-Container, der sichtbar gemacht wird, wenn ein Fehler auftritt !-->
 	
 	Bevorzugte Dateiendungen:<br/>
@@ -27,13 +27,19 @@ System.Gadget.onSettingsClosing = save_options; //Die Funktion save wird ausgef�
 	<strong>Befehle-Übersicht:</strong><br />
 	<ul>
 	<li><i>o</i> - Datei öffnen [Standard]</li>
-	<li><i>a</i> - Datei öffnen mit erweiterter Suche</li>
-	<li><i>i</i> - Datei im Explorer öffnen</li>
 	<li><i>e</i> oder <i>3d</i> - 3D-Ordner öffnen</li>
+	<li><i>i</i> - Datei im Explorer öffnen</li>
+	<li><i>c</i> - Datei schreibschützen und PDF-Datei löschen</li>
 	<li><i>s</i> - Schreibschutz setzen</li>
 	<li><i>f</i> - Schreibschutz aufheben</li>
+	<li><i>a</i> - Datei öffnen mit erweiterter Suche</li>
 	</ul>
 	
-	<p style="font-size: 11px; font-style: italic; margin-top: 20px;">Version 1.0.4 | <a href="#" onClick="open_changelog();">Changelog</a></p>
+	<div id="version_info" style="font-size: 11px; font-style: italic; margin-top: 30px;"></div>
+	
+<script type="text/javascript">
+//Gadget initialisieren
+run_options_page();
+</script>
 </body>
 </html>

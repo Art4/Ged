@@ -1,3 +1,373 @@
+//Initialisierung
+function init()
+{
+	cfg = new Array();
+	cfg['current_version'] = "1.0.5";
+	
+	/* Weitere Einstellungen */
+	//-----------------------------
+	//Höchte Revision, nach der gesucht wird
+	max_revisions = 25;
+	//Ende der dir_store generierung
+	dir_store_end = 300;
+	
+	/* AB HIER NICHTS MEHR ÄNDERN */
+	//-----------------------------
+	
+	/* Globales Options-Array laden */
+	//-----------------------------
+	//options = setup_options();
+	
+	/* Dir-Store definieren */
+	//-----------------------------
+	dir_store = setup_dir_store(dir_store_end);
+	
+	/* Dir-Store definieren */
+	//-----------------------------
+	setup_rev_store();
+	
+	/* Wichtige Objekte deklarieren */
+	//-----------------------------
+	WshShell = new ActiveXObject("WScript.Shell");
+	FileSysObj = new ActiveXObject("Scripting.FileSystemObject");
+	
+	//since v1.0.2
+	//letzte Suche
+	last_search_filename = "";
+	last_search_filetype = "";
+}
+
+//Zeigt eine Ja/Nein Nachricht beim User an und liefert das Ergebnis als bool zurück
+//since v1.0.5
+function msgbox_confirm(msg)
+{
+	//VBS-Funktion definieren
+	window.execScript( //- Add MsgBox functionality for displaying error messages
+		'Function vbsMsgBox(prompt)\r\n'
+		+ ' vbsMsgBox = MsgBox(prompt, 1, \'OpenDrafts\')\r\n'
+		+ 'End Function', "vbscript"
+	);
+	
+	//VBSFunktion ausführen
+	confirm_value = vbsMsgBox(msg);
+	
+	if(confirm_value == 1)
+		return true;
+	
+	return false;
+	
+	
+	//Das hier unten funktioniert schon mal
+	/*
+	window.execScript( //- Add MsgBox functionality for displaying error messages
+		'Function vbsMsgBox (prompt, buttons, title)\r\n'
+		+ ' vbsMsgBox = MsgBox(prompt, buttons, title)\r\n'
+		+ 'End Function', "vbscript"
+	);
+	
+	//VBSFunktion ausführen
+	vbsMsgBox(message, 8, "OpenDrafts");
+	
+	*/
+}
+
+//Hauptprozess
+function run()
+{
+	options = setup_options();
+	//Suchstring ermitteln
+	var query = get_query();
+	//query = document.getElementById("q").value;
+	
+	//Wenn keine Eingabe gemacht wurde, Fehler ausgeben
+	if(query == "")
+	{
+		message('Warte auf Eingabe...');
+		return false;
+	}
+	
+	//Suchstring analysieren
+	var query_vars = get_query_vars(query);
+	
+	//Wenn keine Endung gesetzt wurde, den Defaultwert verwenden
+	if(query_vars['file_type'] === false)
+		query_vars['file_type'] = options['default_file_type'];
+	
+	//3D-Ordner öffnen
+	if(query_vars['action'] == 'explorer')
+	{
+		run_explorer(query_vars);
+		return true;
+	}
+	
+	//Index zur Datei öffnen
+	if(query_vars['action'] == 'index')
+	{
+		run_index(query_vars);
+		return true;
+	}
+	
+	//Richtigen Dateinamen finden
+	var results = build_file_name(query_vars);
+	
+	if(results['error'] === true)
+	{
+		//Wenn bereits die letzte Suche nach dieser Datei fehlgeschlagen ist, Index öffnen
+		//since v1.0.2
+		if(is_same_search_as_last(query_vars))
+		{
+			run_index(query_vars);
+			return true;
+		}
+		
+		//letzte fehlgeschlagene Suche aktualisieren
+		last_search_filename = query_vars['filename'];
+		last_search_filetype = query_vars['file_type'];
+		
+		message(results['error_message']);
+		return true;
+	}
+	
+	query_vars['filename'] = results['filename'];
+	query_vars['revision'] = results['revision'];
+	
+	//Letze Suche löschen
+	clean_last_search();
+	
+	//Schreibschutz zur Datei setzen/aufheben
+	//since v1.0.4
+	if(query_vars['action'] == 'read_only' || query_vars['action'] == 'read_write')
+	{
+		run_set_attributes(query_vars);
+		return true;
+	}
+	
+	//Eine Datei auf Schreibschutz setzen und evtl. vorhandene PDF-Datei löschen
+	//since v1.0.5
+	if(query_vars['action'] == 'clean')
+	{
+		run_clean(query_vars);
+		return true;
+	}
+	
+	/* Datei öffnen */
+	
+	//Eingabefeld leeren
+	set_query('');
+	//Nachricht ausgeben
+	message(query_vars['filename'] + ' wird ge&ouml;ffnet');
+	//Datei öffnen
+	open_file(query_vars['main_dir'] + query_vars['filename']);
+	
+	//Fertig
+	return true;
+}
+
+//Sucht und öffnet den 3D-Ordner einer Zeichnung
+//since v1.0.3 (ausgelagert)
+function run_explorer(query_vars)
+{
+	//Wenn der Ordner nicht existiert, Fehler ausgeben
+	if(folder_exists(query_vars['3D_dir']+'\\') === false)
+	{
+		message('Der Ordner '+query_vars['3D']+' existiert nicht.');
+		return false;
+	}
+	
+	//Letze Suche löschen
+	clean_last_search();
+	
+	//Eingabefeld leeren
+	set_query('');
+	message(' &Ouml;ffne den Ordner '+query_vars['3D']);
+	//3D-Ordner öffnen
+	open_file(query_vars['3D_dir']);
+	return true;
+}
+
+//Index zur Datei öffnen
+//since v1.0.2
+//ausgelagert since v1.0.3
+function run_index(query_vars)
+{
+	message('Index '+query_vars['filename']+' wird aufgebaut, bitte warten...');
+	
+	//Wenn es den Zielordner nicht gibt, Fehlermeldung
+	if(folder_exists(query_vars['main_dir']+'\\') === false)
+	{
+		message("Ordner existiert nicht...");
+		return false;
+	}
+	
+	var next_files = search_files_next_to(query_vars['filename'], query_vars['main_dir']);
+	
+	if(next_files['near'] === false)
+	{
+		message("Keine &auml;hnliche Datei gefunden...");
+		return false;
+	}
+	
+	var near = next_files['near'];
+	
+	//Letze Suche löschen
+	clean_last_search();
+	
+	//Eingabefeld leeren
+	set_query('');
+	//Nachricht ausgeben
+	message('Index von ' + query_vars['filename'] + ' wird ge&ouml;ffnet');
+	//Debug:
+	//message('prev: ' + next_files['prev'] + ', this: ' + next_files['this'] + ', next: ' + next_files['next'] + ', near: ' + next_files['near'] + ', ');
+	//Datei öffnen
+	select_file(query_vars['main_dir'] + near);
+	
+	//Fertig
+	return true;
+}
+
+//Schreibschutz setzen/aufheben
+//since v1.0.4
+//Infos zu Bitwise-Operators:
+//https://developer.mozilla.org/en/JavaScript/Reference/Operators/Bitwise_Operators
+function run_set_attributes(query_vars)
+{
+	file = query_vars['main_dir'] + query_vars['filename'];
+	
+	//message(query_vars['filename'] + ' ist ' + file.Attributes);
+	
+	//Schreibschutz aufheben
+	if(query_vars['action'] == 'read_write')
+	{
+		set_file_permission(file, 'read_write');
+		message(query_vars['filename'] + ' ist beschreibbar');
+	}
+	else
+	{
+		//Schreibschutz setzen
+		set_file_permission(file, 'read_only');
+		message(query_vars['filename'] + ' ist schreibgesch&uuml;tzt');
+	}
+	
+	//Suchfeld leeren
+	set_query('');
+	return true;
+}
+
+//Datei Schreibschutz setzen und evtl. vorhandene PDF-Datei löschen
+//since v1.0.5
+function run_clean(query_vars)
+{
+	var file = query_vars['main_dir'] + query_vars['filename'];
+	
+	//*
+	var revision = false;
+	
+	if(query_vars['revision'] !== false)
+		revision = parseInt(query_vars['revision'], 10);
+	
+	if(revision !== false && revision > 0)
+	{
+		//Vorherige Revision nehmen
+		prev_revision = revision - 1;
+		prev_revision_file = query_vars['filename'].replace('-R'+query_vars['revision'], '-R'+prev_revision);
+		
+		if(file_exists(query_vars['main_dir'] + prev_revision_file))
+		{
+			file = prev_revision_file;
+		}
+		else
+		{
+			prev_revision_file = query_vars['filename'].replace('-R'+query_vars['revision'], '');
+			
+			if(file_exists(query_vars['main_dir'] + prev_revision_file))
+			{
+				file = prev_revision_file;
+			}
+		}
+	}
+	//*/
+	
+	//PDF-Datei ermitteln
+	file_type = query_vars['file_type'];
+	pdffile = file.replace(file_type, 'pdf');
+	
+	//Existiert die Datei?
+	if(file_exists(query_vars['main_dir'] + pdffile))
+	{
+		//Sicherheits-Abfrage, bevor eine Datei gelöscht wird
+		if(msgbox_confirm('Datei ' + pdffile + ' wird entfernt?') == true)
+		{
+			//PDF-Datei löschen
+			delete_file(query_vars['main_dir'] + pdffile);
+			
+			message(file + " bereinigt");
+			//Suchfeld leeren
+			set_query('');
+			
+			return true;
+		}
+		else if(file_exists(query_vars['main_dir'] + file))
+		{
+			//Schreibschutz setzen
+			set_file_permission(query_vars['main_dir'] + file, 'read_only');
+			
+			message(file + " wurde schreibgesch&uuml;tzt");
+			//Suchfeld leeren
+			set_query('');
+			
+			return true;
+		}
+	}
+	else if(file_exists(query_vars['main_dir'] + file))
+	{
+		//Schreibschutz setzen
+		set_file_permission(query_vars['main_dir'] + file, 'read_only');
+		
+		message(file + " wurde schreibgesch&uuml;tzt");
+		//Suchfeld leeren
+		set_query('');
+		
+		return true;
+	}
+	
+	//set_query('');
+	message('Cleaning fehlgeschlagen');
+	
+	return true;
+}
+
+//Schreibschutz einer Datei setzen oder aufheben
+//ausgelagert aus run_set_attributes()
+//since v1.0.5
+function set_file_permission(filename, mode)
+{
+	file = FileSysObj.GetFile(filename);
+	
+	//Schreibschutz aufheben
+	if(mode == 'read_write')
+	{
+		//Wenn Schreibschutz gesetzt ist
+		if(file.Attributes & 1) //AND
+		{
+			file.Attributes = file.Attributes -= 1;
+		}
+		
+		return true;
+	}
+	
+	//Schreibschutz setzen
+	if(mode == 'read_only')
+	{
+		//Wenn Schreibschutz nicht gesetzt ist
+		if(file.Attributes ^ 1 && file.Attributes < 33) //XOR
+		{
+			file.Attributes = file.Attributes += 1;
+		}
+		
+		return true;
+	}
+}
+
 //Dir-Store definieren
 //Gibt ein Array zurück, mit dem später der übergeordnete Ordner einer Zeichnung bestimmt werden kann
 function setup_dir_store(e)
@@ -161,6 +531,12 @@ function parse_actions(c)
 		return 'open';
 	}
 	
+	// Clean
+	if(a == "C" || a == "CLEAN" )
+	{
+		return 'clean';
+	}
+	
 	//Default ist open
 	return 'open';
 }
@@ -189,6 +565,7 @@ function build_file_name(qv)
 		if(file_exists(path + name + '-R' + rev + '.' + type))
 		{
 			arr['filename'] = name + '-R' + rev + '.' + type;
+			arr['revision'] = rev;
 			return arr;
 		}
 		
@@ -196,10 +573,11 @@ function build_file_name(qv)
 		if(rev == 0 && file_exists(path + name + '.' + type))
 		{
 			arr['filename'] = name + '.' + type;
+			arr['revision'] = false;
 			return arr;
 		}
 		
-		//Wenn wieder nicht gefunden wurde, Fehler ausgeben
+		//Wenn wieder nichts gefunden wurde, Fehler ausgeben
 		arr['error'] = true;
 		arr['error_message'] = name + '-R' + rev + '.' + type + ' nicht gefunden';
 		return arr;
@@ -211,6 +589,7 @@ function build_file_name(qv)
 	if(have_rev !== false)
 	{
 		arr['filename'] = name + '-R' + have_rev + '.' + type;
+		arr['revision'] = have_rev;
 		return arr;
 	}
 	
@@ -218,6 +597,7 @@ function build_file_name(qv)
 	if(file_exists(path + name + '.' + type))
 	{
 		arr['filename'] = name + '.' + type;
+		arr['revision'] = false;
 		return arr;
 	}
 	
@@ -231,6 +611,7 @@ function build_file_name(qv)
 			if(file_exists(qv['3D_dir'] + '\\' + name + '-R0' + '.' + type))
 			{
 				arr['filename'] = qv['3D'] + '\\' + name + '-R0' + '.' + type;
+				arr['revision'] = '0';
 				return arr;
 			}
 		}
@@ -293,28 +674,6 @@ function search_files_next_to(filenamen, main_dir)
 		return output;
 	}
 	
-	/*DEBUG
-	//kann später gelöscht werden
-	//##########################
-	
-	message("Typ: "+type+" Wert: "+filename);
-	return output;
-	
-	var folder = FileSysObj.GetFolder(main_dir);
-	
-	filesArrayString = '';
-	
-	//Alle Dateien in files auflisten
-	var files = new Enumerator(folder.files);
-	
-	var thisFile = files.item();
-	output['prev'] = thisFile.name;
-	
-	return output;
-	
-	//######################
-	//DEBUG ENDE */
-	
 	var folder = FileSysObj.GetFolder(main_dir);
 	
 	filesArrayString = '';
@@ -360,10 +719,23 @@ function search_files_next_to(filenamen, main_dir)
 	return output;
 }
 
+//Löscht eine Datei, der absolute Pfad wird benötigt
+//via http://www.java2s.com/Tutorial/JavaScript/0600__MS-JScript/FileSystemObjectDeleteFile.htm, thanks!
+//since v1.0.5
+function delete_file(file)
+{
+	if(file_exists(file))
+	{
+		FileSysObj.DeleteFile(file);
+		return true;
+	}
+	
+	return false;
+}
+
 //Öffnet eine Datei, der absolute Pfad wird benötigt
 function open_file(pfad)
 {
-	//DataArea.innerHTML = ProgPath;
 	WshShell.Run(pfad);
 }
 
@@ -421,7 +793,7 @@ function get_version_number()
 	
 	// Open the text file at the specified location with read mode
 	//via http://www.ezineasp.net/post/Javascript-FSO-textstream-File-ReadAll-Method.aspx, thanks!
-	var txtFile = FileSysObj.OpenTextFile(check_path, 1, false, 0);
+	var txtFile = FileSysObj.OpenTextFile(check_path, 1, false);
 
 	// reads all the lines from the specified file and returns the result as string
 	var version_number = txtFile.ReadAll();
@@ -438,22 +810,23 @@ function check_updates()
 {
 	var current_version = cfg['current_version'];
 	
-	new_version = get_version_number();
+	var new_version = get_version_number();
 	
 	if(typeof new_version == 'undefined')
 	{
-		message('ist undefiniert');
+		//message('ist undefiniert');
 		return false;
 	}
 	
-	if(current_version != new_version)
+	//Prüfen, ob neue Version vorliegt
+	if(versions_compare(current_version, new_version))
 	{
 		var new_version_path = "G:\\Weigandt\\OpenDrafts\\OpenDrafts_v"+new_version;
 		message('OpenDrafts '+new_version+' ist verf&uuml;gbar. <a href="#" onClick="open_update_folder();">Update</a>');
 	}
 }
 
-//Öffnet der Ordner mit der neusten Programm-Version
+//Öffnet den Ordner mit der neusten Programm-Version
 //since v1.0.4
 function open_update_folder()
 {
@@ -462,3 +835,195 @@ function open_update_folder()
 	//Datei öffnen lassen
 	WshShell.Run("G:\\Weigandt\\OpenDrafts\\OpenDrafts_v"+new_version);
 }
+
+//
+//Options
+//
+
+//Lädt die Einstellungen und packt sie in ein Array
+function setup_options()
+{
+	var arr = new Array();
+	
+	/* Pfad bestimmen - base_dir */
+	var base_dir = System.Gadget.Settings.read("base_dir");
+	//Standard bestimmen
+	if(base_dir == '')
+	{
+		base_dir = 'H:\\Zeichnungen\\';
+	}
+	arr['base_dir'] = base_dir;
+	
+	/* Datei-Typen bestimmen */
+	var file_types_str = System.Gadget.Settings.read("file_types");
+	arr['file_types_str'] = file_types_str;
+	
+	var types = filter_file_types(file_types_str);
+	arr['file_types'] = types;
+	
+	//Der erste wird als Default gesetzt
+	arr['default_file_type'] = types[0];
+	
+	//Config anhängen
+	/*
+	var i;
+	for(i = 0; i < cfg.lenght; i++)
+	{
+		var cn = cfg[i][0];
+		var cv = cfg[i][1];
+		arr[cn] = cv;
+	}
+	//*/
+	
+	return arr;
+}
+
+function filter_file_types(str)
+{
+	//Standard definieren
+	if(str == '')
+	{
+		str = "dft, dwg, pdf";
+	}
+	
+	var arr = str.split(',');
+	
+	var i;
+	for(i = 0; i < arr.length; i++)
+	{
+		arr[i] = trim(arr[i]);
+	}
+	
+	return arr;
+}
+
+function save_options(event)
+{
+	if (event.closeAction == event.Action.commit) //Wenn die Einstellungen vom Nutzer gespeichert werden
+	{
+		System.Gadget.Settings.write("base_dir", document.getElementById("base_dir").value);
+		System.Gadget.Settings.write("file_types", document.getElementById("file_types").value);
+		
+		System.Gadget.Settings.write("first_call", 'no');
+		
+		return true;
+	}
+}
+
+//Autorun auf der Options-Page
+//since v1.0.5
+function run_options_page()
+{
+	init();
+	
+	load_options();
+	
+	load_version_info();
+}
+
+function load_options() //Diese Funktion lädt die Einstellungen in die Textboxen
+{
+	first_call = System.Gadget.Settings.read("first_call");
+	if(first_call != 'no')
+	{
+		document.getElementById("base_dir").value = 'H:\\Zeichnungen\\';
+		document.getElementById("file_types").value = 'dft, dwg, pdf';
+	}
+	else
+	{
+		document.getElementById("base_dir").value = System.Gadget.Settings.read("base_dir");
+		document.getElementById("file_types").value = System.Gadget.Settings.read("file_types");
+	}
+}
+
+//Zeigt den Versions-Hinweis bei den Optionen an
+//since v1.0.5
+function load_version_info()
+{
+	var new_version = get_version_number();
+	
+	var current_version = cfg['current_version'];
+	
+	//Prüfen, ob neue Version vorliegt
+	if(versions_compare(current_version, new_version))
+	{
+		var info = '<a href="#" onClick="open_update_folder();">OpenDrafts ' + new_version + ' ist verf&uuml;gbar</a>';
+	}
+	else
+	{
+		var info = 'OpenDrafts ' + current_version;
+	}
+	
+	var infos = info + ' | <a href="#" onClick="open_changelog();">Changelog</a>';
+	
+	version_info.innerHTML = infos;
+	return true;
+	
+	//Version 1.0.4 | <a href="#" onClick="open_changelog();">Changelog</a>
+}
+
+//Öffnet den Changelog;
+function open_changelog()
+{
+	tempShell = new ActiveXObject("WScript.Shell");
+	tempShell.Run("G:\\Weigandt\\OpenDrafts\\latest_changelog.html");
+	
+	return true;
+}
+
+// Versionsnummern vergleichen
+// since v1.0.5
+// via http://stackoverflow.com/questions/6832596/how-to-compare-software-version-number-using-js-only-number, thanks!
+// 
+// minimal 2-stellig (1.0); maximal 3-stellig (1.0.5)
+// Gibt true zurück, wenn new_number größer als cur_number ist
+// Gibt false zurück, wenn new_number kleiner oder gleich cur_number ist
+function versions_compare(cur_number, new_number)
+{
+	var a = cur_number.split('.');
+	var b = new_number.split('.');
+
+	for (var i = 0; i < a.length; ++i) {
+		a[i] = Number(a[i]);
+	}
+	if (a.length == 2) {
+		a[2] = 0;
+	}
+	for (var i = 0; i < b.length; ++i) {
+		b[i] = Number(b[i]);
+	}
+	if (b.length == 2) {
+		b[2] = 0;
+	}
+
+	if (a[0] > b[0]) return false;
+	if (a[0] < b[0]) return true;
+
+	if (a[1] > b[1]) return false;
+	if (a[1] < b[1]) return true;
+
+	if (a[2] > b[2]) return false;
+	if (a[2] < b[2]) return true;
+
+	return false;
+}
+
+//Zeigt Fehlermeldungen an
+//In der fertigen Version unbedingt auskommentieren
+/*
+function window.onerror (msg, file, line)
+{
+	// Using MsgBox
+window.execScript( //- Add MsgBox functionality for displaying error messages
+	  'Function vbsMsgBox (prompt, buttons, title)\r\n'
+	+ ' vbsMsgBox = MsgBox(prompt, buttons, title)\r\n'
+	+ 'End Function', "vbscript"
+);
+	
+	var ErrorMsg = 'An error has occurred'+(line&&file?' in '+file+' on line '+line:'')+'.  The message returned was:\r\n\r\n'+ msg + '\r\n\r\nIf the error persists, please report it.';
+	vbsMsgBox(ErrorMsg, 16, "Your Gadget Name");
+	
+	// Cancel the default action
+	return true;
+}
+//*/
