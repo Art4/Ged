@@ -1,0 +1,357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>OpenDrafts - Source Documentation</title>
+
+<style type="text/css">
+body {
+	font-family: Georgia, Times, "Times New Roman", serif;
+    font-size: 14px;
+    font-weight: normal;
+}
+body, div, dt, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, table, th, td {
+    margin: 0;
+    padding: 0;
+}
+tt {
+	font-weight: bold;
+	/*font-style: italic;*/
+}
+dl dt {
+	font-size: 15px;
+}
+dl dd {
+    margin-bottom: 11px;
+    margin-left: 10px;
+}
+pre {
+	margin: 5px 0;
+	padding: 5px;
+	background-color: #eeeeee;
+}
+
+#wrapper {
+	margin: 0 auto;
+	position: relative;
+	width: 1000px;
+}
+
+/* HEADER */
+#header {
+	background: none repeat scroll 0 0 #DCDCDC;
+    height: 78px;
+	text-align: center;
+}
+#header h1 {
+	padding-top: 10px;
+}
+#header h2 {
+	font-size: 12px;
+}
+
+/* Menu */
+/*
+#menu {
+	background: none repeat scroll 0 0 #F7F7F7;
+    border-bottom: 1px solid #DFDFDF;
+}
+#menu h2 {
+	color: #555555;
+    font-size: 24px;
+    line-height: 1em;
+    padding-left: 12px;
+    padding-top: 34px;
+    text-rendering: optimizelegibility;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+#menu .left, #menu .right{
+	width: 40%;
+	padding: 10px;
+}
+*/
+
+/* BODY */
+#body {
+	padding: 10px;
+}
+#body h1 {
+	margin: 0 0 10px 0;
+	font-size: 30px;
+}
+#body ul {
+	list-style: none;
+}
+#body ul li h2 {
+	color: #666666;
+    font-family: "Lucida Grande",Verdana,Tahoma,Arial,sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    margin-top: 25px;;
+    padding-bottom: 2px;
+	border-bottom: 1px solid #dadada;
+}
+#body ul li ul li {
+	margin: 0 0 0 10px;
+	/*list-style: square outside none;*/
+}
+#body ul li ul li h3 {
+	border-bottom: 1px dashed #ddd;
+	margin: 10px 0 5px 0;
+	font-size: 16px;
+}
+
+/* FOOTER */
+#footer {
+	margin: 10px 0 0 0;
+	padding: 10px;
+	text-align: center;
+	border-top: 1px solid #dddddd;
+}
+.left { float: left; }
+.right { float: right; }
+.clear { clear: both; }
+</style>
+
+<script type="text/javascript">
+function toggle(id)
+{
+
+}
+</script>
+</head>
+
+<body>
+<div id="wrapper">
+<div id="header">
+	<h1>OpenDrafts - Source Dokumentation</h1>
+	<h2>Ein Gadget für BKM in D&uuml;ren</h2>
+</div>
+<!--
+<div id="menu">
+	<h2>Inhalt</h2>
+	
+	<div class="left">
+		<h3>Variablen</h3>
+		<ul>
+			<li>query_vars (array)</li>
+			<li>options (array)</li>
+		</ul>
+	</div>
+	
+	<div class="right">
+		<h3>Funktionen</h3>
+	</div>
+	<div class="clear"></div>
+</div>
+-->
+
+<div id="body">
+	<h1>Functions-Reference:</h1>
+	
+	<ul>
+		<!-- Beispiel für neue Elemente
+		<li><a id="function_name" name="function_name"></a>
+			<h2>function_name()</h2>
+			<ul>
+				<li>
+					<h3>Beschreibung</h3>
+					<p><tt>function_name()</tt> wird hier beschrieben.</p>
+				</li>
+				<li>
+					<h3>Anwendung</h3>
+					<p><code>varibale = function_name(args, name);</code></p>
+				</li>
+				<li>
+					<h3>Parameter</h3>
+					<dl>
+						<dt><tt>args</tt></dt>
+						<dd>(array) <i>(optional)</i> Beschreibung
+							<dl><dd>Default: <tt>none</tt></dd></dl>
+						</dd>
+					</dl>
+				</li>
+				<li>
+					<h3>Return Values</h3>
+					<dl>
+						<dt><tt>(array)</tt></dt>
+						<dd>Array mit folgenden Indizes:<br />
+						<pre>'query' => (string) //ein String
+						'var' => (array) //eine andere Angabe</pre></dd>
+					</dl>
+				</li>
+			</ul>
+		</li>
+		-->
+		
+		<li><a id="is_debug" name="is_debug"></a>
+			<h2>is_debug()</h2>
+			<ul>
+				<li>
+					<h3>Beschreibung</h3>
+					<p><tt>is_debug()</tt> ermittelt an <code>debug_mode</code>, ob der Debug-Modus eingeschaltet ist und gibt das Ergebnis aus.</p>
+				</li>
+				<li>
+					<h3>Anwendung</h3>
+					<p><pre>if( is_debug() )
+{
+	//do_cool_stuff();
+};</pre></p>
+				</li>
+				<li>
+					<h3>Parameter</h3>
+					<p>keine</p>
+				</li>
+				<li>
+					<h3>Return Values</h3>
+					<dl>
+						<dt><tt>(boolean)</tt></dt>
+						<dd><code>true</code>, wenn der Debug-Modus eingeschaltet ist, ansonsten <code>false</code>.<br /></dd>
+					</dl>
+				</li>
+			</ul>
+		</li>
+		
+		<li><a id="init" name="init"></a>
+			<h2>init()</h2>
+			<ul>
+				<li>
+					<h3>Beschreibung</h3>
+					<p><tt>init()</tt> wird beim Start des Gadgets aufgerufen und inkludiert benötigte Dateien, setzt Standard-Variablen und ermittelt die Einstellungen für die weitere Anwendung.</p>
+				</li>
+				<li>
+					<h3>Anwendung</h3>
+					<p><code>init();</code></p>
+				</li>
+				<li>
+					<h3>Parameter</h3>
+					<p>keine</p>
+				</li>
+				<li>
+					<h3>Return Values</h3>
+					<p>keine</p>
+				</li>
+			</ul>
+			
+		</li>
+		
+		<li><a id="get_query_vars" name="get_query_vars"></a>
+			<h2>get_query_vars()</h2>
+			<ul>
+				<li>
+					<h3>Beschreibung</h3>
+					<p><tt>get_query_vars()</tt> analysiert den Suchstring und gibt alle notwendigen Information zurück.</p>
+				</li>
+				<li>
+					<h3>Anwendung</h3>
+					<p><code>query_vars = get_query_vars(query);</code></p>
+				</li>
+				<li>
+					<h3>Parameter</h3>
+					<dl>
+						<dt><tt>query</tt></dt>
+						<dd>(string) <i>(required)</i> Suchstring, den der User eingegeben hat
+							<dl><dd>Default: <tt>none</tt></dd></dl>
+						</dd>
+					</dl>
+				</li>
+				<li>
+					<h3>Return Values</h3>
+					<dl>
+						<dt><tt>(array)</tt></dt>
+						<dd>Gibt ein Array mit folgenden Indizes zurück:<br />
+						<pre>array(
+	'query' => (string) // Der riginale Suchstring, der angegeben wurde
+	'command' => (string) ['open'] // Auszuführende Aktion 
+	'do' => (string) // DEPRECATED, NICHT MEHR VERWENDEN; ersetzt und identisch mit 'command'
+	'file_type' => (boolean/string) [false] // der übergebene Dateityp, ansonsten false
+	'revision' => (boolean/string) [false] // die übergebene Revision, ansonsten false
+	'filename' => (string) // der gefilterte Dateiname ohne weitere Angaben, zB 12345
+	'dir_index' => (string) // der Index für den Zeichnungsordner, zB 100; 155 oder 235
+	'main_dir' => (string) // der komplette Zeichnungsordner, indem die Zeichnung liegen muss
+)</pre></dd>
+					</dl>
+				</li>
+			</ul>
+		</li>
+		
+		<li><a id="setup_dir_store" name="setup_dir_store"></a>
+			<h2>setup_dir_store()</h2>
+			<ul>
+				<li>
+					<h3>Beschreibung</h3>
+					<p><tt>setup_dir_store()</tt> gibt ein Array zurück, mit dem später ein übergeordneter Ordner einer Zeichnung definiert werden kann.</p>
+				</li>
+				<li>
+					<h3>Anwendung</h3>
+					<p><code>dir_store = setup_dir_store(end);</code></p>
+				</li>
+				<li>
+					<h3>Parameter</h3>
+					<dl>
+						<dt><tt>end</tt></dt>
+						<dd>(string|integer) <i>(optional)</i> Index des größten Ordners angeben. Siehe Return Values
+							<dl><dd>Default: <i>(integer)</i> <tt>300</tt></dd></dl>
+						</dd>
+					</dl>
+				</li>
+				<li>
+					<h3>Return Values</h3>
+					<dl>
+						<dt><tt>(array)</tt></dt>
+						<dd>Gibt ein Array mit folgenden Indizes zurück:<br />
+						<pre>array(
+	'100' => '10000-10499',
+	'105' => '10500-10999',
+	'110' => '11000-11499',
+	...
+	//Das Ende ist abhängig vom Parameter end
+)</pre></dd>
+					</dl>
+				</li>
+			</ul>
+		</li>
+		
+		<li><a id="setup_options" name="setup_options"></a>
+			<h2>setup_options()</h2>
+			<ul>
+				<li>
+					<h3>Beschreibung</h3>
+					<tt>setup_options()</tt> lädt die Einstellungen, packt sie in ein Array und gibt sie zurück.
+				</li>
+				<li>
+					<h3>Anwendung</h3>
+					<p><code>setup_options();</code></p>
+				</li>
+				<li>
+					<h3>Parameter</h3>
+					<p>keine</p>
+				</li>
+				<li>
+					<h3>Return Values</h3>
+					<dl>
+						<dt><tt>(array)</tt></dt>
+						<dd>Ein Array, das folgende Werte enthält
+						<pre>array(
+	'base_dir' => (string) ['H:\Zeichnungen\']// Standard-Pfad zu den Zeichnungen
+	'file_types' => (array) ['dft', 'dwg', 'pdf'] // Bevorzugte Dateiendungen, ermittelt durch get_filetypes()
+)</pre></dd>
+					</dl>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+<!-- Todo:
+------
+- Schreibschutz bei alten Revisionen der dft setzen: http://msdn.microsoft.com/en-us/library/5tx15443%28VS.85%29.aspx
+- Dateien löschen per WSH und noch viel mehr: http://www.oc-s.com/tutorials/WSH/filesystemobject.htm
+ -->
+
+<div id="footer">
+<p>OpenDrafts: A Win7-Gadget for BKM in D&uuml;ren</p>
+<p>&copy; 2011 by Artur Weigandt</p>
+</div>
+</div>
+</body>
+</html>

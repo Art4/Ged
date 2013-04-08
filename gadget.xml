@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<gadget>
+  <name>Open Drafts</name>
+  <namespace>microsoft.windows</namespace>
+  <version>0.9.8</version>
+  <author name="Artur Weigandt">
+    <info url="www.wlabs.de"  text="wLabs.de"/>
+    <logo src="images/icon.png" />
+  </author>
+  <copyright>&#169; 2011</copyright>
+  <description>Einfaches Aufrufen von Zeichnungen bei BKM</description>
+  <icons>
+    <icon height="64" width="64" src="images/icon.png" />
+  </icons>
+  <hosts>
+    <host name="sidebar">
+      <base type="HTML" apiVersion="1.0" src="default.html" />
+      <permissions>Full</permissions>
+      <platform minPlatformVersion="1.0" />
+      <defaultImage src="images/icon.png" />
+    </host>
+  </hosts>
+</gadget>

@@ -1,0 +1,25 @@
+﻿<html>
+<head>
+<style type="text/css">
+body
+{
+	height: 140px; /* Default = 125px */
+	width: 250px;
+}
+</style>
+<script type="text/javascript" src="functions.js"></script>
+<script type="text/javascript" src="options.js"></script>
+<script>
+System.Gadget.onSettingsClosing = save_options; //Die Funktion save wird ausgeführt, wenn das Gadget geschlossen wirdfunction save(event) //Beginn der Funktion save mit dem Funktionsparameter event, der bestimmt ob der Dialog geschlossen wird oder geöffnet bleibt
+</script>
+</head>
+<body alink="#0000FF" vlink="#0000FF" link="#0000FF" onLoad="load_options();"><!-- Wenn der body geladen wird, wird die Funktion loadSettings aufgerufen !-->
+	<div id="error" style="display: none; color: red; font-weight: bold;">Fehlermeldung:<br/></div><!-- der unsichtbare div-Container, der sichtbar gemacht wird, wenn ein Fehler auftritt !-->
+	
+	Bevorzugte Dateiendungen:<br/>
+	<input type="text" value="dft" id="file_types" /><br/>
+	Standard-Pfad zum Zeichnungs-Ordner:<br/>
+	<input type="text" id="base_dir" value="H:\Zeichnungen" /><br />
+	<p style="font-size: 11px; font-style: italic; margin-top: 35px;">Version 0.9.8</p>
+</body>
+</html>
