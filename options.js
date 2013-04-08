@@ -101,7 +101,7 @@ function open_changelog()
 	
 	//Datei öffnen lassen
 	tempShell = new ActiveXObject("WScript.Shell");
-	tempShell.Run("G:\\Weigandt\\OpenDrafts\\changelog_v1.0.2.html");
+	tempShell.Run("G:\\Weigandt\\OpenDrafts\\changelog_v1.0.3.html");
 	
 	return true;
 }

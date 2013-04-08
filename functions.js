@@ -171,8 +171,6 @@ function build_file_name(qv)
 	var arr = new Array();
 	arr['error'] = false;
 	
-	//NEU!
-	//*
 	//Wenn explizit eine Revision angegeben wurde, dann nach dieser suchen
 	if(rev !== false)
 	{
@@ -382,8 +380,8 @@ function folder_exists(foldername)
 	return false;
 }
 
-//Löscht die Notiz der letzen Suche
-//since v1.0.2
+//Löscht die letzen Suche aus dem Cache
+//since v1.0.3
 function clean_last_search()
 {
 	last_search_filename = "";
