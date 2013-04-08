@@ -83,25 +83,11 @@ function load_options() //Diese Funktion lädt die Einstellungen in die Textboxen
 	}
 }
 
-//Öffnet den Changelog; muss sich im selben Ordner wie die settings.html befinden
+//Öffnet den Changelog;
 function open_changelog()
 {
-	/*
-	ScriptName = WScript.ScriptName
-	SourcePathName = fso.getAbsolutePathName(ScriptName)
-	SourcePath = Replace(SourcePathName, ScriptName, "", 1, -1, 0)
-	*/
-	//document.getElementById("DataArea").innerHTML = "bla";
-	//return true;
-	/*
-	var filename = WshShell.ScriptName;
-	var sourcepath = FileSysObj.getAbsolutePathName(filename);
-	sourcepath.replace(filename, "");
-	*/
-	
-	//Datei öffnen lassen
 	tempShell = new ActiveXObject("WScript.Shell");
-	tempShell.Run("G:\\Weigandt\\OpenDrafts\\changelog_v1.0.3.html");
+	tempShell.Run("G:\\Weigandt\\OpenDrafts\\latest_changelog.html");
 	
 	return true;
 }

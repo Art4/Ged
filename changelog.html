@@ -184,6 +184,47 @@ function toggle(id)
 		</li>
 		-->
 		
+		<li><a id="v1_0_4" name="v1_0_4"></a>
+			<h2>Version 1.0.4 (29.05.2012)</h2>
+			<ul>
+				<li>
+					<h3>Änderungen</h3>
+					<dl>
+						<dt><tt>Neuer Befehl: Schreibschutz setzen/aufheben</tt></dt>
+						<dd>Bei einer Datei kann jetzt mit dem Befehl <code>s</code> der Schreibschutz aktiviert werden. Mit dem Befehl <code>f</code> kann der wieder deaktiviert werden.</dd>
+						<dd>Beispiele:<br />
+						<code>12345 s</code> Schreibschutz wird gesetzt<br />
+						<code>12345 f</code> Schreibschutz wird aufgehoben</dd>
+					</dl>
+					<dl>
+						<dt><tt>Befehls-Übersicht</tt></dt>
+						<dd>Bei den Optionen wird nun eine kleine Übersicht der vorhandenen Befehle angezeigt.</dd>
+					</dl>
+					<dl>
+						<dt><tt>Update-Hinweis</tt></dt>
+						<dd><code>OpenDrafts</code> zeigt jetzt beim ersten Aufruf einen einmaligen Hinweis an, wenn ein neues Update verfügbar ist.</dd>
+					</dl>
+					<dl>
+						<dt><tt>Code entrümpelt</tt></dt>
+						<dd>Es wurden einigen Debug-Funktionen ausgebaut, die nicht mehr benötigt werden.</dd>
+					</dl>
+					<dl>
+						<dt><tt>Änderung der Lizensierung</tt></dt>
+						<dd><code>OpenDrafts</code> unterliegt nun der <a href="https://creativecommons.org/licenses/by-sa/3.0/de/">CC BY-SA 3.0</a> (Creative-Commons-Lizenz, freie Weitergabe, Weitergabe unter gleichen Bedingungen).</dd>
+					</dl>
+				</li>
+				<li>
+					<h3>Geplant</h3>
+					<dl>
+						<dt><tt>Berücksichtigung der Revisionen</tt></dt>
+						<dd>Im 3D-Ordner sollte nicht nur nach der Revision 0, sondern auch nach anderen Revisionen, gesucht werden können.</dd>
+						<dt><tt>Suche nach Vorlage-Dateien</tt></dt>
+						<dd>Wenn Zeichnungen, die mit dem Revision-Manager kopiert wurden, nur als Vorlage für eine neue Zeichnung dienen, so kann man diese als <code>12345-Vorlage.dft</code> im 3D-Ordner speichern. Mit einem neuen Befehl (zB. v => Vorlage) kann man eine solche Vorlage-Datei automatisch öffnen lassen.</dd>
+					</dl>
+				</li>
+			</ul>
+		</li>
+		
 		<li><a id="v1_0_3" name="v1_0_3"></a>
 			<h2>Version 1.0.3 (03.02.2012)</h2>
 			<ul>
@@ -309,135 +350,6 @@ function toggle(id)
 				</li>
 			</ul>
 		</li>
-		<!--
-		<li><a id="init" name="init"></a>
-			<h2>init()</h2>
-			<ul>
-				<li>
-					<h3>Beschreibung</h3>
-					<p><tt>init()</tt> wird beim Start des Gadgets aufgerufen und inkludiert benötigte Dateien, setzt Standard-Variablen und ermittelt die Einstellungen für die weitere Anwendung.</p>
-				</li>
-				<li>
-					<h3>Anwendung</h3>
-					<p><code>init();</code></p>
-				</li>
-				<li>
-					<h3>Parameter</h3>
-					<p>keine</p>
-				</li>
-				<li>
-					<h3>Return Values</h3>
-					<p>keine</p>
-				</li>
-			</ul>
-			
-		</li>
-		
-		<li><a id="get_query_vars" name="get_query_vars"></a>
-			<h2>get_query_vars()</h2>
-			<ul>
-				<li>
-					<h3>Beschreibung</h3>
-					<p><tt>get_query_vars()</tt> analysiert den Suchstring und gibt alle notwendigen Information zurück.</p>
-				</li>
-				<li>
-					<h3>Anwendung</h3>
-					<p><code>query_vars = get_query_vars(query);</code></p>
-				</li>
-				<li>
-					<h3>Parameter</h3>
-					<dl>
-						<dt><tt>query</tt></dt>
-						<dd>(string) <i>(required)</i> Suchstring, den der User eingegeben hat
-							<dl><dd>Default: <tt>none</tt></dd></dl>
-						</dd>
-					</dl>
-				</li>
-				<li>
-					<h3>Return Values</h3>
-					<dl>
-						<dt><tt>(array)</tt></dt>
-						<dd>Gibt ein Array mit folgenden Indizes zurück:<br />
-						<pre>array(
-	'query' => (string) // Der riginale Suchstring, der angegeben wurde
-	'command' => (string) ['open'] // Auszuführende Aktion 
-	'do' => (string) // DEPRECATED, NICHT MEHR VERWENDEN; ersetzt und identisch mit 'command'
-	'file_type' => (boolean/string) [false] // der übergebene Dateityp, ansonsten false
-	'revision' => (boolean/string) [false] // die übergebene Revision, ansonsten false
-	'filename' => (string) // der gefilterte Dateiname ohne weitere Angaben, zB 12345
-	'dir_index' => (string) // der Index für den Zeichnungsordner, zB 100; 155 oder 235
-	'main_dir' => (string) // der komplette Zeichnungsordner, indem die Zeichnung liegen muss
-)</pre></dd>
-					</dl>
-				</li>
-			</ul>
-		</li>
-		
-		<li><a id="setup_dir_store" name="setup_dir_store"></a>
-			<h2>setup_dir_store()</h2>
-			<ul>
-				<li>
-					<h3>Beschreibung</h3>
-					<p><tt>setup_dir_store()</tt> gibt ein Array zurück, mit dem später ein übergeordneter Ordner einer Zeichnung definiert werden kann.</p>
-				</li>
-				<li>
-					<h3>Anwendung</h3>
-					<p><code>dir_store = setup_dir_store(end);</code></p>
-				</li>
-				<li>
-					<h3>Parameter</h3>
-					<dl>
-						<dt><tt>end</tt></dt>
-						<dd>(string|integer) <i>(optional)</i> Index des größten Ordners angeben. Siehe Return Values
-							<dl><dd>Default: <i>(integer)</i> <tt>300</tt></dd></dl>
-						</dd>
-					</dl>
-				</li>
-				<li>
-					<h3>Return Values</h3>
-					<dl>
-						<dt><tt>(array)</tt></dt>
-						<dd>Gibt ein Array mit folgenden Indizes zurück:<br />
-						<pre>array(
-	'100' => '10000-10499',
-	'105' => '10500-10999',
-	'110' => '11000-11499',
-	...
-	//Das Ende ist abhängig vom Parameter end
-)</pre></dd>
-					</dl>
-				</li>
-			</ul>
-		</li>
-		
-		<li><a id="setup_options" name="setup_options"></a>
-			<h2>setup_options()</h2>
-			<ul>
-				<li>
-					<h3>Beschreibung</h3>
-					<tt>setup_options()</tt> lädt die Einstellungen, packt sie in ein Array und gibt sie zurück.
-				</li>
-				<li>
-					<h3>Anwendung</h3>
-					<p><code>setup_options();</code></p>
-				</li>
-				<li>
-					<h3>Parameter</h3>
-					<p>keine</p>
-				</li>
-				<li>
-					<h3>Return Values</h3>
-					<dl>
-						<dt><tt>(array)</tt></dt>
-						<dd>Ein Array, das folgende Werte enthält
-						<pre>array(
-	'base_dir' => (string) ['H:\Zeichnungen\']// Standard-Pfad zu den Zeichnungen
-	'file_types' => (array) ['dft', 'dwg', 'pdf'] // Bevorzugte Dateiendungen, ermittelt durch get_filetypes()
-)</pre></dd>
-					</dl>
-				</li>
-			</ul>
-		</li> -->
 	</ul>
 </div>
 <!-- Todo:
@@ -448,7 +360,7 @@ function toggle(id)
 
 <div id="footer">
 <p>OpenDrafts: Ein Win7-Gadget für BKM D&uuml;ren | von Artur Weigandt</p>
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/de/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/de/88x31.png" /></a><br />Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/de/">Creative Commons Namensnennung-Nicht-kommerziell-Weitergabe unter gleichen Bedingungen 3.0 Deutschland Lizenz</a>.</p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/de/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/de/88x31.png" /></a><br />Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/de/">Creative Commons Namensnennung-Weitergabe unter gleichen Bedingungen 3.0 Deutschland Lizenz</a>.</p>
 </div>
 </div>
 </body>

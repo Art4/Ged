@@ -2,16 +2,14 @@
 function init()
 {
 	cfg = new Array();
-	/* DEBUG-Modus ein/ausschalten */
-	//-----------------------------
-	debug_mode = false;
+	cfg['current_version'] = "1.0.4";
 	
 	/* Weitere Einstellungen */
 	//-----------------------------
 	//Höchte Revision, nach der gesucht wird
 	max_revisions = 25;
 	//Ende der dir_store generierung
-	dir_store_end = 290;
+	dir_store_end = 300;
 	
 	/* AB HIER NICHTS MEHR ÄNDERN */
 	//-----------------------------
@@ -19,22 +17,6 @@ function init()
 	/* Globales Options-Array laden */
 	//-----------------------------
 	//options = setup_options();
-	/* Punkt definieren, an dem beim Debug abgebrochen werden soll */
-	add_debug_point('init_end')
-	
-	/* Definierte Debug-Points:
-		'init_end'		am Ende von init()
-		'run'			beim Start von run()
-		'get_query_vars'		wenn get_query_vars beendet wurde()
-		'run_explorer'	in run(), wenn der explorer geöffnet werden soll
-		'run_end'		am Ende von run()
-		
-	*/
-	
-	//Hiermit kann ein Ausstiegspunkt gesetzt werden
-	/*
-	if(debug_handler('debug-point', 'message')){return true;}
-	//*/
 	
 	/* Dir-Store definieren */
 	//-----------------------------
@@ -49,18 +31,18 @@ function init()
 	WshShell = new ActiveXObject("WScript.Shell");
 	FileSysObj = new ActiveXObject("Scripting.FileSystemObject");
 	
-	if(debug_handler('init_end', max_revisions)){return true;}
-	
 	//since v1.0.2
 	//letzte Suche
 	last_search_filename = "";
 	last_search_filetype = "";
+	
+	//Auf Updates prüfen
+	check_updates();
 }
 
 //Hauptprozess
 function run()
 {
-	if(debug_handler('run', 'run() wollte beginnen')){return true;}
 	options = setup_options();
 	//Suchstring ermitteln
 	var query = get_query();
@@ -79,8 +61,6 @@ function run()
 	//Wenn keine Endung gesetzt wurde, den Defaultwert verwenden
 	if(query_vars['file_type'] === false)
 		query_vars['file_type'] = options['default_file_type'];
-	
-	if(debug_handler('get_query_vars', options['default_file_type'])){return true;}
 	
 	//3D-Ordner öffnen
 	if(query_vars['action'] == 'explorer')
@@ -120,10 +100,19 @@ function run()
 		return true;
 	}
 	
-	/* Datei öffnen */
-	
 	//Letze Suche löschen
 	clean_last_search();
+	
+	//Schreibschutz zur Datei setzen/aufheben
+	//since v1.0.4
+	if(query_vars['action'] == 'read_only' || query_vars['action'] == 'read_write')
+	{
+		query_vars['filename'] = results['filename'];
+		run_set_attributes(query_vars);
+		return true;
+	}
+	
+	/* Datei öffnen */
 	
 	//Eingabefeld leeren
 	set_query('');
@@ -131,8 +120,6 @@ function run()
 	message(results['filename'] + ' wird ge&ouml;ffnet');
 	//Datei öffnen
 	open_file(query_vars['main_dir'] + results['filename']);
-	
-	if(debug_handler('run_end', 'run() beendet')){return true;}
 	
 	//Fertig
 	return true;
@@ -142,8 +129,6 @@ function run()
 //since v1.0.3 (ausgelagert)
 function run_explorer(query_vars)
 {
-	if(debug_handler('run_explorer', query_vars['3D_dir'])){return true;}
-	
 	//Wenn der Ordner nicht existiert, Fehler ausgeben
 	if(folder_exists(query_vars['3D_dir']+'\\') === false)
 	{
@@ -199,5 +184,42 @@ function run_index(query_vars)
 	select_file(query_vars['main_dir'] + near);
 	
 	//Fertig
+	return true;
+}
+
+//Schreibschutz setzen/aufheben
+//since v1.0.4
+//Infos zu Bitwise-Operators:
+//https://developer.mozilla.org/en/JavaScript/Reference/Operators/Bitwise_Operators
+function run_set_attributes(query_vars)
+{
+	file = FileSysObj.GetFile(query_vars['main_dir'] + query_vars['filename']);
+	
+	//message(query_vars['filename'] + ' ist ' + file.Attributes);
+	
+	//Schreibschutz aufheben
+	if(query_vars['action'] == 'read_write')
+	{
+		//Wenn Schreibschutz gesetzt ist
+		if(file.Attributes & 1) //AND
+		{
+			file.Attributes = file.Attributes -= 1;
+		}
+		
+		message(query_vars['filename'] + ' ist beschreibbar');
+	}
+	else
+	{
+		//Wenn Schreibschutz nicht gesetzt ist
+		if(file.Attributes ^ 1 && file.Attributes < 33) //XOR
+		{
+			file.Attributes = file.Attributes += 1;
+		}
+		
+		message(query_vars['filename'] + ' ist schreibgesch&uuml;tzt');
+	}
+	
+	//Suchfeld leeren
+	set_query('');
 	return true;
 }

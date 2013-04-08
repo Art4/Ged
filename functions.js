@@ -143,6 +143,18 @@ function parse_actions(c)
 		return 'index';
 	}
 	
+	// Schreibschutz setzen; since v1.0.4
+	if(a == "S")
+	{
+		return 'read_only';
+	}
+	
+	// Schreibschutz aufheben; since v1.0.4
+	if(a == "F")
+	{
+		return 'read_write';
+	}
+	
 	// Open
 	if(a == "O" || a == "OPEN" )
 	{
@@ -380,14 +392,6 @@ function folder_exists(foldername)
 	return false;
 }
 
-//Löscht die letzen Suche aus dem Cache
-//since v1.0.3
-function clean_last_search()
-{
-	last_search_filename = "";
-	last_search_filetype = "";
-}
-
 //Überprüft, ob das zweite Mal nach der gleichen Datei gesucht wurde
 //since v1.0.2
 function is_same_search_as_last(query_vars)
@@ -401,28 +405,60 @@ function is_same_search_as_last(query_vars)
 	return false;
 }
 
-/* DEBUG FUNCTIONS */
-function is_debug()
+//Löscht die letzen Suche aus dem Cache
+//since v1.0.3
+function clean_last_search()
 {
-	if(debug_mode === true)
-		return true;
-	
-	return false;
+	last_search_filename = "";
+	last_search_filetype = "";
 }
 
-function add_debug_point(id)
+//liefert die Versions-Nummer der neusten Programm-Version
+//since v1.0.4
+function get_version_number()
 {
-	debug_point = id;
+	var check_path = "G:\\Weigandt\\OpenDrafts\\latest_version.txt";
+	
+	// Open the text file at the specified location with read mode
+	//via http://www.ezineasp.net/post/Javascript-FSO-textstream-File-ReadAll-Method.aspx, thanks!
+	var txtFile = FileSysObj.OpenTextFile(check_path, 1, false, 0);
+
+	// reads all the lines from the specified file and returns the result as string
+	var version_number = txtFile.ReadAll();
+
+	// close the open textstream object file
+	txtFile.Close();
+	
+	return version_number;
 }
 
-function debug_handler(id, msg)
+//Prüft, ob es ein Update für OpenDrafts gibt
+//since v1.0.4
+function check_updates()
 {
-	if(!is_debug())
-		return false;
+	var current_version = cfg['current_version'];
 	
-	if(debug_point == id)
+	new_version = get_version_number();
+	
+	if(typeof new_version == 'undefined')
 	{
-		message(msg);
-		return true;
+		message('ist undefiniert');
+		return false;
 	}
+	
+	if(current_version != new_version)
+	{
+		var new_version_path = "G:\\Weigandt\\OpenDrafts\\OpenDrafts_v"+new_version;
+		message('OpenDrafts '+new_version+' ist verf&uuml;gbar. <a href="#" onClick="open_update_folder();">Update</a>');
+	}
+}
+
+//Öffnet der Ordner mit der neusten Programm-Version
+//since v1.0.4
+function open_update_folder()
+{
+	new_version = get_version_number();
+	
+	//Datei öffnen lassen
+	WshShell.Run("G:\\Weigandt\\OpenDrafts\\OpenDrafts_v"+new_version);
 }
