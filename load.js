@@ -50,6 +50,11 @@ function init()
 	FileSysObj = new ActiveXObject("Scripting.FileSystemObject");
 	
 	if(debug_handler('init_end', max_revisions)){return true;}
+	
+	//since v1.0.2
+	//letzte Suche
+	last_search_filename = "";
+	last_search_filetype = "";
 }
 
 //Hauptprozess
@@ -75,6 +80,13 @@ function run()
 	if(query_vars['file_type'] === false)
 		query_vars['file_type'] = options['default_file_type'];
 	
+	//Wenn bereits die letzte Suche nach dieser Datei fehlgeschlagen ist, Index öffnen
+	//since v1.0.2
+	if(is_same_search_as_last(query_vars))
+	{
+		query_vars['action'] = 'index';
+	}
+	
 	if(debug_handler('get_query_vars', options['default_file_type'])){return true;}
 	
 	if(query_vars['action'] == 'explorer')
@@ -96,6 +108,42 @@ function run()
 		return true;
 	}
 	
+	//Index zur Datei öffnen
+	//since v1.0.2
+	if(query_vars['action'] == 'index')
+	{
+		message('Index '+query_vars['filename']+' wird aufgebaut, bitte warten...');
+		
+		//Wenn es den Zielordner nicht gibt, Fehlermeldung
+		if(folder_exists(query_vars['main_dir']+'\\') === false)
+		{
+			message("Ordner existiert nicht...");
+			return false;
+		}
+		
+		var next_files = search_files_next_to(query_vars['filename'], query_vars['main_dir']);
+		
+		if(next_files['near'] === false)
+		{
+			message("Keine &auml;hnliche Datei gefunden...");
+			return false;
+		}
+		
+		var near = next_files['near'];
+		
+		//Eingabefeld leeren
+		set_query('');
+		//Nachricht ausgeben
+		message('Index von ' + query_vars['filename'] + ' wird ge&ouml;ffnet');
+		//Debug:
+		//message('prev: ' + next_files['prev'] + ', this: ' + next_files['this'] + ', next: ' + next_files['next'] + ', near: ' + next_files['near'] + ', ');
+		//Datei öffnen
+		select_file(query_vars['main_dir'] + near);
+		
+		//Fertig
+		return true;
+	}
+	
 	//Richtigen Dateinamen finden
 	var results = build_file_name(query_vars);
 	
@@ -104,9 +152,15 @@ function run()
 	
 	if(results['error'] === true)
 	{
+		//letzte fehlgeschlagene Suche aktualisieren
+		last_search_filename = query_vars['filename'];
+		last_search_filetype = query_vars['file_type'];
+		
 		message(results['error_message']);
 		return true;
 	}
+	
+	/* Datei öffnen */
 	
 	//Eingabefeld leeren
 	set_query('');
@@ -119,21 +173,4 @@ function run()
 	
 	//Fertig
 	return true;
-	
-	//Das hier wird nicht mehr gebraucht...
-	/*
-	//Kompletten Pfad mit Dateinamen zusammensetzen
-	var full_filepath = query_vars['main_dir'] + file_name + '.' +  query_vars['file_type'];
-	message(file_name + '.' +  query_vars['file_type'] + ' wird ge&ouml;ffnet');
-	
-	//Eingabefeld leeren
-	set_query('');
-	
-	//Datei öffnen
-	
-	//window.open(full_filepath);
-	open_file(full_filepath);
-	
-	if(debug_handler('run_end', 'run() beendet')){return true;}
-	//*/
 }

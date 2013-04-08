@@ -25,7 +25,7 @@ function setup_dir_store(e)
 
 function setup_rev_store()
 {
-	rev_store = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','DS','E','E','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+	rev_store = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 	
 	return true;
 }
@@ -106,6 +106,7 @@ function get_query_vars(q)
 		sub_dir = '0';
 	
 	var dir_index = pre_dir + sub_dir;
+	
 	arr['dir_index'] = dir_index;
 	arr['main_dir'] = options['base_dir'] + 'Z.Nr.' + dir_store[dir_index] + '\\';
 	arr['3D'] = arr['filename'] + '_3D';
@@ -130,10 +131,16 @@ function parse_actions(c)
 		return 'explorer';
 	}
 	
-	// Open
+	// Open Advanced
 	if(a == "A" || a == "+")
 	{
 		return 'open_advanced';
+	}
+	
+	// Index
+	if(a == "I" || a == "index")
+	{
+		return 'index';
 	}
 	
 	// Open
@@ -256,11 +263,105 @@ function check_for_revisions(path, name, rev, ext)
 	return last_found;
 }
 
+//Sucht nach der ähnlichen und nächstgelegenen Datei zu einer Zeichnung
+//benötigt den gesuchten Zeichnungsnamen "filename" und den Ordner-Namen "main_dir", in dem gesucht wird
+//gibt ein Array zurück mit den Werten prev, this und next, die die nächsten Dateien enthalten
+//since v1.0.2
+//based on http://classicasp.aspfaq.com/files/directories-fso/how-do-i-sort-a-list-of-files.html, thanks!
+function search_files_next_to(filenamen, main_dir)
+{
+	var output = new Array();
+	output['prev'] = false;
+	output['this'] = false;
+	output['next'] = false;
+	output['near'] = false;
+	
+	var filename = parseInt(filenamen, 10);
+
+	if (isNaN(filename))
+	{
+		return output;
+	}
+	
+	/*DEBUG
+	//kann später gelöscht werden
+	//##########################
+	
+	message("Typ: "+type+" Wert: "+filename);
+	return output;
+	
+	var folder = FileSysObj.GetFolder(main_dir);
+	
+	filesArrayString = '';
+	
+	//Alle Dateien in files auflisten
+	var files = new Enumerator(folder.files);
+	
+	var thisFile = files.item();
+	output['prev'] = thisFile.name;
+	
+	return output;
+	
+	//######################
+	//DEBUG ENDE */
+	
+	var folder = FileSysObj.GetFolder(main_dir);
+	
+	filesArrayString = '';
+	
+	//Alle Dateien in files auflisten
+	var files = new Enumerator(folder.files);
+	
+	while(!files.atEnd() && output['next'] === false)
+	{
+		var thisFile = files.item();
+		var thisFileBase = thisFile.name.slice(0, 5);
+		
+		if(thisFileBase < filename)
+		{
+			output['prev'] = thisFile.name;
+		}
+		else if(thisFileBase == filename)
+		{
+			output['this'] = thisFile.name;
+		}
+		else
+		{
+			output['next'] = thisFile.name;
+		}
+		
+		files.moveNext();
+	}
+	
+	//Die nächste vorhandene Datei bestimmen
+	if(output['this'] !== false)
+	{
+		output['near'] = output['this'];
+	}
+	else if(output['next'] !== false)
+	{
+		output['near'] = output['next'];
+	}
+	else if(output['prev'] !== false)
+	{
+		output['near'] = output['prev'];
+	}
+	
+	return output;
+}
+
 //Öffnet eine Datei, der absolute Pfad wird benötigt
 function open_file(pfad)
 {
 	//DataArea.innerHTML = ProgPath;
 	WshShell.Run(pfad);
+}
+
+//Öffnet den Explorer und selektiert die gewünschte Datei
+//since v1.0.2
+function select_file(pfad)
+{
+	WshShell.Run('Explorer.exe /select, '+pfad);
 }
 
 //prüft, ob eine Datei existiert
@@ -276,6 +377,27 @@ function file_exists(filename)
 function folder_exists(foldername)
 {
 	if(FileSysObj.FolderExists(foldername) == true)
+		return true;
+	
+	return false;
+}
+
+//Löscht die Notiz der letzen Suche
+//since v1.0.2
+function clean_last_search()
+{
+	last_search_filename = "";
+	last_search_filetype = "";
+}
+
+//Überprüft, ob das zweite Mal nach der gleichen Datei gesucht wurde
+//since v1.0.2
+function is_same_search_as_last(query_vars)
+{
+	if(last_search_filename == "" || last_search_filetype == "")
+		return false;
+	
+	if(last_search_filename == query_vars['filename'] && last_search_filetype == query_vars['file_type'] && query_vars['action'] == 'open')
 		return true;
 	
 	return false;
@@ -306,167 +428,3 @@ function debug_handler(id, msg)
 		return true;
 	}
 }
-
-/* Abstellgleis für alte Dateien
-Werden nicht mehr benötigt, nur fürs Archiv */
-
-/*
-//das ist der Vorgänger von run();
-function open_draft()
-{
-	file = document.getElementById("command").value;
-	
-	file_infos = get_file_infos(file);
-	
-	//Pfad bestimmen
-	path = options['base_dir'];
-	
-	//Standard bestimmen
-	if(path == '')
-	{
-		path = 'H:\\Zeichnungen\\';
-	}
-	
-	dir_index = file_infos['dir_index'];
-	
-	filepath = path + 'Z.Nr.' + dirs[dir_index] + '\\';
-	
-	if(file_infos['do'] == 'explorer')
-	{
-		explorer_path = filepath + file_infos['filename'] + '_3D';
-		//Eingabefeld leeren
-		document.getElementById("command").value = '';
-		//window.open(explorer_path);
-		open_file(explorer_path);
-		return true;
-	}
-	
-	//Dateityp bestimmen
-	
-	
-	//Richtigen Dateinamen finden
-	file_name = build_file_name(filepath, file_infos['filename'], file_infos['revision'], file_infos['file_ext']);
-	
-	//DataArea.innerHTML = file_name;
-	//return true;
-	
-	if(file_name == false)
-	{
-		DataArea.innerHTML = 'Datei existiert nicht!';
-		return true;
-	}
-	
-	//Kompletten Pfad mit Dateinamen zusammensetzen
-	full_filepath = filepath + file_name + '.' + file_infos['file_ext'];
-	DataArea.innerHTML = file_name + '.' + file_infos['file_ext'];
-	//Eingabefeld leeren
-	document.getElementById("command").value = '';
-	
-	//Datei öffnen
-	
-	//window.open(full_filepath);
-	open_file(full_filepath);
-}
-//*/
-
-//Das ist der vorgänger von get_query_vars();
-/*
-function get_file_infos(command)
-{
-	infos = new Array();
-	
-	//Befehle abfangen
-	command_parts = command.split(' ');
-	
-	//command_part kann e => explorer oder o => open sein
-	if(command_parts.length > 1)
-	{
-		filename = command_parts[0];
-		command_part = command_parts[1];
-	}
-	else
-	{
-		command_part = 'o';
-		filename = command_parts[0];
-	}
-	
-	command_part = command_part.toUpperCase();
-	if(command_part == "E" || command_part == "3D" )
-	{
-		infos['do'] = 'explorer';
-	}
-	
-	else
-	{
-		infos['do'] = 'open';
-	}
-	
-	//Endung abfangen
-	ext_parts = filename.split('.');
-		//command_part kann e => explorer oder o => open sein
-	if(ext_parts.length > 1)
-	{
-		infos['file_type'] = ext_parts[1];
-	}
-	else
-	{
-		infos['file_type'] = false;
-	}
-	filename = ext_parts[0];
-	
-	//Revisionen abfangen
-	upper_filename = filename.toUpperCase();
-	rev_parts = upper_filename.split('-R');
-	
-	//command_part kann e => explorer oder o => open sein
-	if(rev_parts.length > 1)
-	{
-		infos['revision'] = rev_parts[1];
-	}
-	else
-	{
-		infos['revision'] = '';
-	}
-	
-	//Wird noch gebraucht
-	filename = rev_parts[0];
-	
-	//document.getElementById("command").value = revision;
-	//return true;
-	
-	
-	//MUSS NOCH ANGEPASST WERDEN
-	//filename = command;
-	infos['filename'] = filename;
-	
-	//dir_index bestimmen
-	pre_dir = filename.slice(0, 2);
-	sub = filename.slice(2, 3);
-	
-	if(sub >= 0 && sub <= 4)
-	{
-		sub_dir = '0';
-	}
-	else
-	{
-		sub_dir = '5';
-	}
-	
-	infos['dir_index'] = pre_dir + sub_dir;
-	
-	//Dateiendungen bestimmen
-	types = get_filetypes();
-	
-	if(infos['file_type'] == false)
-	{
-		infos['file_ext'] = trim(types[0]);
-	}
-	else
-	{
-		infos['file_ext'] = infos['file_type'];
-	}
-	
-	return infos;
-}
-//*/
-

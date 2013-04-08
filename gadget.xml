@@ -2,12 +2,12 @@
 <gadget>
   <name>Open Drafts</name>
   <namespace>microsoft.windows</namespace>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <author name="Artur Weigandt">
     <info url="www.wlabs.de"  text="wLabs.de"/>
     <logo src="images/icon.png" />
   </author>
-  <copyright>&#169; 2011</copyright>
+  <copyright>CC BY-NC-SA 3.0</copyright>
   <description>Einfaches Aufrufen von Zeichnungen bei BKM mit Revisions-Unterstützung</description>
   <icons>
     <icon height="64" width="64" src="images/icon.png" />

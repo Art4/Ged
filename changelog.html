@@ -184,8 +184,43 @@ function toggle(id)
 		</li>
 		-->
 		
+		<li><a id="v1_0_2" name="v1_0_2"></a>
+			<h2>Version 1.0.2 (21.11.2011)</h2>
+			<ul>
+				<li>
+					<h3>Änderungen</h3>
+					<dl>
+						<dt><tt>(Automatisch) Ordner öffnen und Zeichnungs-Selektion</tt></dt>
+						<dd>Eine Datei kann jetzt mit dem Befehl <code>i</code> oder <code>index</code> auch automatisch im Explorer angezeigt und selektiert werden. So kann man sich schneller einen Überblick über sonstige Dateien im Zeichnungs-Archiv verschaffen.<br /><br />
+						
+						Beispiel:
+						<pre>12345 i</pre> oder <pre>12345 index</pre>
+						Existiert eine gesuchte Zeichnung nicht, so wird die nächst-liegende Datei selektiert und angezeigt.<br /><br />
+						Wird mit dem Befehl <code>open</code> zweimal nacheinander versucht, eine nicht-existente Zeichnung zu öffnen, so wird automatisch die Zeichnungs-Selection gestartet.<br /><br />
+						In der Praxis bedeutet dass also, das nach einer erfolglosen Suche einfach nochmal auf Enter gedrückt werden muss, um automatisch in den richtigen Ordner zu gelangen.
+						</dd>
+						<dt><tt>Changelog-Datei verlinkt</tt></dt>
+						<dd>Die Changelog-Datei ist jetzt im Gadget verlinkt und kann einfacher aufgerufen werden. Dazu geht man in die <code>Optionen</code> und klickt unten, rechts neben der Versions-Anzeige, auf den Link <code>Changelog</code>.
+						</dd>
+						<dt><tt>Änderung der Lizensierung</tt></dt>
+						<dd><code>OpenDrafts</code> unterliegt nun der <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/de/">CC BY-NC-SA 3.0</a> (Creative-Commons-Lizenz, freie Weitergabe, keine Kommerzialisierung, Weitergabe unter gleichen Bedingungen).
+						</dd>
+					</dl>
+				</li>
+				<li>
+					<h3>Geplant</h3>
+					<dl>
+						<dt><tt>Berücksichtigung der Revisionen</tt></dt>
+						<dd>Im 3D-Ordner sollte nicht nur nach der Revision 0, sondern auch nach anderen Revisionen, gesucht werden können.</dd>
+						<dt><tt>Suche nach Vorlage-Dateien</tt></dt>
+						<dd>Wenn Zeichnungen, die mit dem Revision-Manager kopiert wurden, nur als Vorlage für eine neue Zeichnung dienen, so kann man diese als <code>12345-Vorlage.dft</code> im 3D-Ordner speichern. Mit einem neuen Befehl (zB. v => Vorlage) kann man eine solche Vorlage-Datei automatisch öffnen lassen.</dd>
+					</dl>
+				</li>
+			</ul>
+		</li>
+		
 		<li><a id="v1_0_1" name="v1_0_1"></a>
-			<h2>Version 1.0.1</h2>
+			<h2>Version 1.0.1 (22.06.2011)</h2>
 			<ul>
 				<li>
 					<h3>Änderungen</h3>
@@ -193,7 +228,7 @@ function toggle(id)
 						<dt><tt>Suchen im 3D-Ordner</tt></dt>
 						<dd>Falls eine Zeichnung nicht im regulären Zeichnungsarchiv gefunden wurde, kann jetzt mit dem Befehl <pre>12345 +</pre> oder <pre>12345 a</pre> auch im 3D-Ordner nach der Zeichnung mit Revision 0 gesucht werden. Dadurch können auch ungeprüfte Zeichnungen direkt geöffnet werden.<br /><br />
 						Wurde eine Zeichnung aus dem 3D-Ordner geöffnet, wird die Meldung "<code>12345_3D\12345-R0.dft wird geöffnet</code>" angezeigt.<br /><br />
-						Aus Sicherheitsgründen wird der 3D-Ordner nicht automatisch überprüft.
+						Aus Sicherheitsgründen wird der 3D-Ordner nicht automatisch nach einer Zeichnung überprüft, sondern muss immer bewusst vom Nutzer (durch Angabe des Befehls) gesucht werden.
 						</dd>
 						<dt><tt>Changelog</tt></dt>
 						<dd>Diese Changelog-Datei liegt nun jeder zukünftigen Version von <code>OpenDrafts</code> bei.</dd>
@@ -210,7 +245,7 @@ function toggle(id)
 		</li>
 		
 		<li><a id="v1_0_0" name="v1_0_0"></a>
-			<h2>Version 1.0.0</h2>
+			<h2>Version 1.0.0 (20.06.2011)</h2>
 			<ul>
 				<li>
 					<h3>Beschreibung</h3>
@@ -225,7 +260,7 @@ function toggle(id)
 						<strong>Der Befehl <code>open</code> ist der Standard. Wird kein Befehl angegeben, wird die gefundene Zeichnung automatisch geöffnet.</strong><br /></dd>
 						
 						<dt><pre>12345 e</pre> oder <pre>12345 3d</pre></dt>
-						<dd>Dieser Befehl öffnet den 3D-Ordner einer Zeichnung. Wenn dieser nicht existiert, die Die Meldung <code>Der Ordner 12345_3D existiert nicht</code> ausgegeben.<br /></dd>
+						<dd>Dieser Befehl öffnet den 3D-Ordner einer Zeichnung. Wenn dieser nicht existiert, wird die Meldung <code>Der Ordner 12345_3D existiert nicht</code> ausgegeben.<br /></dd>
 					
 					</dl>
 				</li>
@@ -389,8 +424,8 @@ function toggle(id)
  -->
 
 <div id="footer">
-<p>OpenDrafts: A Win7-Gadget for BKM in D&uuml;ren</p>
-<p>&copy; 2011 by Artur Weigandt</p>
+<p>OpenDrafts: Ein Win7-Gadget für BKM D&uuml;ren | von Artur Weigandt</p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/de/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/de/88x31.png" /></a><br />Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/de/">Creative Commons Namensnennung-Nicht-kommerziell-Weitergabe unter gleichen Bedingungen 3.0 Deutschland Lizenz</a>.</p>
 </div>
 </div>
 </body>
