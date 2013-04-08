@@ -242,9 +242,19 @@ function open_file(pfad)
 	WshShell.Run(pfad);
 }
 
+//prüft, ob eine Datei existiert
 function file_exists(filename)
 {
 	if(FileSysObj.FileExists(filename) == true)
+		return true;
+	
+	return false;
+}
+
+//prüft, ob ein Verzeichnis existiert
+function folder_exists(foldername)
+{
+	if(FileSysObj.FolderExists(foldername) == true)
 		return true;
 	
 	return false;

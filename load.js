@@ -81,9 +81,16 @@ function run()
 	{
 		if(debug_handler('run_explorer', query_vars['3D_dir'])){return true;}
 		
+		//Wenn der Ordner nicht existiert, Fehler ausgeben
+		if(folder_exists(query_vars['3D_dir']+'\\') === false)
+		{
+			message('Der Ordner '+query_vars['3D']+' existiert nicht.');
+			return false;
+		}
+		
 		//Eingabefeld leeren
 		set_query('');
-		message(' &Ouml;ffne '+query_vars['3D']);
+		message(' &Ouml;ffne den Ordner '+query_vars['3D']);
 		//3D-Ordner öffnen
 		open_file(query_vars['3D_dir']);
 		return true;
