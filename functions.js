@@ -131,7 +131,13 @@ function parse_actions(c)
 	}
 	
 	// Open
-	if(a == "O")
+	if(a == "A" || a == "+")
+	{
+		return 'open_advanced';
+	}
+	
+	// Open
+	if(a == "O" || a == "OPEN" )
 	{
 		return 'open';
 	}
@@ -196,6 +202,21 @@ function build_file_name(qv)
 	{
 		arr['filename'] = name + '.' + type;
 		return arr;
+	}
+	
+	//since 1.0.1
+	//Noch ein letzter Versuch, die Zeichnung im 3D-Ordner zu finden
+	//Nur auf Befehl "open_advanced" prüfen, ob ein 3D-Ordner existiert
+	if(qv['action'] == "open_advanced")
+	{
+		if(folder_exists(qv['3D_dir']+'\\'))
+		{
+			if(file_exists(qv['3D_dir'] + '\\' + name + '-R0' + '.' + type))
+			{
+				arr['filename'] = qv['3D'] + '\\' + name + '-R0' + '.' + type;
+				return arr;
+			}
+		}
 	}
 	
 	// Wenn wir immer noch hier sind, wurde nichts gefunden

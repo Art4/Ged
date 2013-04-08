@@ -67,6 +67,7 @@ function save_options(event)
 		return true;
 	}
 }
+
 function load_options() //Diese Funktion lädt die Einstellungen in die Textboxen
 {
 	first_call = System.Gadget.Settings.read("first_call");
@@ -80,4 +81,27 @@ function load_options() //Diese Funktion lädt die Einstellungen in die Textboxen
 		document.getElementById("base_dir").value = System.Gadget.Settings.read("base_dir");
 		document.getElementById("file_types").value = System.Gadget.Settings.read("file_types");
 	}
+}
+
+//Öffnet den Changelog; muss sich im selben Ordner wie die settings.html befinden
+function open_changelog()
+{
+	/*
+	ScriptName = WScript.ScriptName
+	SourcePathName = fso.getAbsolutePathName(ScriptName)
+	SourcePath = Replace(SourcePathName, ScriptName, "", 1, -1, 0)
+	*/
+	//document.getElementById("DataArea").innerHTML = "bla";
+	//return true;
+	/*
+	var filename = WshShell.ScriptName;
+	var sourcepath = FileSysObj.getAbsolutePathName(filename);
+	sourcepath.replace(filename, "");
+	*/
+	
+	//Datei öffnen lassen
+	tempShell = new ActiveXObject("WScript.Shell");
+	tempShell.Run("G:\Weigandt\OpenDrafts\changelog.html");
+	
+	return true;
 }
