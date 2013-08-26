@@ -2,14 +2,14 @@
 function init()
 {
 	cfg = new Array();
-	cfg['current_version'] = "1.0.6";
+	cfg['current_version'] = "1.0.7";
 	
 	/* Weitere Einstellungen */
 	//-----------------------------
 	//Höchte Revision, nach der gesucht wird
 	max_revisions = 25;
 	//Ende der dir_store generierung
-	dir_store_end = 300;
+	dir_store_end = 305;
 	
 	/* AB HIER NICHTS MEHR ÄNDERN */
 	//-----------------------------
@@ -376,7 +376,7 @@ function set_file_permission(filename, mode)
 //Gibt ein Array zurück, mit dem später der übergeordnete Ordner einer Zeichnung bestimmt werden kann
 function setup_dir_store(e)
 {
-	var end = 300;
+	var end = 305;
 	
 	if (setup_dir_store.arguments.length >= 0)
 		end = setup_dir_store.arguments[0];
@@ -385,7 +385,7 @@ function setup_dir_store(e)
 
 	var j = 100;
 	var i;
-	for(i = j; i < end; i += 5)
+	for(i = j; i <= end; i += 5)
 	{
 		f = j;
 		j = j + 4;
