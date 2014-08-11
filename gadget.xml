@@ -2,7 +2,7 @@
 <gadget>
   <name>Open Drafts</name>
   <namespace>microsoft.windows</namespace>
-  <version>1.0.7</version>
+  <version>1.0.8</version>
   <author name="Artur Weigandt">
     <info url="www.wlabs.de"  text="wlabs.de"/>
     <logo src="images/icon.png" />

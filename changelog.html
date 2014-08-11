@@ -6,12 +6,12 @@
 <style type="text/css">
 body {
 	font-family: Georgia, Times, "Times New Roman", serif;
-    font-size: 14px;
-    font-weight: normal;
+	font-size: 14px;
+	font-weight: normal;
 }
 body, div, dt, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, table, th, td {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 tt {
 	font-weight: bold;
@@ -21,8 +21,8 @@ dl dt {
 	font-size: 15px;
 }
 dl dd {
-    margin-bottom: 11px;
-    margin-left: 10px;
+	margin-bottom: 11px;
+	margin-left: 10px;
 }
 pre {
 	margin: 5px 0;
@@ -39,7 +39,7 @@ pre {
 /* HEADER */
 #header {
 	background: none repeat scroll 0 0 #DCDCDC;
-    height: 78px;
+	height: 78px;
 	text-align: center;
 }
 #header h1 {
@@ -53,16 +53,16 @@ pre {
 /*
 #menu {
 	background: none repeat scroll 0 0 #F7F7F7;
-    border-bottom: 1px solid #DFDFDF;
+	border-bottom: 1px solid #DFDFDF;
 }
 #menu h2 {
 	color: #555555;
-    font-size: 24px;
-    line-height: 1em;
-    padding-left: 12px;
-    padding-top: 34px;
-    text-rendering: optimizelegibility;
-    text-shadow: 0 1px 0 #FFFFFF;
+	font-size: 24px;
+	line-height: 1em;
+	padding-left: 12px;
+	padding-top: 34px;
+	text-rendering: optimizelegibility;
+	text-shadow: 0 1px 0 #FFFFFF;
 }
 #menu .left, #menu .right{
 	width: 40%;
@@ -83,12 +83,12 @@ pre {
 }
 #body ul li h2 {
 	color: #666666;
-    font-family: "Lucida Grande",Verdana,Tahoma,Arial,sans-serif;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    margin-top: 25px;;
-    padding-bottom: 2px;
+	font-family: "Lucida Grande",Verdana,Tahoma,Arial,sans-serif;
+	font-size: 24px;
+	font-weight: bold;
+	margin-bottom: 15px;
+	margin-top: 25px;;
+	padding-bottom: 2px;
 	border-bottom: 1px solid #dadada;
 }
 #body ul li ul li {
@@ -183,6 +183,34 @@ function toggle(id)
 			</ul>
 		</li>
 		-->
+		<li><a id="v1_0_8" name="v1_0_8"></a>
+			<h2>Version 1.0.8 (11.08.2014)</h2>
+			<ul>
+				<li>
+					<h3>Änderungen</h3>
+					<dl>
+						<dt><tt>Feature: Unterstützte Zeichnungsnummern wurden erweitert</tt></dt>
+						<dd><code>OpenDrafts</code> unterstützt jetzt auch Zeichnungsnummern bis 39999. Verher waren nur Zeichnungsnummern bis 30999 möglich.</dd>
+					</dl>
+				</li>
+				<li>
+					<h3>Geplant</h3>
+					<dl>
+						<dt><tt>Erweitertes Cleanen</tt></dt>
+						<dd>Das Cleanen soll alle älteren Draft- und PDF-Dateien behandeln können, und nicht nur die vorhergehende Revision.</dd>
+						<dt><tt>Berücksichtigung der Revisionen</tt></dt>
+						<dd>Im 3D-Ordner sollte nicht nur nach der Revision 0, sondern auch nach anderen Revisionen, gesucht werden können.</dd>
+						<dt><tt>Suche nach Vorlage-Dateien</tt></dt>
+						<dd>Wenn Zeichnungen, die mit dem Revision-Manager kopiert wurden, nur als Vorlage für eine neue Zeichnung dienen, so kann man diese als <code>12345-Vorlage.dft</code> im 3D-Ordner speichern. Mit einem neuen Befehl (zB. v => Vorlage) kann man eine solche Vorlage-Datei automatisch öffnen lassen.</dd>
+						<dt><tt>Neues Layout des Changelogs</tt></dt>
+						<dd>Das Layout der Changelogs soll mit <a href="http://getbootstrap.com/">Bootstrap</a> realisiert werden.</dd>
+						<dt><tt>Langfristig: Komplette Codeüberarbeitung</tt></dt>
+						<dd>Der gesamte Code muss überarbeitet werden und modular aufgebaut sein.</dd>
+					</dl>
+				</li>
+			</ul>
+		</li>
+
 		<li><a id="v1_0_7" name="v1_0_7"></a>
 			<h2>Version 1.0.7 (26.08.2013)</h2>
 			<ul>
@@ -190,7 +218,7 @@ function toggle(id)
 					<h3>Änderungen</h3>
 					<dl>
 						<dt><tt>Feature: Unterstützte Zeichnungsnummern wurde erweitert</tt></dt>
-						<dd><code>OpenDrafts</code> unterstützt jetzt auch Zeichnungsnummern bis 39999. Verher waren nur Zeichnungsnummern bis 29999 möglich.</dd>
+						<dd><code>OpenDrafts</code> unterstützt jetzt auch Zeichnungsnummern bis 30999. Verher waren nur Zeichnungsnummern bis 29999 möglich.</dd>
 					</dl>
 				</li>
 				<li>
@@ -206,7 +234,7 @@ function toggle(id)
 				</li>
 			</ul>
 		</li>
-		
+
 		<li><a id="v1_0_6" name="v1_0_6"></a>
 			<h2>Version 1.0.6 (04.09.2012)</h2>
 			<ul>
@@ -219,7 +247,7 @@ function toggle(id)
 				</li>
 			</ul>
 		</li>
-		
+
 		<li><a id="v1_0_5" name="v1_0_5"></a>
 			<h2>Version 1.0.5 (20.06.2012)</h2>
 			<ul>
@@ -242,7 +270,7 @@ function toggle(id)
 				</li>
 			</ul>
 		</li>
-		
+
 		<li><a id="v1_0_4" name="v1_0_4"></a>
 			<h2>Version 1.0.4 (29.05.2012)</h2>
 			<ul>
@@ -274,7 +302,7 @@ function toggle(id)
 				</li>
 			</ul>
 		</li>
-		
+
 		<li><a id="v1_0_3" name="v1_0_3"></a>
 			<h2>Version 1.0.3 (03.02.2012)</h2>
 			<ul>
@@ -287,8 +315,7 @@ function toggle(id)
 				</li>
 			</ul>
 		</li>
-		
-		
+
 		<li><a id="v1_0_2" name="v1_0_2"></a>
 			<h2>Version 1.0.2 (21.11.2011)</h2>
 			<ul>
@@ -314,7 +341,7 @@ function toggle(id)
 				</li>
 			</ul>
 		</li>
-		
+
 		<li><a id="v1_0_1" name="v1_0_1"></a>
 			<h2>Version 1.0.1 (22.06.2011)</h2>
 			<ul>
@@ -332,7 +359,7 @@ function toggle(id)
 				</li>
 			</ul>
 		</li>
-		
+
 		<li><a id="v1_0_0" name="v1_0_0"></a>
 			<h2>Version 1.0.0 (20.06.2011)</h2>
 			<ul>
@@ -381,6 +408,7 @@ function toggle(id)
 ------
 - Schreibschutz bei alten Revisionen der dft setzen: http://msdn.microsoft.com/en-us/library/5tx15443%28VS.85%29.aspx
 - Dateien löschen per WSH und noch viel mehr: http://www.oc-s.com/tutorials/WSH/filesystemobject.htm
+- Bootstrap für Changelog verwenden
  -->
 
 <div id="footer">
