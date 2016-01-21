@@ -7,7 +7,7 @@
     <info url="https://github.com/Art4/Ged" text="github.com/Art4/Ged"/>
     <logo src="images/icon.png" />
   </author>
-  <copyright>CC BY-SA 3.0</copyright>
+  <copyright>GPL3</copyright>
   <description>Einfaches Aufrufen von Zeichnungen bei BKM mit Revisions-Unterstützung</description>
   <icons>
     <icon height="64" width="64" src="images/icon.png" />
