@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <gadget>
-  <name>Open Drafts</name>
+  <name>Ged</name>
   <namespace>microsoft.windows</namespace>
-  <version>1.0.8</version>
+  <version>1.1.0</version>
   <author name="Artur Weigandt">
-    <info url="www.wlabs.de"  text="wlabs.de"/>
+    <info url="https://github.com/Art4/Ged" text="github.com/Art4/Ged"/>
     <logo src="images/icon.png" />
   </author>
   <copyright>CC BY-SA 3.0</copyright>
