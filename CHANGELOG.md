@@ -1,3 +1,5 @@
+<!-- @@@title:Changelog@@@ -->
+
 # Change Log
 Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokumentiert.
 
