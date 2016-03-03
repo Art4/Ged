@@ -1,11 +1,11 @@
 <!-- @@@title:Changelog@@@ -->
 
-# Change Log
+# Changelog
 Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokumentiert.
 
 ## [Unreleased]
 ### Changed
-- OpenDrafts wurde in Ged umbenannt
+- **OpenDrafts** wurde in **Ged** umbenannt
 - Ged steht jetzt unter [GPL3](http://opensource.org/licenses/gpl-3.0.html)
 - Der Changelog wurde zu Markdown konvertiert und folgt dem Empfehlungen von [keepachangelog.com](http://keepachangelog.com/)
 

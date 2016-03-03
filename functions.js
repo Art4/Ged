@@ -794,7 +794,7 @@ function clean_last_search()
 //since v1.0.4
 function get_version_number()
 {
-	var check_path = "G:\\Weigandt\\OpenDrafts\\latest_version.txt";
+	var check_path = "G:\\Weigandt\\Tools\\Ged\\latest_release";
 
 	//Wenn die Datei nicht existiert oder nicht erreichbar ist, wir 0.0.0 zurück gegeben
 	//since v1.0.6
@@ -831,8 +831,7 @@ function check_updates()
 	//Prüfen, ob neue Version vorliegt
 	if(versions_compare(current_version, new_version))
 	{
-		var new_version_path = "G:\\Weigandt\\OpenDrafts\\OpenDrafts_v"+new_version;
-		message('OpenDrafts '+new_version+' ist verf&uuml;gbar. <a href="#" onClick="open_update_folder();">Update</a>');
+		message('Ged '+new_version+' ist verf&uuml;gbar. <a href="#" onClick="open_update_folder();">Update</a>');
 	}
 }
 
@@ -843,7 +842,7 @@ function open_update_folder()
 	new_version = get_version_number();
 
 	//Datei öffnen lassen
-	WshShell.Run("G:\\Weigandt\\OpenDrafts\\OpenDrafts_v"+new_version);
+	WshShell.Run("G:\\Weigandt\\Tools\\Ged\\dist\\Ged_v"+new_version);
 }
 
 //
@@ -976,7 +975,7 @@ function load_version_info()
 function open_changelog()
 {
 	tempShell = new ActiveXObject("WScript.Shell");
-	tempShell.Run("G:\\Weigandt\\OpenDrafts\\latest_changelog.html");
+	tempShell.Run("G:\\Weigandt\\Tools\\Ged\\docs\\CHANGELOG.html");
 
 	return true;
 }
