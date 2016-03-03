@@ -3,10 +3,11 @@
 # Changelog
 Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokumentiert.
 
-## [Unreleased]
+## [1.1.0] - 2016-03-03
 ### Changed
 - **OpenDrafts** wurde in **Ged** umbenannt
 - Wenn eine gesuchte Datei nicht existiert, wird sofort der Explorer geöffnet, womit man sich das zweite Absenden der Suche spart
+- Die Standard-Dateiendung wurde von `dft` auf `pdf` gesetzt
 - Ged steht jetzt unter [GPL3](http://opensource.org/licenses/gpl-3.0.html)
 - Der Changelog wurde zu Markdown konvertiert und folgt dem Empfehlungen von [keepachangelog.com](http://keepachangelog.com/)
 
@@ -56,7 +57,8 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 ### Added
 - Fehlermeldung, wenn der gesuchte 3D-Ordner nicht existiert
 
-[Unreleased]: https://github.com/Art4/Ged/compare/v1.0.8...HEAD
+[Unreleased]: https://github.com/Art4/Ged/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/Art4/Ged/compare/v1.0.8...v1.1.0
 [1.0.8]: https://github.com/Art4/Ged/compare/v1.0.7...v1.0.8
 [1.0.7]: https://github.com/Art4/Ged/compare/v1.0.6...v1.0.7
 [1.0.6]: https://github.com/Art4/Ged/compare/v1.0.5...v1.0.6
