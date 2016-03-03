@@ -892,7 +892,7 @@ function filter_file_types(str)
 	//Standard definieren
 	if(str == '')
 	{
-		str = "dft, dwg, pdf";
+		str = "pdf, dft, dwg";
 	}
 
 	var arr = str.split(',');
@@ -936,7 +936,7 @@ function load_options() //Diese Funktion lädt die Einstellungen in die Textboxe
 	if(first_call != 'no')
 	{
 		document.getElementById("base_dir").value = 'H:\\Zeichnungen\\';
-		document.getElementById("file_types").value = 'dft, dwg, pdf';
+		document.getElementById("file_types").value = 'pdf, dft, dwg';
 	}
 	else
 	{
