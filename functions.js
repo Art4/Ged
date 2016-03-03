@@ -112,19 +112,9 @@ function run()
 
 	if(results['error'] === true)
 	{
-		//Wenn bereits die letzte Suche nach dieser Datei fehlgeschlagen ist, Index öffnen
-		//since v1.0.2
-		if(is_same_search_as_last(query_vars))
-		{
-			run_index(query_vars);
-			return true;
-		}
-
-		//letzte fehlgeschlagene Suche aktualisieren
-		last_search_filename = query_vars['filename'];
-		last_search_filetype = query_vars['file_type'];
-
-		message(results['error_message']);
+		//Index öffnen, wenn die Datei nicht existiert
+		//since v1.1.0
+		run_index(query_vars);
 		return true;
 	}
 

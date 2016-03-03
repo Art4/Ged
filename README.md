@@ -50,7 +50,7 @@ Die Revision ist eine einstellige Zahl zwischen `0` und `9` oder ein Großbuchst
 
 In den Optionen von Ged ist definiert, nach welcher Dateiendung gesucht werden soll. Soll von dieser Einstellung abgewichen werden, kann die Dateiendung mit `.<Dateiendung>` explizit angegeben werden.
 
-Die Dateiendung ist eine Zeichenkette mit mindestens einem Zeichen. Die am häufigsten verwendeten Dateiendungen sind `pdf` für PDF-Dateien, `dwg` für AutoCAD-Dateien oder `dft` für Solid Edge Zeichnugen.
+Die Dateiendung ist eine Zeichenkette mit mindestens einem Zeichen. Die am häufigsten verwendeten Dateiendungen sind `pdf` für PDF-Dateien, `dft` für Solid Edge Zeichnugen oder `dwg` für AutoCAD-Dateien.
 
 #### Beispiele
 
@@ -94,7 +94,7 @@ Sollen zusätzlich noch die Dateiendung und/oder Revision bestimmt werden, müss
 
 ### `o` - open
 
-Sucht nach der neusten Revison einer Zeichnung und öffnet diese. Wenn die Datei nicht gefunden wurde, wird die Meldung `<Zeichnungsnummer>.dft nicht gefunden` ausgegeben.
+Sucht nach der neusten Revison einer Zeichnung und öffnet diese. Wenn die Datei nicht gefunden wurde, wird der Explorer an der Stelle geöffnet, an der die eingegebene Zeichnungsnummer erwartet wird und selektiert die am besten passenste Datei.
 
 Der Befehl open ist der Standard. Wird kein Befehl angegeben, wird die gefundene Zeichnung automatisch geöffnet.
 
@@ -164,9 +164,9 @@ Hebt den Schreibschutz bei der gefundenen Datei und gibt die Meldung `<Zeichnung
 
 Setzt bei der vorherige Revision der gesuchten Zeichnung die DFT-Datei auf Schreibschutz und löscht die dazugehörige PDF-Datei. Vor dem Löschen der PDF erscheint ein Warnhinweis mit dem zu löschenden Dateinamen, der erst vom Anwender bestätigt werden muss. Bricht der Anwender das Löschen ab, wird nur der Schreibschutz bei der DFT-Datei gesetzt.
 
-#### Beispiel 1
+#### Beispiel
 
-Angenommen es existieren die folgenden Dateien:
+Angenommen, es existieren die folgenden Dateien:
 
 - 12345-R0.dft
 - 12345-R0.pdf

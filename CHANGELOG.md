@@ -6,6 +6,7 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 ## [Unreleased]
 ### Changed
 - **OpenDrafts** wurde in **Ged** umbenannt
+- Wenn eine gesuchte Datei nicht existiert, wird sofort der Explorer geöffnet, womit man sich das zweite Absenden der Suche spart
 - Ged steht jetzt unter [GPL3](http://opensource.org/licenses/gpl-3.0.html)
 - Der Changelog wurde zu Markdown konvertiert und folgt dem Empfehlungen von [keepachangelog.com](http://keepachangelog.com/)
 
