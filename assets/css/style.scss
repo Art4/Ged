@@ -1,0 +1,36 @@
+@import "~bootstrap/scss/bootstrap";
+
+button {
+    -webkit-app-region: no-drag;
+}
+
+body {
+	margin: 5px;
+	color: $white;
+	font-size: 14px;
+	background-color: $blue;
+	width: 130px;
+	height: 90px;
+	/* height: 90px; */
+}
+// h2 {margin: 0 0 2px; padding: 0; font-size: 14px;}
+// p, input { margin: 0; padding: 0; }
+// input { border: 0px solid #eee; font-family: Calibri, Verana; }
+//
+// .search {
+// 	width: 90px;
+// 	height: 19px;
+// 	padding-top: 3px;
+// }
+//
+// .button {
+// 	width: 24px;
+// 	height: 24px;
+// 	background: transparent url("./images/search.png") repeat 1px left;
+// }
+//
+// #DataArea {
+// 	font-size: 12px;
+// 	width: 120px;
+// 	margin-top: 3px;
+// }
