@@ -4,7 +4,7 @@
   "description": "Gedapp is an app for easy draft finding",
   "main": "main.js",
   "scripts": {
-    "start": "npm run deploy && electron .",
+    "start": "electron .",
     "deploy": "webpack --config webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

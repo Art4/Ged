@@ -1,17 +1,20 @@
 @import "~bootstrap/scss/bootstrap";
 
-button {
+.main--is-dragable {
+    -webkit-app-region: drag;
+}
+
+button, input {
     -webkit-app-region: no-drag;
 }
 
-body {
+.main {
 	margin: 5px;
 	color: $white;
 	font-size: 14px;
 	background-color: $blue;
 	width: 130px;
 	height: 90px;
-	/* height: 90px; */
 }
 // h2 {margin: 0 0 2px; padding: 0; font-size: 14px;}
 // p, input { margin: 0; padding: 0; }

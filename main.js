@@ -26,8 +26,20 @@ function createWindow () {
     win = new BrowserWindow({
         width: 150,
         height: 100,
-        frame: false
-    })
+        x: 1750,
+        y: 450,
+        // resizable: false,
+        frame: false,
+        movable: true,
+        minimizable: false,
+        maximizable: false,
+        alwaysOnTop: true,
+        fullscreenable: false,
+        skipTaskbar: true,
+        acceptFirstMouse: true,
+        backgroundColor: '#007bff',
+        opacity: 0.4
+    });
 
     // and load the index.html of the app.
     win.loadFile('index.html')
@@ -42,6 +54,15 @@ function createWindow () {
         // when you should delete the corresponding element.
         win = null
     })
+
+    // Change opacity if on focus
+    win.on('focus', () => {
+        win.setOpacity(1.0);
+    });
+    // Change opacity if focus lost
+    win.on('blur', () => {
+        win.setOpacity(0.4);
+    });
 }
 
 // This method will be called when Electron has finished
