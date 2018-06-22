@@ -4,6 +4,7 @@
   "description": "Gedapp is an app for easy draft finding",
   "main": "main.js",
   "scripts": {
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Artur Weigandt",
