@@ -68,7 +68,7 @@ app.on('ready', function createWindow () {
     });
 
     // and load the index.html of the app.
-    win.loadFile('index.html')
+    win.loadFile('pages/search.html')
 
     // Open the DevTools.
     // win.webContents.openDevTools()

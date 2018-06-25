@@ -15,5 +15,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import 'bootstrap';
-import '../css/style.scss';
+
+const inputField = document.getElementById('inputField');
+const output = document.getElementById('outputField');
+
+inputField.addEventListener('keyup', (event) => {
+    if (event.keyCode === 13) {
+        output.innerHTML = event.target.value;
+        event.target.value = '';
+    }
+});
