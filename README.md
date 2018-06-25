@@ -13,6 +13,30 @@ Die Änderungen des Projekts können im [Changelog](CHANGELOG.md) nachverfolgt w
 
 Der Quellcode ist auf [Github](https://github.com/Art4/Ged) zu finden und unterliegt der [GPL3](LICENSE). Alles Notwendige für das Deployment ist unter [Ged-Deployment](https://github.com/Art4/Ged-Deployment) zu finden.
 
+## Überarbeitung als Electron App
+
+Windows Gadgets werden von Microsoft nicht mehr unterstützt. Daher wird Ged auf Basis von Electron komplett neu geschrieben.
+
+Die folgenden Informationen beziehen sich auf die Installation und Anwendung mit Electron.
+
+### Anforderungen
+
+- node.js
+- npm
+
+### Installation
+
+```shell
+npm install
+npm run deploy
+```
+
+### Starten
+
+```shell
+npm start
+```
+
 ## Anwendung
 
 Ged erwartet eine Eingabe in dieser Form:
