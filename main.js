@@ -15,20 +15,46 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-const {app, BrowserWindow} = require('electron')
+// const {app, BrowserWindow} = require('electron')
+const electron = require('electron')
+const {app, BrowserWindow} = electron
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
-function createWindow () {
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', function createWindow () {
+    var width = 150;
+    var height = 100;
+
+    var xCustom = 1750; // TODO get this from settings
+    var yCustom = 450; // TODO get this from settings
+
+    var parseCoor = function(customSize, screenSize, windowSize) {
+        if (customSize) {
+            return customSize;
+        }
+
+        return Math.floor(screenSize / 2) - Math.floor(windowSize / 2);
+    };
+
+    xCustom = parseCoor(xCustom, electron.screen.getPrimaryDisplay().workAreaSize.width, width);
+    yCustom = parseCoor(yCustom, electron.screen.getPrimaryDisplay().workAreaSize.height, height);
+
+    if (! xCustom) {
+
+    }
+
     // Create the browser window.
     win = new BrowserWindow({
-        width: 150,
-        height: 100,
-        x: 1750,
-        y: 450,
-        // resizable: false,
+        width: width,
+        height: height,
+        x: xCustom,
+        y: yCustom,
+        resizable: false,
         frame: false,
         movable: true,
         minimizable: false,
@@ -63,12 +89,7 @@ function createWindow () {
     win.on('blur', () => {
         win.setOpacity(0.4);
     });
-}
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
