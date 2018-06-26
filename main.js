@@ -72,7 +72,7 @@ app.on('ready', function createWindow () {
     win.loadFile('pages/search.html')
 
     // Open the DevTools.
-    win.webContents.openDevTools({mode: 'detach'});
+    // win.webContents.openDevTools({mode: 'detach'});
 
     // Emitted when the window is closed.
     win.on('closed', () => {
@@ -89,19 +89,6 @@ app.on('ready', function createWindow () {
     ipcMain.on('changeopacity', function (e, o) {
         // console.log('change opacity on win', o);
         win.setOpacity(o);
-    });
-
-    // Change opacity if on focus
-    win.on('focus', () => {
-        // console.log('trigger focus');
-        win.setOpacity(1.0);
-        // utils.changeWindowOpacity(1.0);
-    });
-    // Change opacity if focus lost
-    win.on('blur', () => {
-        // console.log('trigger blur');
-        win.setOpacity(0.4);
-        // utils.changeWindowOpacity(0.4);
     });
 })
 

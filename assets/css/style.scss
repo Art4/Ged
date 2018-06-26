@@ -1,8 +1,8 @@
 @import "~bootstrap/scss/bootstrap";
 
-
 html {
     -webkit-app-region: drag;
+    height: 100%;
 }
 
 body {
@@ -12,7 +12,7 @@ body {
 	background-color: $blue;
 }
 
-.not-dragable {
+.not-draggable {
     -webkit-app-region: no-drag;
 }
 
