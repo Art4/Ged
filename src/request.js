@@ -17,26 +17,27 @@
  */
 'use strict'
 
-const Response = require('./response.js');
-const Request = require('./request.js');
-
 // Constructor
-function Kernel() {
+function Request() {
     // always initialize all instance properties
-    // this.bar = bar;
-    // this.baz = 'baz'; // default value
+    this.content = '';
 }
 
 // class methods
-Kernel.prototype.handleInputString = function(inputString) {
-    return this.handleRequest(
-        Request.createFromString(inputString)
-    );
+Request.prototype.setContent = function(content) {
+    this.content = content;
 };
 
-Kernel.prototype.handleRequest = function(request) {
-    return new Response(request.getContent());
+Request.prototype.getContent = function() {
+    return this.content;
+};
+
+Request.createFromString = function(content) {
+    var request = new Request();
+    request.setContent(content);
+
+    return request;
 };
 
 // export the class
-module.exports = Kernel;
+module.exports = Request;

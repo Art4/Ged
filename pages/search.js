@@ -17,18 +17,24 @@
  */
 
 const utils = require('../src/window-utils.js');
-const kernel = require('../src/kernel.js');
+const Kernel = require('../src/kernel.js');
+const Request = require('../src/request.js');
 
 const inputField = document.getElementById('inputField');
 const output = document.getElementById('outputField');
 const searchWin = document.getElementById('search__main');
 
+var kernel = new Kernel();
+
 inputField.addEventListener('keyup', (event) => {
     if (event.keyCode === 13) {
-        var response = kernel.handleInputString(event.target.value);
+        var response = kernel.handleRequest(
+            Request.createFromString(event.target.value)
+        );
 
-        event.target.value = '';
+        console.log(response);
         output.innerHTML = response.getContent();
+        event.target.value = '';
     }
 });
 

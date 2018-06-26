@@ -16,30 +16,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Kernel = require('../../src/kernel.js');
 const Request = require('../../src/request.js');
-const Response = require('../../src/response.js');
 
-describe("The kernel", function() {
-    describe('kernel.handleInputString()', () => {
-        it('returns Response instance', () => {
-            var kernel = new Kernel();
-            var response = kernel.handleInputString('abc');
+describe("The Request", function() {
+    describe('Request.createFromString()', () => {
+        it('returns Request instance', () => {
+            var request = Request.createFromString('abc');
 
-            expect(response).toEqual(jasmine.any(Response));
-            expect(response.getContent()).toBe('abc');
+            expect(request).toEqual(jasmine.any(Request));
+            expect(request.getContent()).toBe('abc');
         });
     });
 
-    describe('kernel.handleRequest()', () => {
-        it('returns Response instance', () => {
-            var kernel = new Kernel();
-            var response = kernel.handleRequest(
-                Request.createFromString('abc')
-            );
+    describe('request.getContent()', () => {
+        it('returns the correct value', () => {
+            var request = new Request();
+            expect(request.getContent()).toBe('');
 
-            expect(response).toEqual(jasmine.any(Response));
-            expect(response.getContent()).toBe('abc');
+            request.setContent('abc');
+            expect(request.getContent()).toBe('abc');
         });
     });
 });
