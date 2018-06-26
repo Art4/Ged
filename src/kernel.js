@@ -16,25 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const utils = require('../src/window-utils.js');
-const kernel = require('../src/kernel.js');
-
-const inputField = document.getElementById('inputField');
-const output = document.getElementById('outputField');
-const searchWin = document.getElementById('search__main');
-
-inputField.addEventListener('keyup', (event) => {
-    if (event.keyCode === 13) {
-        var response = kernel.handleInputString(event.target.value);
-
-        event.target.value = '';
-        output.innerHTML = response.getContent();
-    }
-});
-
-searchWin.addEventListener('mouseover', (event) => {
-    utils.changeWindowOpacity(1.0);
-});
-searchWin.addEventListener('mouseleave', (event) => {
-    utils.changeWindowOpacity(0.4);
-});
+module.exports = {
+    handleInputString: function(inputString) {
+        return {
+            getContent: function() {
+                return inputString;
+            }
+        };
+    },
+};

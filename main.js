@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 // const {app, BrowserWindow} = require('electron')
-const electron = require('electron')
-const {app, BrowserWindow} = electron
+const electron = require('electron');
+const {app, BrowserWindow, ipcMain} = electron;
+const utils = require('./src/window-utils.js');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -71,7 +72,7 @@ app.on('ready', function createWindow () {
     win.loadFile('pages/search.html')
 
     // Open the DevTools.
-    // win.webContents.openDevTools()
+    win.webContents.openDevTools({mode: 'detach'});
 
     // Emitted when the window is closed.
     win.on('closed', () => {
@@ -79,15 +80,28 @@ app.on('ready', function createWindow () {
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         win = null
-    })
+    });
+
+    ipcMain.on('getopacity', function (e) {
+        e.returnValue = win.getOpacity();
+    });
+
+    ipcMain.on('changeopacity', function (e, o) {
+        // console.log('change opacity on win', o);
+        win.setOpacity(o);
+    });
 
     // Change opacity if on focus
     win.on('focus', () => {
+        // console.log('trigger focus');
         win.setOpacity(1.0);
+        // utils.changeWindowOpacity(1.0);
     });
     // Change opacity if focus lost
     win.on('blur', () => {
+        // console.log('trigger blur');
         win.setOpacity(0.4);
+        // utils.changeWindowOpacity(0.4);
     });
 })
 
