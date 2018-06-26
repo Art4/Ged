@@ -16,17 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const kernel = require('../../src/kernel.js');
+const Kernel = require('../../src/kernel.js');
+const Response = require('../../src/response.js');
 
 describe("The kernel", function() {
     describe('kernel.handleInputString()', () => {
         it('returns Response', () => {
+            var kernel = new Kernel();
             var response = kernel.handleInputString('abc');
 
-            expect(response).toEqual(jasmine.any(Object));
+            expect(response).toEqual(jasmine.any(Response));
         });
 
         it('returns Response with correct content', () => {
+            var kernel = new Kernel();
             var response = kernel.handleInputString('abc');
 
             expect(response.getContent()).toBe('abc');

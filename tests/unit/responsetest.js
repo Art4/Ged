@@ -15,21 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-'use strict'
 
-const Response = require('./response.js');
+const Response = require('../../src/response.js');
 
-// Constructor
-function Kernel() {
-    // always initialize all instance properties
-    // this.bar = bar;
-    // this.baz = 'baz'; // default value
-}
+describe("The Response", function() {
+    describe('response.getContent()', () => {
+        it('returns the correct content', () => {
+            var response = new Response('abc');
 
-// class methods
-Kernel.prototype.handleInputString = function(inputString) {
-    return new Response(inputString);
-};
-
-// export the class
-module.exports = Kernel;
+            expect(response.getContent()).toBe('abc');
+        });
+    });
+});

@@ -17,19 +17,17 @@
  */
 'use strict'
 
-const Response = require('./response.js');
-
 // Constructor
-function Kernel() {
+function Response(content) {
     // always initialize all instance properties
-    // this.bar = bar;
+    this.content = content;
     // this.baz = 'baz'; // default value
 }
 
 // class methods
-Kernel.prototype.handleInputString = function(inputString) {
-    return new Response(inputString);
+Response.prototype.getContent = function() {
+    return this.content;
 };
 
 // export the class
-module.exports = Kernel;
+module.exports = Response;
