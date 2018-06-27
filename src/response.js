@@ -18,15 +18,19 @@
 'use strict'
 
 // Constructor
-function Response(content) {
+function Response(content, query) {
     // always initialize all instance properties
     this.content = content;
-    // this.baz = 'baz'; // default value
+    this.query = ''+query; // cast query to string
 }
 
 // class methods
 Response.prototype.getContent = function() {
     return this.content;
+};
+
+Response.prototype.getQuery = function() {
+    return this.query;
 };
 
 // export the class

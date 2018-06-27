@@ -34,7 +34,7 @@ inputField.addEventListener('keyup', (event) => {
 
         console.log(response);
         output.innerHTML = response.getContent();
-        event.target.value = '';
+        event.target.value = response.getQuery();
     }
 });
 
