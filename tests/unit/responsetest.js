@@ -20,10 +20,30 @@ const Response = require('../../src/response.js');
 
 describe("The Response", function() {
     describe('response.getContent()', () => {
+        it('returns an empty string', () => {
+            var response = new Response();
+
+            expect(response.getContent()).toBe('');
+        });
+
         it('returns the correct content', () => {
             var response = new Response('abc');
 
             expect(response.getContent()).toBe('abc');
+        });
+    });
+
+    describe('response.getQuery()', () => {
+        it('returns an empty string', () => {
+            var response = new Response('');
+
+            expect(response.getQuery()).toBe('');
+        });
+
+        it('returns the correct content', () => {
+            var response = new Response('', 'foo');
+
+            expect(response.getQuery()).toBe('foo');
         });
     });
 });

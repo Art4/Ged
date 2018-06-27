@@ -27,7 +27,6 @@ describe("The kernel", function() {
             var response = kernel.handleInputString('abc');
 
             expect(response).toEqual(jasmine.any(Response));
-            expect(response.getContent()).toBe('abc');
         });
     });
 
@@ -39,7 +38,6 @@ describe("The kernel", function() {
             );
 
             expect(response).toEqual(jasmine.any(Response));
-            expect(response.getContent()).toBe('abc');
         });
     });
 });

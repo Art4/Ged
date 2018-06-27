@@ -20,8 +20,15 @@
 // Constructor
 function Response(content, query) {
     // always initialize all instance properties
-    this.content = content;
-    this.query = ''+query; // cast query to string
+    if (content === undefined) {
+        content = '';
+    }
+    this.content = ''+content; // cast to string
+
+    if (query === undefined) {
+        query = '';
+    }
+    this.query = ''+query; // cast to string
 }
 
 // class methods

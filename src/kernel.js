@@ -19,12 +19,11 @@
 
 const Response = require('./response.js');
 const Request = require('./request.js');
+const LegacyKernel = require('./legacykernel.js');
 
 // Constructor
 function Kernel() {
-    // always initialize all instance properties
-    // this.bar = bar;
-    // this.baz = 'baz'; // default value
+    this.kernel = new LegacyKernel();
 }
 
 // class methods
@@ -35,7 +34,7 @@ Kernel.prototype.handleInputString = function(inputString) {
 };
 
 Kernel.prototype.handleRequest = function(request) {
-    return new Response(request.getContent());
+    return this.kernel.handleRequest(request);
 };
 
 // export the class

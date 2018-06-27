@@ -21,23 +21,28 @@ const FsUtils = require('../../src/fs-utils.js');
 
 describe("FsUtils", function() {
     var filepath = './tests/testfile';
+
     beforeEach(function() {
         fs.writeFileSync(filepath, 'file content');
     });
+
     afterEach(function() {
         fs.unlinkSync(filepath);
     });
+
     describe('FsUtils.isFileWriteProtected()', () => {
         it('returns false', () => {
             expect(FsUtils.isFileWriteProtected(filepath)).toBe(false);
         });
     });
+
     describe('FsUtils.setFileWriteProtected()', () => {
         it('set the file writeprotected', () => {
             expect(FsUtils.setFileWriteProtected(filepath, true)).toBe(true);
             expect(FsUtils.isFileWriteProtected(filepath)).toBe(true);
         });
     });
+
     describe('FsUtils.setFileWriteProtected()', () => {
         it('set the file writeprotected and back again', () => {
             expect(FsUtils.setFileWriteProtected(filepath, true)).toBe(true);
