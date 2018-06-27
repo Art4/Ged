@@ -7,7 +7,32 @@
     <link rel="stylesheet" href="../dist/main.css" media="all" />
 </head>
 <body id="search__main">
-    <p><input type="text" id="inputField" placeholder="Zeich.-Nr." value="" class="form-control form-control-sm not-draggable" /></p>
+    <div class="row no-gutters not-draggable">
+        <div class="col-4 align-self-center h6" style="margin: 0px;">Ged</div>
+        <div class="col-8 align-self-center text-right">
+            <a class="btn btn-primary btn-sm" data-toggle="collapse" href="" role="button" aria-expanded="false" title="App verschieben">
+                <span class="fas fa-grip-vertical"></span>
+            </a>
+            <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#menubox" role="button" aria-expanded="false" aria-controls="menubox" title="Menü">
+                <span class="fas fa-chevron-down"></span>
+            </a>
+        </div>
+    </div>
+    <div class="row no-gutters collapse not-draggable" id="menubox">
+        <div class="col text-center" title="Einstellungen">
+            <a class="btn btn-primary btn-sm" href="#menubox" role="button"><span class="fas fa-sliders-h"></span></a>
+        </div>
+        <div class="col text-center" title="Hilfe">
+            <a class="btn btn-primary btn-sm" href="#menubox" role="button"><span class="fas fa-question"></span></a>
+        </div>
+        <div class="col text-center" title="App schließen">
+            <a class="btn btn-primary btn-sm" href="#menubox" role="button"><span class="fas fa-times"></span></a>
+        </div>
+        <div class="col-12 text-center">
+            <p class="">Version <span class="app-version"></span> <span class="fas fa-sync"></span></p>
+        </div>
+    </div>
+    <p style="margin-top: 3px;"><input type="text" id="inputField" placeholder="Zeich.-Nr." value="" class="form-control form-control-sm not-draggable" /></p>
     <p id="outputField" class=""></p>
     <script src="../dist/main.js"></script>
     <script src="./search.js"></script>

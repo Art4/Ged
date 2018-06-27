@@ -29,7 +29,7 @@ let win
 // Some APIs can only be used after this event occurs.
 app.on('ready', function createWindow () {
     var width = 150;
-    var height = 100;
+    var height = 120;
 
     var xCustom = 1750; // TODO get this from settings
     var yCustom = 450; // TODO get this from settings

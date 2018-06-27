@@ -7,9 +7,10 @@ html {
 
 body {
     padding: 5px;
-	color: $white;
-	font-size: 14px;
-	background-color: $blue;
+    color: $white;
+    font-size: 14px;
+    background-color: $blue;
+    overflow:hidden;
 }
 
 .not-draggable {
@@ -18,6 +19,10 @@ body {
 
 #search__main p {
     margin-bottom: 0px;
+}
+
+#menubox {
+    margin-top: 3px;
 }
 
 #outputField {
