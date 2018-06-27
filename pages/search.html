@@ -6,19 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../dist/main.css" media="all" />
 </head>
-<body id="search__main">
-    <div class="row no-gutters not-draggable">
-        <div class="col-4 align-self-center h6" style="margin: 0px;">Ged</div>
+<body>
+<div id="search__wrapper">
+<div id="search__main">
+    <div class="row no-gutters">
+        <div class="col-4 align-self-center h6">Ged</div>
         <div class="col-8 align-self-center text-right">
-            <a class="btn btn-primary btn-sm" data-toggle="collapse" href="" role="button" aria-expanded="false" title="App verschieben">
-                <span class="fas fa-grip-vertical"></span>
+            <a class="btn btn-primary btn-sm is-draggable" title="App verschieben">
+                <span class="fas fa-arrows-alt"></span>
             </a>
             <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#menubox" role="button" aria-expanded="false" aria-controls="menubox" title="Menü">
                 <span class="fas fa-chevron-down"></span>
             </a>
         </div>
     </div>
-    <div class="row no-gutters collapse not-draggable" id="menubox">
+    <div class="row no-gutters collapse" id="menubox">
         <div class="col text-center" title="Einstellungen">
             <a class="btn btn-primary btn-sm" href="#menubox" role="button"><span class="fas fa-sliders-h"></span></a>
         </div>
@@ -36,5 +38,7 @@
     <p id="outputField" class=""></p>
     <script src="../dist/main.js"></script>
     <script src="./search.js"></script>
+</div>
+</div>
 </body>
 </html>

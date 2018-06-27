@@ -1,23 +1,38 @@
 @import "~bootstrap/scss/bootstrap";
 
 html {
-    -webkit-app-region: drag;
+    border-radius: 2px;
     height: 100%;
 }
 
 body {
-    padding: 5px;
+    border-radius: 2px;
+    padding: 0px;
     color: $white;
     font-size: 14px;
     background-color: $blue;
     overflow:hidden;
+    height: 100%;
 }
 
-.not-draggable {
-    -webkit-app-region: no-drag;
+.is-draggable {
+    -webkit-app-region: drag;
+}
+
+#search__wrapper {
+    padding: 0px;
+    height: 100%;
+}
+
+#search__main {
+    padding: 5px;
 }
 
 #search__main p {
+    margin-bottom: 5px;
+}
+
+#search__main .h6 {
     margin-bottom: 0px;
 }
 

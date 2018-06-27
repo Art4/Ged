@@ -22,7 +22,7 @@ const Request = require('../src/request.js');
 
 const inputField = document.getElementById('inputField');
 const output = document.getElementById('outputField');
-const searchWin = document.getElementById('search__main');
+const searchWin = document.getElementById('search__wrapper');
 
 var kernel = new Kernel();
 

@@ -72,7 +72,7 @@ app.on('ready', function createWindow () {
     win.loadFile('pages/search.html')
 
     // Open the DevTools.
-    // win.webContents.openDevTools({mode: 'detach'});
+    win.webContents.openDevTools({mode: 'detach'});
 
     // Emitted when the window is closed.
     win.on('closed', () => {
