@@ -19,6 +19,7 @@
 const electron = require('electron');
 const {app, BrowserWindow, ipcMain} = electron;
 const utils = require('./src/window-utils.js');
+const Config = require('./src/config.js');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -31,22 +32,21 @@ app.on('ready', function createWindow () {
     var width = 150;
     var height = 120;
 
-    var xCustom = 1750; // TODO get this from settings
-    var yCustom = 450; // TODO get this from settings
+    var xCustom = Config.get('displayX', null);
+    var yCustom = Config.get('displayY', null);
 
-    var parseCoor = function(customSize, screenSize, windowSize) {
-        if (customSize) {
-            return customSize;
-        }
-
+    var calcCoor = function(screenSize, windowSize) {
         return Math.floor(screenSize / 2) - Math.floor(windowSize / 2);
     };
 
-    xCustom = parseCoor(xCustom, electron.screen.getPrimaryDisplay().workAreaSize.width, width);
-    yCustom = parseCoor(yCustom, electron.screen.getPrimaryDisplay().workAreaSize.height, height);
+    if (xCustom === null) {
+        xCustom = calcCoor(electron.screen.getPrimaryDisplay().workAreaSize.width, width);
+        Config.set('displayX', xCustom);
+    }
 
-    if (! xCustom) {
-
+    if (yCustom === null) {
+        yCustom = calcCoor(electron.screen.getPrimaryDisplay().workAreaSize.height, height);
+        Config.set('displayY', yCustom);
     }
 
     // Create the browser window.
@@ -80,6 +80,15 @@ app.on('ready', function createWindow () {
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         win = null
+    });
+
+    // Emitted when the window is moved.
+    win.on('move', () => {
+        // save new location
+        // console.log(win.getPosition());
+        var position = win.getPosition();
+        Config.set('displayX', position[0]);
+        Config.set('displayY', position[1]);
     });
 
     ipcMain.on('getopacity', function (e) {
