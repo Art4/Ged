@@ -82,13 +82,32 @@ app.on('ready', function createWindow () {
         win = null
     });
 
-    // Emitted when the window is moved.
+    var lastWindowPosition = {
+        createdAt: Date.now(),
+        x: xCustom,
+        y: yCustom,
+    };
+
+    // Save new position if the window is moved.
     win.on('move', () => {
-        // save new location
-        // console.log(win.getPosition());
         var position = win.getPosition();
-        Config.set('displayX', position[0]);
-        Config.set('displayY', position[1]);
+        var createdAt = Date.now();
+
+        positionQueue = {
+            createdAt: createdAt,
+            x: position[0],
+            y: position[1],
+        };
+
+        // Only save after 250ms, if position hasn't changed
+        setTimeout(function() {
+            if (positionQueue.createdAt > createdAt) {
+                return;
+            }
+
+            Config.set('displayX', positionQueue.x);
+            Config.set('displayY', positionQueue.y);
+        }, 250);
     });
 
     ipcMain.on('getopacity', function (e) {
