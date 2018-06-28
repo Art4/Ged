@@ -7,11 +7,11 @@ const ExtractCss = new ExtractTextPlugin({
 
 module.exports = {
     entry: {
-        main: './assets/js/index.js',
+        main: './pages/assets/js/index.js',
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'pages/dist')
     },
     module: {
         rules: [

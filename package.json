@@ -6,6 +6,7 @@
   "scripts": {
     "start": "electron .",
     "deploy": "webpack --config webpack.config.js",
+    "deploy:prod": "webpack -p --config webpack.config.js",
     "test": "jasmine --config=tests/config/jasmine.json",
     "watch": "webpack --progress --watch --config webpack.config.js"
   },
