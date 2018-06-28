@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const utils = require('../src/window-utils.js');
+const Utils = require('../src/window-utils.js');
 const Kernel = require('../src/kernel.js');
 const Request = require('../src/request.js');
 
@@ -25,6 +25,15 @@ const output = document.getElementById('outputField');
 const searchWin = document.getElementById('search__wrapper');
 
 var kernel = new Kernel();
+
+// Set app version in menu
+(function () {
+    var elements = document.getElementsByClassName('app-version');
+
+    for (const element of elements) {
+        element.innerHTML = Utils.getAppVersion();
+    }
+})();
 
 inputField.addEventListener('keyup', (event) => {
     if (event.keyCode === 13) {
@@ -39,11 +48,11 @@ inputField.addEventListener('keyup', (event) => {
 });
 
 searchWin.addEventListener('mouseover', (event) => {
-    utils.changeWindowOpacity(1.0);
+    Utils.changeWindowOpacity(1.0);
 });
 searchWin.addEventListener('mouseleave', (event) => {
     // wait 100ms to avoid racecondition with mouseover event
     setTimeout(function() {
-        utils.changeWindowOpacity(0.4);
+        Utils.changeWindowOpacity(0.4);
     }, 100);
 });

@@ -18,8 +18,8 @@
 // const {app, BrowserWindow} = require('electron')
 const electron = require('electron');
 const {app, BrowserWindow, ipcMain} = electron;
-const utils = require('./src/window-utils.js');
 const Config = require('./src/config.js');
+const config = new Config();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -32,8 +32,8 @@ app.on('ready', function createWindow () {
     var width = 150;
     var height = 120;
 
-    var xCustom = Config.get('displayX', null);
-    var yCustom = Config.get('displayY', null);
+    var xCustom = config.get('displayX', null);
+    var yCustom = config.get('displayY', null);
 
     var calcCoor = function(screenSize, windowSize) {
         return Math.floor(screenSize / 2) - Math.floor(windowSize / 2);
@@ -41,12 +41,12 @@ app.on('ready', function createWindow () {
 
     if (xCustom === null) {
         xCustom = calcCoor(electron.screen.getPrimaryDisplay().workAreaSize.width, width);
-        Config.set('displayX', xCustom);
+        config.set('displayX', xCustom);
     }
 
     if (yCustom === null) {
         yCustom = calcCoor(electron.screen.getPrimaryDisplay().workAreaSize.height, height);
-        Config.set('displayY', yCustom);
+        config.set('displayY', yCustom);
     }
 
     // Create the browser window.
@@ -105,8 +105,8 @@ app.on('ready', function createWindow () {
                 return;
             }
 
-            Config.set('displayX', positionQueue.x);
-            Config.set('displayY', positionQueue.y);
+            config.set('displayX', positionQueue.x);
+            config.set('displayY', positionQueue.y);
         }, 250);
     });
 

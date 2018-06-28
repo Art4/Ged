@@ -17,34 +17,41 @@
  */
 
 const {ipcRenderer} = require('electron');
+const packageData = require('../package.json');
 
-module.exports = {
-    changeWindowOpacity: function(endOpacity) {
-        var startOpacity = ipcRenderer.sendSync('getopacity');
+function Utils() {};
 
-        var diffOpacity = endOpacity - startOpacity;
-        increaseOpacity = (diffOpacity > 0);
-        steps = Math.abs(Math.floor(diffOpacity/0.1));
+Utils.changeWindowOpacity = function(endOpacity) {
+    var startOpacity = ipcRenderer.sendSync('getopacity');
 
-        function changeOpacity(currentOpacity, endOpacity, currentStep, steps) {
-            if (currentStep >= steps) {
-                ipcRenderer.send('changeopacity', endOpacity);
-                return;
-            }
+    var diffOpacity = endOpacity - startOpacity;
+    increaseOpacity = (diffOpacity > 0);
+    steps = Math.abs(Math.floor(diffOpacity/0.1));
 
-            currentStep++;
-
-            if (increaseOpacity) {
-                currentOpacity = currentOpacity + 0.1;
-            } else {
-                currentOpacity = currentOpacity - 0.1;
-            }
-            setTimeout(function() {
-                ipcRenderer.send('changeopacity', currentOpacity);
-                changeOpacity(currentOpacity, endOpacity, currentStep, steps);
-            }, 25);
+    function changeOpacity(currentOpacity, endOpacity, currentStep, steps) {
+        if (currentStep >= steps) {
+            ipcRenderer.send('changeopacity', endOpacity);
+            return;
         }
 
-        changeOpacity(startOpacity, endOpacity, 0, steps);
-    },
+        currentStep++;
+
+        if (increaseOpacity) {
+            currentOpacity = currentOpacity + 0.1;
+        } else {
+            currentOpacity = currentOpacity - 0.1;
+        }
+        setTimeout(function() {
+            ipcRenderer.send('changeopacity', currentOpacity);
+            changeOpacity(currentOpacity, endOpacity, currentStep, steps);
+        }, 25);
+    }
+
+    changeOpacity(startOpacity, endOpacity, 0, steps);
 };
+
+Utils.getAppVersion = function() {
+    return packageData.version;
+};
+
+module.exports = Utils;

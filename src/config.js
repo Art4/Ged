@@ -18,21 +18,28 @@
 'use strict'
 
 const Store = require('electron-store');
+const Utils = require('./window-utils.js');
 
 var store = null;
 
-// Constructor
+/**
+ * create electron-store with defaults
+ */
 function init() {
     if (store !== null) {
         return;
     }
 
-    store = new Store();
+    var configVersion = 1;
+
+    store = new Store({
+        name: 'config_'+configVersion,
+    });
 
     if (store.size === 0) {
         store.store = {
-            config_version: 1,
-            app_version: '2.0.0-dev',
+            config_version: configVersion,
+            app_version: Utils.getAppVersion(),
             max_revisions: 25,
             dir_store_end: 395,
             base_dir: 'H:\\Zeichnungen\\',
@@ -43,15 +50,23 @@ function init() {
     }
 }
 
-// Constructor
+/**
+ * Constructor
+ */
 function Config() {}
 
-Config.get = function(key, def) {
+/**
+ * get a value by key
+ */
+Config.prototype.get = function(key, def) {
     init();
     return store.get(key, def);
 }
 
-Config.set = function(key, value) {
+/**
+ * set a value by key
+ */
+Config.prototype.set = function(key, value) {
     init();
     store.set(key, value);
 }
