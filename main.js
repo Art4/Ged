@@ -23,12 +23,12 @@ const config = new Config();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win
+let mainWindow
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', function createWindow () {
+app.on('ready', function createMainWindow () {
     var width = 150;
     var height = 120;
 
@@ -50,7 +50,7 @@ app.on('ready', function createWindow () {
     }
 
     // Create the browser window.
-    win = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: width,
         height: height,
         x: xCustom,
@@ -69,17 +69,17 @@ app.on('ready', function createWindow () {
     });
 
     // and load the index.html of the app.
-    win.loadFile('pages/search.html')
+    mainWindow.loadFile('pages/search.html')
 
     // Open the DevTools.
-    win.webContents.openDevTools({mode: 'detach'});
+    mainWindow.webContents.openDevTools({mode: 'detach'});
 
     // Emitted when the window is closed.
-    win.on('closed', () => {
+    mainWindow.on('closed', () => {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
-        win = null
+        mainWindow = null
     });
 
     var lastWindowPosition = {
@@ -89,8 +89,8 @@ app.on('ready', function createWindow () {
     };
 
     // Save new position if the window is moved.
-    win.on('move', () => {
-        var position = win.getPosition();
+    mainWindow.on('move', () => {
+        var position = mainWindow.getPosition();
         var createdAt = Date.now();
 
         positionQueue = {
@@ -111,16 +111,33 @@ app.on('ready', function createWindow () {
     });
 
     ipcMain.on('getopacity', function (e) {
-        e.returnValue = win.getOpacity();
+        e.returnValue = mainWindow.getOpacity();
     });
 
     ipcMain.on('changeopacity', function (e, o) {
-        // console.log('change opacity on win', o);
-        win.setOpacity(o);
+        mainWindow.setOpacity(o);
     });
 
     ipcMain.on('closeapp', function (e) {
-        win.close();
+        mainWindow.close();
+    });
+
+    ipcMain.on('opensettingspage', function (e) {
+        var settingsWindow = new BrowserWindow({
+            width: 800,
+            height: 600,
+            parent: mainWindow,
+            modal: true,
+            frame: true,
+            skipTaskbar: false,
+            backgroundColor: '#ffffff',
+        });
+
+        settingsWindow.once('ready-to-show', () => {
+            settingsWindow.show();
+            // settingsWindow.focus();
+        });
+        settingsWindow.loadFile('pages/settings.html');
     });
 
     ipcMain.on('openfile', function (e, path) {
@@ -144,8 +161,8 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (win === null) {
-        createWindow()
+    if (mainWindow === null) {
+        createMainWindow()
     }
 })
 

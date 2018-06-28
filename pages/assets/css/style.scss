@@ -1,23 +1,21 @@
 @import "~bootstrap/scss/bootstrap";
 
 html {
-    border-radius: 2px;
     height: 100%;
 }
 
 body {
-    border-radius: 2px;
     padding: 0px;
-    color: $white;
-    font-size: 14px;
-    background-color: $blue;
-    overflow:hidden;
     height: 100%;
 }
 
 #search__wrapper {
     padding: 0px;
     height: 100%;
+    color: $white;
+    font-size: 14px;
+    background-color: $blue;
+    overflow:hidden;
 }
 
 #search__main {

@@ -24,6 +24,7 @@ const inputField = document.getElementById('inputField');
 const output = document.getElementById('outputField');
 const searchWin = document.getElementById('search__wrapper');
 const closeButton = document.getElementById('close-button');
+const settingsButton = document.getElementById('settings-button');
 
 var kernel = new Kernel();
 
@@ -50,6 +51,10 @@ inputField.addEventListener('keyup', (event) => {
 
 closeButton.addEventListener('click', (event) => {
     Utils.closeWindow();
+});
+
+settingsButton.addEventListener('click', (event) => {
+    Utils.openSettingsPage();
 });
 
 searchWin.addEventListener('mouseover', (event) => {
