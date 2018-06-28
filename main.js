@@ -118,6 +118,10 @@ app.on('ready', function createWindow () {
         // console.log('change opacity on win', o);
         win.setOpacity(o);
     });
+
+    ipcMain.on('closeapp', function (e) {
+        win.close();
+    });
 })
 
 // Quit when all windows are closed.

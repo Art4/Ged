@@ -23,6 +23,7 @@ const Request = require('../src/request.js');
 const inputField = document.getElementById('inputField');
 const output = document.getElementById('outputField');
 const searchWin = document.getElementById('search__wrapper');
+const closeButton = document.getElementById('close-button');
 
 var kernel = new Kernel();
 
@@ -45,6 +46,10 @@ inputField.addEventListener('keyup', (event) => {
         output.innerHTML = response.getContent();
         event.target.value = response.getQuery();
     }
+});
+
+closeButton.addEventListener('click', (event) => {
+    Utils.closeWindow();
 });
 
 searchWin.addEventListener('mouseover', (event) => {

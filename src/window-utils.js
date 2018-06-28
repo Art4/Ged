@@ -54,4 +54,8 @@ Utils.getAppVersion = function() {
     return packageData.version;
 };
 
+Utils.closeWindow = function() {
+    ipcRenderer.send('closeapp');
+};
+
 module.exports = Utils;
