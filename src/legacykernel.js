@@ -17,7 +17,7 @@
  */
 'use strict'
 
-const {shell} = require('electron')
+const {ipcRenderer} = require('electron');
 const fs = require('fs');
 const Response = require('./response.js');
 const Request = require('./request.js');
@@ -705,15 +705,14 @@ function delete_file(file)
 //Öffnet eine Datei, der absolute Pfad wird benötigt
 function open_file(pfad)
 {
-    shell.openItem(pfad);
+    ipcRenderer.send('openfile', pfad);
 }
 
 //Öffnet den Explorer und selektiert die gewünschte Datei
 //since v1.0.2
 function select_file(pfad)
 {
-    console.log(pfad);
-    shell.showItemInFolder(pfad);
+    ipcRenderer.send('openfileinfolder', pfad);
 }
 
 //prüft, ob eine Datei existiert

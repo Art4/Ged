@@ -17,7 +17,7 @@
  */
 // const {app, BrowserWindow} = require('electron')
 const electron = require('electron');
-const {app, BrowserWindow, ipcMain} = electron;
+const {app, BrowserWindow, ipcMain, shell} = electron;
 const Config = require('./src/config.js');
 const config = new Config();
 
@@ -121,6 +121,14 @@ app.on('ready', function createWindow () {
 
     ipcMain.on('closeapp', function (e) {
         win.close();
+    });
+
+    ipcMain.on('openfile', function (e, path) {
+        shell.openItem(path);
+    });
+
+    ipcMain.on('openfileinfolder', function (e, path) {
+        shell.showItemInFolder(path);
     });
 })
 
