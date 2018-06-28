@@ -15,10 +15,6 @@ body {
     height: 100%;
 }
 
-.is-draggable {
-    -webkit-app-region: drag;
-}
-
 #search__wrapper {
     padding: 0px;
     height: 100%;
@@ -42,4 +38,18 @@ body {
 
 #outputField {
     margin-top: 3px;
+}
+
+.is-draggable {
+    -webkit-app-region: drag;
+}
+
+#menu-button-icon {
+    transform: rotate(0deg);
+    transition: transform 0.25s linear;
+}
+
+#menu-button-icon.open{
+    transform: rotate(180deg);
+    transition: transform 0.25s linear;
 }
