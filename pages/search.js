@@ -42,5 +42,8 @@ searchWin.addEventListener('mouseover', (event) => {
     utils.changeWindowOpacity(1.0);
 });
 searchWin.addEventListener('mouseleave', (event) => {
-    utils.changeWindowOpacity(0.4);
+    // wait 100ms to avoid racecondition with mouseover event
+    setTimeout(function() {
+        utils.changeWindowOpacity(0.4);
+    }, 100);
 });
