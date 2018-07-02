@@ -32,9 +32,9 @@
                     <span class="text-muted">Falls vorhanden, wird Ged beim Öffnen einer Zeichnung immer das bevorzugte Format wählen.</span>
                 </label>
                 <select id="formDefaultFileTypeInput" class="form-control">
-                    <option selected>PDF (.pdf)</option>
-                    <option>Solid Edge Draft (.dft)</option>
-                    <option>AutoCAD Drawing (.dwg)</option>
+                    <option value="pdf" selected>PDF (.pdf)</option>
+                    <option value="dft">Solid Edge Draft (.dft)</option>
+                    <option value="dwg">AutoCAD Drawing (.dwg)</option>
                 </select>
             </div>
         </div>
@@ -54,18 +54,18 @@
                     <span class="text-muted">Ged wird teilweise durchsichtig, wenn die Maus nicht darüber gefahren ist.</span>
                 </label>
                 <select id="formOpacityInput" class="form-control">
-                    <option selected>0% (keine Transparenz)</option>
-                    <option>20%</option>
-                    <option>40%</option>
-                    <option>60%</option>
-                    <option>80%</option>
+                    <option value="1" selected>0% (keine Transparenz)</option>
+                    <option value="0.8">20%</option>
+                    <option value="0.6">40%</option>
+                    <option value="0.4">60%</option>
+                    <option value="0.2">80%</option>
                 </select>
             </div>
         </div>
 
         <div class="col-12">
-            <button type="button" class="btn btn-primary">Speichern</button>
-            <button type="button" class="btn btn-light">Abbrechen</button>
+            <button id="formSaveButton" type="button" class="btn btn-primary">Speichern</button>
+            <button id="formAbortButton" type="button" class="btn btn-light">Abbrechen</button>
         </div>
     </div>
     </form>

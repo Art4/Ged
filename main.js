@@ -60,12 +60,12 @@ app.on('ready', function createMainWindow () {
         movable: true,
         minimizable: false,
         maximizable: false,
-        alwaysOnTop: true,
+        alwaysOnTop: config.get('allways_foreground', true),
         fullscreenable: false,
         skipTaskbar: true,
         acceptFirstMouse: true,
         backgroundColor: '#007bff',
-        opacity: 0.4
+        opacity: config.get('opacity', 1)
     });
 
     // and load the index.html of the app.
@@ -122,8 +122,10 @@ app.on('ready', function createMainWindow () {
         mainWindow.close();
     });
 
+    var settingsWindow = null;
+
     ipcMain.on('opensettingspage', function (e) {
-        var settingsWindow = new BrowserWindow({
+        settingsWindow = new BrowserWindow({
             width: 600,
             height: 800,
             parent: mainWindow,
@@ -138,6 +140,16 @@ app.on('ready', function createMainWindow () {
             // settingsWindow.focus();
         });
         settingsWindow.loadFile('pages/settings.html');
+    });
+
+    ipcMain.on('closesettingspage', function (e) {
+        if (settingsWindow) {
+            mainWindow.setAlwaysOnTop(config.get('allways_foreground', true));
+            mainWindow.setOpacity(config.get('opacity', 1));
+
+            settingsWindow.close();
+            settingsWindow = null;
+        }
     });
 
     ipcMain.on('openfile', function (e, path) {

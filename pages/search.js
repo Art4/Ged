@@ -17,9 +17,11 @@
  */
 
 const Utils = require('../src/window-utils.js');
+const Config = require('../src/config.js');
 const Kernel = require('../src/kernel.js');
 const Request = require('../src/request.js');
 
+const config = new Config();
 const inputField = document.getElementById('inputField');
 const output = document.getElementById('outputField');
 const searchWin = document.getElementById('search__wrapper');
@@ -58,13 +60,13 @@ settingsButton.addEventListener('click', (event) => {
 });
 
 searchWin.addEventListener('mouseover', (event) => {
-    Utils.changeWindowOpacity(1.0);
+    Utils.changeWindowOpacity(1);
 });
 
 searchWin.addEventListener('mouseleave', (event) => {
     // wait 100ms to avoid racecondition with mouseover event
     setTimeout(function() {
-        Utils.changeWindowOpacity(0.4);
+        Utils.changeWindowOpacity(config.get('opacity', 1));
     }, 100);
 });
 

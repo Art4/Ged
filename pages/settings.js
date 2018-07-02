@@ -16,5 +16,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Config = require('./src/config.js');
+const Utils = require('../src/window-utils.js');
+const Config = require('../src/config.js');
 const config = new Config();
+
+const draftPathInput = document.getElementById('formDraftPathInput');
+const defaultFileTypeInput = document.getElementById('formDefaultFileTypeInput');
+const allwaysForegroundInput = document.getElementById('formAllwaysForegroundInput');
+const opacityInput = document.getElementById('formOpacityInput');
+const saveButton = document.getElementById('formSaveButton');
+const abortButton = document.getElementById('formAbortButton');
+
+(function() {
+    draftPathInput.value = config.get('base_dir', '');
+    defaultFileTypeInput.value = config.get('default_file_type', 'pdf');
+    allwaysForegroundInput.checked = config.get('allways_foreground', true);
+    opacityInput.value = config.get('opacity', 1);
+})();
+
+saveButton.addEventListener('click', (event) => {
+    config.set('base_dir', draftPathInput.value);
+    config.set('default_file_type', defaultFileTypeInput.value);
+    config.set('allways_foreground', allwaysForegroundInput.checked);
+    config.set('opacity', parseFloat(opacityInput.value));
+
+    Utils.closeSettingsPage();
+});
+
+abortButton.addEventListener('click', (event) => {
+    Utils.closeSettingsPage();
+});

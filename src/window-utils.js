@@ -62,4 +62,8 @@ Utils.openSettingsPage = function() {
     ipcRenderer.send('opensettingspage');
 };
 
+Utils.closeSettingsPage = function() {
+    ipcRenderer.send('closesettingspage');
+};
+
 module.exports = Utils;
