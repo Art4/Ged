@@ -5,7 +5,10 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 ## [Unreleased]
 
-- Ged wurde vollständig überarbeitet und läuft auf Basis von Electron statt als Windows Gadget.
+### Changed
+
+- Ged wurde umgeschrieben und läuft jetzt auf Basis von [Electron](https://electronjs.org) statt als Windows Gadget.
+- Buttons zum Schließen oder Verschieben von Ged sind in ein Menü verschoben worden.
 
 ## [1.1.0] - 2016-03-03
 
@@ -14,7 +17,7 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 - **OpenDrafts** wurde in **Ged** umbenannt
 - Wenn eine gesuchte Datei nicht existiert, wird sofort der Explorer geöffnet, womit man sich das zweite Absenden der Suche spart
 - Die Standard-Dateiendung wurde von `dft` auf `pdf` gesetzt
-- Ged steht jetzt unter [GPL3](http://opensource.org/licenses/gpl-3.0.html)
+- Ged steht jetzt unter [GPL-3.0](http://opensource.org/licenses/gpl-3.0.html)
 - Der Changelog wurde zu Markdown konvertiert und folgt dem Empfehlungen von [keepachangelog.com](http://keepachangelog.com/)
 
 ## [1.0.8] - 2014-08-11

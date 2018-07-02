@@ -17,7 +17,7 @@
  */
 // const {app, BrowserWindow} = require('electron')
 const electron = require('electron');
-const {app, BrowserWindow, ipcMain, shell} = electron;
+const {app, BrowserWindow, ipcMain, shell, nativeImage} = electron;
 const Config = require('./src/config.js');
 const config = new Config();
 
@@ -63,6 +63,7 @@ app.on('ready', function createMainWindow () {
         alwaysOnTop: config.get('allways_foreground', true),
         fullscreenable: false,
         skipTaskbar: true,
+        icon: nativeImage.createFromPath('./pages/assets/img/icon.png'),
         acceptFirstMouse: true,
         backgroundColor: '#007bff',
         opacity: config.get('opacity', 1)
@@ -72,7 +73,7 @@ app.on('ready', function createMainWindow () {
     mainWindow.loadFile('pages/search.html')
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools({mode: 'detach'});
+    // mainWindow.webContents.openDevTools({mode: 'detach'});
 
     // Emitted when the window is closed.
     mainWindow.on('closed', () => {
@@ -133,7 +134,10 @@ app.on('ready', function createMainWindow () {
             frame: true,
             skipTaskbar: false,
             backgroundColor: '#ffffff',
+            icon: nativeImage.createFromPath('./pages/assets/img/icon.png'),
         });
+
+        // settingsWindow.webContents.openDevTools({mode: 'detach'})
 
         settingsWindow.once('ready-to-show', () => {
             settingsWindow.show();
