@@ -27,14 +27,18 @@ function Kernel() {
 }
 
 // class methods
-Kernel.prototype.handleInputString = function(inputString) {
-    return this.handleRequest(
+Kernel.prototype.handleInputStringSync = function(inputString) {
+    return this.handleRequestSync(
         Request.createFromString(inputString)
     );
 };
 
-Kernel.prototype.handleRequest = function(request) {
-    return this.kernel.handleRequest(request);
+Kernel.prototype.handleRequestSync = function(request) {
+    return this.kernel.handleRequestSync(request);
+};
+
+Kernel.prototype.handleRequest = function(request, cb) {
+    this.kernel.handleRequest(request, cb);
 };
 
 // export the class

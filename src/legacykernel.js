@@ -51,20 +51,7 @@ var returnQuery = '';
 //since v1.0.5
 function msgbox_confirm(msg)
 {
-    //VBS-Funktion definieren
-    window.execScript( //- Add MsgBox functionality for displaying error messages
-        'Function vbsMsgBox(prompt)\r\n'
-        + ' vbsMsgBox = MsgBox(prompt, 1, \'OpenDrafts\')\r\n'
-        + 'End Function', "vbscript"
-    );
-
-    //VBSFunktion ausführen
-    confirm_value = vbsMsgBox(msg);
-
-    if(confirm_value == 1)
-        return true;
-
-    return false;
+    return confirm(msg);
 }
 
 //Hauptprozess
@@ -251,8 +238,8 @@ function run_clean(query_vars)
     if(revision !== false && revision > 0)
     {
         //Vorherige Revision nehmen
-        prev_revision = revision - 1;
-        prev_revision_file = query_vars['filename'].replace('-R'+query_vars['revision'], '-R'+prev_revision);
+        var prev_revision = revision - 1;
+        var prev_revision_file = query_vars['filename'].replace('-R'+query_vars['revision'], '-R'+prev_revision);
 
         if(file_exists(query_vars['main_dir'] + prev_revision_file))
         {
@@ -271,8 +258,8 @@ function run_clean(query_vars)
     //*/
 
     //PDF-Datei ermitteln
-    file_type = query_vars['file_type'];
-    pdffile = file.replace(file_type, 'pdf');
+    var file_type = query_vars['file_type'];
+    var pdffile = file.replace(file_type, 'pdf');
 
     //Existiert die Datei?
     if(file_exists(query_vars['main_dir'] + pdffile))
@@ -776,16 +763,22 @@ function Kernel() {
 }
 
 // class methods
-Kernel.prototype.handleInputString = function(inputString) {
-    return this.handleRequest(
+Kernel.prototype.handleInputStringSync = function(inputString) {
+    return this.handleRequestSync(
         Request.createFromString(inputString)
     );
 };
 
-Kernel.prototype.handleRequest = function(request) {
+Kernel.prototype.handleRequestSync = function(request) {
     run(request.getContent());
 
     return new Response(returnMessage, returnQuery);
+};
+
+Kernel.prototype.handleRequest = function(request, cb) {
+    run(request.getContent());
+
+    cb(new Response(returnMessage, returnQuery));
 };
 
 // export the class

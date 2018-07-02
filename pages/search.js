@@ -41,13 +41,16 @@ var kernel = new Kernel();
 
 inputField.addEventListener('keyup', (event) => {
     if (event.keyCode === 13) {
-        var response = kernel.handleRequest(
-            Request.createFromString(event.target.value)
+        kernel.handleRequest(
+            Request.createFromString(event.target.value),
+            function(response) {
+                console.log(response);
+                output.innerHTML = response.getContent();
+                event.target.value = response.getQuery();
+            }
         );
 
-        console.log(response);
-        output.innerHTML = response.getContent();
-        event.target.value = response.getQuery();
+
     }
 });
 
