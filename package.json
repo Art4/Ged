@@ -1,6 +1,6 @@
 {
   "name": "Ged",
-  "version": "2.0.0-dev",
+  "version": "2.0.0-alpha.1",
   "description": "Ged is an app for easy draft finding",
   "main": "main.js",
   "scripts": {
