@@ -2,13 +2,73 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Ged Settings</title>
+    <title>Ged Einstellungen</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="./dist/main.css" media="all" />
 </head>
 <body>
-<div id="settings__wrapper">
-    <h1>Settings</h1>
+<div id="settings__wrapper" class="container-fluid">
+    <h3><span class="fas fa-sliders-h"></span> Einstellungen</h3>
+    <form>
+    <div class="row">
+        <div class="col-12">
+            <p class="text-muted">
+                <span class="fas fa-question-circle"></span> Hier kann das Verhalten und Aussehen von Ged angepasst werden.
+            </p>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label for="formDraftPathInput">
+                    <!-- <span class="fas fa-folder-open"></span> --><span class="h6">Pfad zum Zeichnungs-Ordner</span><br />
+                    <span class="text-muted">Der absolute Pfad zum Zeichnungs-Ordner lautet in der Regel <code>H:\Zeichnungen\</code></span>
+                </label>
+                <input type="text" class="form-control" id="formDraftPathInput" placeholder="H:\Zeichnungen\">
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label for="formDefaultFileTypeInput">
+                    <!-- <span class="fas fa-file"></span> --><span class="h6">Bevorzugtes Zeichnungsformat</span><br />
+                    <span class="text-muted">Falls vorhanden, wird Ged beim Öffnen einer Zeichnung immer das bevorzugte Format wählen.</span>
+                </label>
+                <select id="formDefaultFileTypeInput" class="form-control">
+                    <option selected>PDF (.pdf)</option>
+                    <option>Solid Edge Draft (.dft)</option>
+                    <option>AutoCAD Drawing (.dwg)</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-check form-group">
+                <input class="form-check-input" type="checkbox" id="formAllwaysForegroundInput">
+                <label class="form-check-label" for="formAllwaysForegroundInput">
+                    <!-- <span class="fas fa-window-restore"></span> --><span class="h6">Immer im Vordergrund</span><br />
+                    <span class="text-muted">Ged wird nicht durch andere Fenster überdeckt werden</span>
+                </label>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label for="formOpacityInput">
+                    <span class="h6">Transparenz</span><br />
+                    <span class="text-muted">Ged wird teilweise durchsichtig, wenn die Maus nicht darüber gefahren ist.</span>
+                </label>
+                <select id="formOpacityInput" class="form-control">
+                    <option selected>0% (keine Transparenz)</option>
+                    <option>20%</option>
+                    <option>40%</option>
+                    <option>60%</option>
+                    <option>80%</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <button type="button" class="btn btn-primary">Speichern</button>
+            <button type="button" class="btn btn-light">Abbrechen</button>
+        </div>
+    </div>
+    </form>
     <script src="./dist/main.js"></script>
     <script src="./settings.js"></script>
 </div>
