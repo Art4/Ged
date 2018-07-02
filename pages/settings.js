@@ -32,6 +32,9 @@ const abortButton = document.getElementById('formAbortButton');
     defaultFileTypeInput.value = config.get('default_file_type', 'pdf');
     allwaysForegroundInput.checked = config.get('allways_foreground', true);
     opacityInput.value = config.get('opacity', 1);
+
+    // Register universal events
+    Utils.registerEventlistener();
 })();
 
 saveButton.addEventListener('click', (event) => {

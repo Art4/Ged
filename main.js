@@ -164,8 +164,8 @@ app.on('ready', function createMainWindow () {
         shell.showItemInFolder(path);
     });
 
-    ipcMain.on('openhelppage', function (e, path) {
-        shell.openExternal(path);
+    ipcMain.on('openexternalpage', function (e, url) {
+        shell.openExternal(url);
     });
 })
 
