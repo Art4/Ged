@@ -159,6 +159,10 @@ app.on('ready', function createMainWindow () {
     ipcMain.on('openfileinfolder', function (e, path) {
         shell.showItemInFolder(path);
     });
+
+    ipcMain.on('openhelppage', function (e, path) {
+        shell.openExternal(path);
+    });
 })
 
 // Quit when all windows are closed.

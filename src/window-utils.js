@@ -58,6 +58,10 @@ Utils.closeWindow = function() {
     ipcRenderer.send('closeapp');
 };
 
+Utils.openHelpPage = function(path) {
+    ipcRenderer.send('openhelppage', path);
+};
+
 Utils.openSettingsPage = function() {
     ipcRenderer.send('opensettingspage');
 };

@@ -27,6 +27,7 @@ const output = document.getElementById('outputField');
 const searchWin = document.getElementById('search__wrapper');
 const closeButton = document.getElementById('close-button');
 const settingsButton = document.getElementById('settings-button');
+const helpButton = document.getElementById('help-button');
 
 var kernel = new Kernel({
     config: config,
@@ -62,6 +63,10 @@ closeButton.addEventListener('click', (event) => {
 
 settingsButton.addEventListener('click', (event) => {
     Utils.openSettingsPage();
+});
+
+helpButton.addEventListener('click', (event) => {
+    Utils.openHelpPage('https://github.com/Art4/Ged/blob/master/README.md#ged');
 });
 
 searchWin.addEventListener('mouseover', (event) => {
