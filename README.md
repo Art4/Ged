@@ -2,10 +2,10 @@
 
 # Ged
 
-![Icon](images/icon.png)
+![Icon](pages/assets/img/icon.png)
 
-[![Software License](images/license-GPL3-brightgreen.png)](LICENSE)
-[![Source Code](images/source-Art4_Ged-blue.png)](https://github.com/Art4/Ged)
+[![Software License](pages/assets/img/license-GPL3-brightgreen.png)](LICENSE)
+[![Source Code](pages/assets/img/source-Art4_Ged-blue.png)](https://github.com/Art4/Ged)
 
 Ged ist ein Gadget für Windows, das Zeichnugen schnell öffnen lassen kann und weitere Funktionen zur Verwaltung von Zeichnungen bereitstellt.
 
