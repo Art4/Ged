@@ -21,19 +21,38 @@ const Request = require('../../src/request.js');
 const Response = require('../../src/response.js');
 
 describe("The kernel", function() {
-    describe('kernel.handleInputString()', () => {
+    var kernel, config;
+
+    beforeEach(function() {
+        config = {
+            store: {
+                config_version: 1,
+                max_revisions: 25,
+                dir_store_end: 395,
+                base_dir: 'A:\\bcd\\efg\\',
+                default_file_type: 'pdf',
+            },
+            get: function(key, def) {
+                return this.store[key];
+            },
+        };
+
+        kernel = new Kernel({
+            config: config,
+        });
+    });
+
+    describe('kernel.handleInputStringSync()', () => {
         it('returns Response instance', () => {
-            var kernel = new Kernel();
-            var response = kernel.handleInputString('abc');
+            var response = kernel.handleInputStringSync('abc');
 
             expect(response).toEqual(jasmine.any(Response));
         });
     });
 
-    describe('kernel.handleRequest()', () => {
+    describe('kernel.handleRequestSync()', () => {
         it('returns Response instance', () => {
-            var kernel = new Kernel();
-            var response = kernel.handleRequest(
+            var response = kernel.handleRequestSync(
                 Request.createFromString('abc')
             );
 

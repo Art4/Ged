@@ -22,8 +22,8 @@ const Request = require('./request.js');
 const LegacyKernel = require('./legacykernel.js');
 
 // Constructor
-function Kernel() {
-    this.kernel = new LegacyKernel();
+function Kernel(options) {
+    this.kernel = new LegacyKernel(options);
 }
 
 // class methods

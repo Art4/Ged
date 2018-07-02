@@ -22,18 +22,12 @@ const fs = require('fs');
 const Response = require('./response.js');
 const Request = require('./request.js');
 const FsUtils = require('./fs-utils.js');
-const Config = require('./config.js');
-const config = new Config();
 
+var config = null;
 var cfg = new Array();
-cfg['current_version'] = config.get('config_version', '');
-//Höchte Revision, nach der gesucht wird
-cfg['max_revisions'] = config.get('max_revisions', 25);
-//Ende der dir_store generierung
-cfg['dir_store_end'] = config.get('dir_store_end', 395);
 
 /* Dir-Store definieren */
-var dir_store = setup_dir_store();
+var dir_store = new Array();
 
 /* Dir-Store definieren */
 //-----------------------------
@@ -756,10 +750,16 @@ function setup_options()
 }
 
 // Constructor
-function Kernel() {
-    // always initialize all instance properties
-    // this.bar = bar;
-    // this.baz = 'baz'; // default value
+function Kernel(options) {
+    config = options.config;
+
+    cfg['current_version'] = config.get('config_version', '');
+    //Höchte Revision, nach der gesucht wird
+    cfg['max_revisions'] = config.get('max_revisions', 25);
+    //Ende der dir_store generierung
+    cfg['dir_store_end'] = config.get('dir_store_end', 395);
+
+    dir_store = setup_dir_store();
 }
 
 // class methods

@@ -28,7 +28,9 @@ const searchWin = document.getElementById('search__wrapper');
 const closeButton = document.getElementById('close-button');
 const settingsButton = document.getElementById('settings-button');
 
-var kernel = new Kernel();
+var kernel = new Kernel({
+    config: config,
+});
 
 // Set app version in menu
 (function () {
