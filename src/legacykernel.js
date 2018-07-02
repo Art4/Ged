@@ -22,13 +22,15 @@ const fs = require('fs');
 const Response = require('./response.js');
 const Request = require('./request.js');
 const FsUtils = require('./fs-utils.js');
+const Config = require('./config.js');
+const config = new Config();
 
 var cfg = new Array();
-cfg['current_version'] = "1.1.0";
+cfg['current_version'] = config.get('config_version', '');
 //Höchte Revision, nach der gesucht wird
-cfg['max_revisions'] = 25;
+cfg['max_revisions'] = config.get('max_revisions', 25);
 //Ende der dir_store generierung
-cfg['dir_store_end'] = 395;
+cfg['dir_store_end'] = config.get('dir_store_end', 395);
 
 /* Dir-Store definieren */
 var dir_store = setup_dir_store();
@@ -39,8 +41,8 @@ var rev_store = setup_rev_store();
 
 //since v1.0.2
 //letzte Suche
-var last_search_filename = "";
-var last_search_filetype = "";
+var last_search_filename = '';
+var last_search_filetype = '';
 
 var returnMessage = '';
 var returnQuery = '';
@@ -758,49 +760,13 @@ function setup_options()
     var arr = new Array();
 
     /* Pfad bestimmen - base_dir */
-    // var base_dir = System.Gadget.Settings.read("base_dir");
-    var base_dir = '';
-    //Standard bestimmen
-    if(base_dir == '')
-    {
-        base_dir = 'H:\\Zeichnungen\\';
-    }
-    arr['base_dir'] = base_dir;
+    arr['base_dir'] = config.get('base_dir', 'H:\\Zeichnungen\\');
 
     /* Datei-Typen bestimmen */
-    // var file_types_str = System.Gadget.Settings.read("file_types");
-    var file_types_str = '';
-    arr['file_types_str'] = file_types_str;
-
-    var types = filter_file_types(file_types_str);
-    arr['file_types'] = types;
-
-    //Der erste wird als Default gesetzt
-    arr['default_file_type'] = types[0];
+    arr['default_file_type'] = config.get('default_file_type', 'pdf');
 
     return arr;
 }
-
-function filter_file_types(str)
-{
-    //Standard definieren
-    if(str == '')
-    {
-        str = "pdf, dft, dwg";
-    }
-
-    var arr = str.split(',');
-
-    var i;
-    for(i = 0; i < arr.length; i++)
-    {
-        arr[i] = trim(arr[i]);
-    }
-
-    return arr;
-}
-
-
 
 // Constructor
 function Kernel() {
