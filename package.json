@@ -41,6 +41,13 @@
     "appId": "org.electron.ged",
     "win": {
       "icon": "pages/assets/img/icon-256.png"
+  },
+    "nsis": {
+      "oneClick": false,
+      "artifactName": "${productName} ${version}.${ext}",
+      "deleteAppDataOnUninstall": true,
+      "createDesktopShortcut": false,
+      "createStartMenuShortcut": true
     }
   }
 }
