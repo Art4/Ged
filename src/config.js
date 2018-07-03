@@ -44,8 +44,8 @@ function init() {
             dir_store_end: 395,
             base_dir: 'H:\\Zeichnungen\\',
             default_file_type: 'pdf',
-            allways_foreground: true,
-            opacity: '1',
+            always_foreground: true,
+            opacity: 1,
             displayX: null,
             displayY: null,
         };

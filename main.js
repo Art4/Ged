@@ -60,7 +60,7 @@ app.on('ready', function createMainWindow () {
         movable: true,
         minimizable: false,
         maximizable: false,
-        alwaysOnTop: config.get('allways_foreground', true),
+        alwaysOnTop: config.get('always_foreground', true),
         fullscreenable: false,
         skipTaskbar: true,
         icon: nativeImage.createFromPath('./pages/assets/img/icon.png'),
@@ -148,7 +148,7 @@ app.on('ready', function createMainWindow () {
 
     ipcMain.on('closesettingspage', function (e) {
         if (settingsWindow) {
-            mainWindow.setAlwaysOnTop(config.get('allways_foreground', true));
+            mainWindow.setAlwaysOnTop(config.get('always_foreground', true));
             mainWindow.setOpacity(config.get('opacity', 1));
 
             settingsWindow.close();

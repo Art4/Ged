@@ -30,7 +30,7 @@ const abortButton = document.getElementById('formAbortButton');
 (function() {
     draftPathInput.value = config.get('base_dir', '');
     defaultFileTypeInput.value = config.get('default_file_type', 'pdf');
-    allwaysForegroundInput.checked = config.get('allways_foreground', true);
+    allwaysForegroundInput.checked = config.get('always_foreground', true);
     opacityInput.value = config.get('opacity', 1);
 
     // Register universal events
@@ -40,7 +40,7 @@ const abortButton = document.getElementById('formAbortButton');
 saveButton.addEventListener('click', (event) => {
     config.set('base_dir', draftPathInput.value);
     config.set('default_file_type', defaultFileTypeInput.value);
-    config.set('allways_foreground', allwaysForegroundInput.checked);
+    config.set('always_foreground', allwaysForegroundInput.checked);
     config.set('opacity', parseFloat(opacityInput.value));
 
     Utils.closeSettingsPage();
