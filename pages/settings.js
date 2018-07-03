@@ -22,7 +22,7 @@ const config = new Config();
 
 const draftPathInput = document.getElementById('formDraftPathInput');
 const defaultFileTypeInput = document.getElementById('formDefaultFileTypeInput');
-const allwaysForegroundInput = document.getElementById('formAllwaysForegroundInput');
+const alwaysForegroundInput = document.getElementById('formAlwaysForegroundInput');
 const opacityInput = document.getElementById('formOpacityInput');
 const saveButton = document.getElementById('formSaveButton');
 const abortButton = document.getElementById('formAbortButton');
@@ -30,7 +30,7 @@ const abortButton = document.getElementById('formAbortButton');
 (function() {
     draftPathInput.value = config.get('base_dir', '');
     defaultFileTypeInput.value = config.get('default_file_type', 'pdf');
-    allwaysForegroundInput.checked = config.get('always_foreground', true);
+    alwaysForegroundInput.checked = config.get('always_foreground', true);
     opacityInput.value = config.get('opacity', 1);
 
     // Register universal events
@@ -40,7 +40,7 @@ const abortButton = document.getElementById('formAbortButton');
 saveButton.addEventListener('click', (event) => {
     config.set('base_dir', draftPathInput.value);
     config.set('default_file_type', defaultFileTypeInput.value);
-    config.set('always_foreground', allwaysForegroundInput.checked);
+    config.set('always_foreground', alwaysForegroundInput.checked);
     config.set('opacity', parseFloat(opacityInput.value));
 
     Utils.closeSettingsPage();
