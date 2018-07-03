@@ -775,10 +775,12 @@ Kernel.prototype.handleRequestSync = function(request) {
     return new Response(returnMessage, returnQuery);
 };
 
-Kernel.prototype.handleRequest = function(request, cb) {
-    run(request.getContent());
+Kernel.prototype.handleRequest = function(request) {
+    return new Promise((resolve, reject) => {
+        run(request.getContent());
 
-    cb(new Response(returnMessage, returnQuery));
+        resolve(new Response(returnMessage, returnQuery));
+    });
 };
 
 // export the class

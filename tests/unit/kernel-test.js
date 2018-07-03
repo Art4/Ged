@@ -59,4 +59,13 @@ describe("The kernel", function() {
             expect(response).toEqual(jasmine.any(Response));
         });
     });
+
+    describe('kernel.handleRequest()', () => {
+        it('returns Promise instance', () => {
+            kernel.handleRequest(Request.createFromString('abc'))
+                .then((response) => {
+                    expect(response).toEqual(jasmine.any(Response));
+                });
+        });
+    });
 });

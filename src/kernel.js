@@ -37,8 +37,8 @@ Kernel.prototype.handleRequestSync = function(request) {
     return this.kernel.handleRequestSync(request);
 };
 
-Kernel.prototype.handleRequest = function(request, cb) {
-    this.kernel.handleRequest(request, cb);
+Kernel.prototype.handleRequest = function(request) {
+    return this.kernel.handleRequest(request);
 };
 
 // export the class

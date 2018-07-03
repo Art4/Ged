@@ -37,16 +37,14 @@ Utils.registerEventlistener();
 
 inputField.addEventListener('keyup', (event) => {
     if (event.keyCode === 13) {
-        kernel.handleRequest(
-            Request.createFromString(event.target.value),
-            function(response) {
+        kernel.handleRequest(Request.createFromString(event.target.value))
+            .then((response) => {
                 console.log(response);
                 output.innerHTML = response.getContent();
                 event.target.value = response.getQuery();
-            }
-        );
+            });
 
-
+        output.innerHTML = 'Bitte warten...';
     }
 });
 
