@@ -4,8 +4,10 @@
 
 ![Icon](pages/assets/img/icon.png)
 
+[![Latest Version](https://img.shields.io/github/release/Art4/Ged.svg)](https://github.com/Art4/Ged/releases)
 [![Software License](pages/assets/img/license-GPL3-brightgreen.png)](LICENSE)
 [![Source Code](pages/assets/img/source-Art4_Ged-blue.png)](https://github.com/Art4/Ged)
+[![Build Status](https://travis-ci.org/Art4/Ged.svg?branch=master)](https://travis-ci.org/Art4/Ged)
 
 Ged ist ein Gadget für Windows, das Zeichnugen schnell öffnen lassen kann und weitere Funktionen zur Verwaltung von Zeichnungen bereitstellt.
 
@@ -28,13 +30,19 @@ Die folgenden Informationen beziehen sich auf die Installation und Anwendung mit
 
 ```shell
 npm install
-npm run deploy
+npm run webpack
 ```
 
 ### Starten
 
 ```shell
 npm start
+```
+
+### Deployment
+
+```shell
+npm run deploy
 ```
 
 ## Anwendung

@@ -5,6 +5,14 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 ## [Unreleased]
 
+### Added
+
+- Die Tests werden automatisiert durch [Travis-CI](https://travis-ci.org/Art4/Ged) ausgeführt
+
+### Changed
+
+- Alle Abhängigkeiten wurden aktualisiert
+
 ## [2.0.0-alpha.1] - 2018-07-03
 
 ### Changed
