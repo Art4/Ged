@@ -51,8 +51,6 @@ function msgbox_confirm(msg)
 //Hauptprozess
 function run(query)
 {
-    var options = setup_options();
-
     //Wenn keine Eingabe gemacht wurde, Fehler ausgeben
     if(query == "")
     {
@@ -61,11 +59,11 @@ function run(query)
     }
 
     //Suchstring analysieren
-    var query_vars = get_query_vars(query, options);
+    var query_vars = get_query_vars(query);
 
     //Wenn keine Endung gesetzt wurde, den Defaultwert verwenden
     if(query_vars['file_type'] === false)
-        query_vars['file_type'] = options['default_file_type'];
+        query_vars['file_type'] = cfg['default_file_type'];
 
     //3D-Ordner öffnen
     if(query_vars['action'] == 'explorer')
@@ -329,7 +327,7 @@ function set_file_permission(filename, mode)
 //Dir-Store definieren
 //Gibt ein Array zurück, mit dem später der übergeordnete Ordner einer Zeichnung bestimmt werden kann
 // TODO: Dynamische Ermittlung des Ordnernamens unterstützen anstelle der Liste von möglichen Ordnernamen
-function setup_dir_store(e)
+function setup_dir_store()
 {
     var end = cfg['dir_store_end'];
 
@@ -369,7 +367,7 @@ function message(v)
 }
 
 //analysiert den Suchstring und gibt alle notwendigen Information zurück.
-function get_query_vars(q, options)
+function get_query_vars(q)
 {
     var arr = new Array();
     arr['query'] = q;
@@ -426,7 +424,7 @@ function get_query_vars(q, options)
     var dir_index = pre_dir + sub_dir;
 
     arr['dir_index'] = dir_index;
-    arr['main_dir'] = options['base_dir'] + 'Z.Nr.' + dir_store[dir_index] + '\\';
+    arr['main_dir'] = cfg['base_dir'] + 'Z.Nr.' + dir_store[dir_index] + '\\';
     arr['3D'] = arr['filename'] + '_3D';
 
     /* Pfad zum 3D-Ordner */
@@ -731,24 +729,6 @@ function clean_last_search()
     last_search_filetype = "";
 }
 
-//
-//Options
-//
-
-//Lädt die Einstellungen und packt sie in ein Array
-function setup_options()
-{
-    var arr = new Array();
-
-    /* Pfad bestimmen - base_dir */
-    arr['base_dir'] = config.get('base_dir', 'H:\\Zeichnungen\\');
-
-    /* Datei-Typen bestimmen */
-    arr['default_file_type'] = config.get('default_file_type', 'pdf');
-
-    return arr;
-}
-
 // Constructor
 function Kernel(options) {
     config = options.config;
@@ -758,6 +738,12 @@ function Kernel(options) {
     cfg['max_revisions'] = config.get('max_revisions', 25);
     //Ende der dir_store generierung
     cfg['dir_store_end'] = config.get('dir_store_end', 395);
+
+    /* Pfad bestimmen - base_dir */
+    cfg['base_dir'] = config.get('base_dir', 'H:\\Zeichnungen\\');
+
+    /* Datei-Typen bestimmen */
+    cfg['default_file_type'] = config.get('default_file_type', 'pdf');
 
     dir_store = setup_dir_store();
 }
