@@ -1,6 +1,6 @@
 {
   "name": "Ged",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "description": "Ged is an app for easy draft finding",
   "main": "main.js",
   "scripts": {
@@ -41,7 +41,7 @@
     "appId": "org.electron.ged",
     "win": {
       "icon": "pages/assets/img/icon-256.png"
-  },
+    },
     "nsis": {
       "oneClick": false,
       "artifactName": "${productName} ${version}.${ext}",

@@ -3,7 +3,9 @@
 # Changelog
 Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokumentiert.
 
-## [2.0.0-alpha.1]
+## [Unreleased]
+
+## [2.0.0-alpha.1] - 2018-07-03
 
 ### Changed
 
