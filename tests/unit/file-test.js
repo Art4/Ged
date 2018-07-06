@@ -82,6 +82,7 @@ describe("The file", function() {
             // test wrong revisions
             ['\\path\\to\\12345-R.dft', '12345-R.dft', 'dft', null],
             ['\\path\\to\\12345-R12_layout.stp', '12345-R12_layout.stp', 'stp', '1'],
+            ['\\path\\to\\123456-R1_layout.stp', '123456-R1_layout.stp', 'stp', null],
         ];
 
         it('returns the correct absolute path', () => {

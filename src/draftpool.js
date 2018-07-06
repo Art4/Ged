@@ -17,42 +17,23 @@
  */
 'use strict'
 
+const Draft = require('./draft.js');
+const File = require('./file.js');
+
 // Constructor
-function File(path) {
+function Draftpool(fs, path) {
+    this.fs = fs;
     this.path = String(path);
-
-    var parts = this.path.split('\\');
-
-    // could be 12345.tif, 12345-R1.dft or 12345-R3_layout.stp
-    this.filename = parts.pop();
-
-    parts = this.filename.split('.');
-
-    this.extension = (parts.length > 1 && parts[0] !== '') ? parts.pop() : '';
-
-    this.revision = null;
-
-    if (this.filename.match(/^\d{5}\-R[0-9a-z]+/i)) {
-        this.revision = this.filename.slice(7, 8);
-    }
 }
 
 // class methods
-File.prototype.getAbsolutePath = function() {
-    return this.path;
-};
+Draftpool.prototype.findDraftByString = function(id) {
+    if (! String(id).match(/^\d{5}$/)) {
+        return null;
+    }
 
-File.prototype.getName = function() {
-    return this.filename;
-};
-
-File.prototype.getExtension = function() {
-    return this.extension;
-};
-
-File.prototype.getRevision = function() {
-    return this.revision;
+    return new Draft(id, []);
 };
 
 // export the class
-module.exports = File;
+module.exports = Draftpool;
