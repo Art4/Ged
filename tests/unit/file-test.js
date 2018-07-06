@@ -19,7 +19,7 @@
 const File = require('../../src/file.js');
 
 describe("The file", function() {
-    describe('constructor expect data', () => {
+    describe('constructor method with different arguments', () => {
         var values = new Array(
             new Array('null', null),
             new Array('true', true),
@@ -31,47 +31,32 @@ describe("The file", function() {
             new Array('[object Object]', {}),
         );
 
-        it('and returns the absolute path with the right value', () => {
-            for (var i = 0; i < values.length; i++) {
+        for (var i = 0; i < values.length; i++) {
+            describe('expect data and returns', () => {
                 var data = values[i];
                 var file = new File(data[1]);
+                var extension = (data[0] === '123.456') ? '456' : '';
 
-                expect(file.getAbsolutePath()).toBe(data[0]);
-            }
-        });
+                it('the absolute path with the right value', () => {
+                    expect(file.getAbsolutePath()).toBe(data[0]);
+                });
 
-        it('and returns the file name', () => {
-            for (var i = 0; i < values.length; i++) {
-                var data = values[i];
-                var file = new File(data[1]);
+                it('the file name', () => {
+                    expect(file.getName()).toBe(data[0]);
+                });
 
-                expect(file.getName()).toBe(data[0]);
-            }
-        });
+                it('the file extension', () => {
+                    expect(file.getExtension()).toBe(extension);
+                });
 
-        it('and returns the file extension', () => {
-            for (var i = 0; i < values.length; i++) {
-                var data = values[i];
-                var expected = (data[0] === '123.456') ? '456' : '';
-
-                var file = new File(data[1]);
-
-                expect(file.getExtension()).toBe(expected);
-            }
-        });
-
-        it('and returns the revision', () => {
-            for (var i = 0; i < values.length; i++) {
-                var data = values[i];
-
-                var file = new File(data[1]);
-
-                expect(file.getRevision()).toBe(null);
-            }
-        });
+                it('the revision to be null', () => {
+                    expect(file.getRevision()).toBe(null);
+                });
+            });
+        }
     });
 
-    describe('with data provider', () => {
+    describe('constructor method with string arguments', () => {
         var values = [
             ['\\path\\to\\file', 'file', '', null],
             ['\\path\\to\\.notext', '.notext', '', null],
@@ -85,47 +70,30 @@ describe("The file", function() {
             ['\\path\\to\\123456-R1_layout.stp', '123456-R1_layout.stp', 'stp', null],
         ];
 
-        it('returns the correct absolute path', () => {
-            for (var i = 0; i < values.length; i++) {
-                var path = values[i][0];
-
-                var file = new File(path);
-
-                expect(file.getAbsolutePath()).toBe(path);
-            }
-        });
-
-        it('returns the correct name', () => {
-            for (var i = 0; i < values.length; i++) {
+        for (var i = 0; i < values.length; i++) {
+            describe('expect data and returns', () => {
                 var path = values[i][0];
                 var name = values[i][1];
-
-                var file = new File(path);
-
-                expect(file.getName()).toBe(name);
-            }
-        });
-
-        it('returns the correct extension', () => {
-            for (var i = 0; i < values.length; i++) {
-                var path = values[i][0];
                 var ext = values[i][2];
-
-                var file = new File(path);
-
-                expect(file.getExtension()).toBe(ext);
-            }
-        });
-
-        it('returns the correct extension', () => {
-            for (var i = 0; i < values.length; i++) {
-                var path = values[i][0];
                 var revision = values[i][3];
-
                 var file = new File(path);
 
-                expect(file.getRevision()).toBe(revision);
-            }
-        });
+                it('returns the correct absolute path', () => {
+                    expect(file.getAbsolutePath()).toBe(path);
+                });
+
+                it('returns the correct name', () => {
+                    expect(file.getName()).toBe(name);
+                });
+
+                it('returns the correct extension', () => {
+                    expect(file.getExtension()).toBe(ext);
+                });
+
+                it('returns the correct extension', () => {
+                    expect(file.getRevision()).toBe(revision);
+                });
+            });
+        }
     });
 });
