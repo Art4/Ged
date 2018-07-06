@@ -23,11 +23,18 @@ function File(path) {
 
     var parts = this.path.split('\\');
 
+    // could be 12345.tif, 12345-R1.dft or 12345-R3_layout.stp
     this.filename = parts.pop();
 
     parts = this.filename.split('.');
 
-    this.extension = (parts.length > 1) ? parts.pop() : '';
+    this.extension = (parts.length > 1 && parts[0] !== '') ? parts.pop() : '';
+
+    this.revision = null;
+
+    if (this.filename.match(/\d{5,5}\-R[0-9a-z]+/i)) {
+        this.revision = this.filename.slice(7, 8);
+    }
 }
 
 // class methods
@@ -41,6 +48,10 @@ File.prototype.getName = function() {
 
 File.prototype.getExtension = function() {
     return this.extension;
+};
+
+File.prototype.getRevision = function() {
+    return this.revision;
 };
 
 // export the class

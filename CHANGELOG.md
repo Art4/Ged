@@ -1,6 +1,7 @@
 <!-- @@@title:Changelog@@@ -->
 
 # Changelog
+
 Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokumentiert.
 
 ## [Unreleased]

@@ -59,11 +59,29 @@ describe("The file", function() {
                 expect(file.getExtension()).toBe(expected);
             }
         });
+
+        it('and returns the revision', () => {
+            for (var i = 0; i < values.length; i++) {
+                var data = values[i];
+
+                var file = new File(data[1]);
+
+                expect(file.getRevision()).toBe(null);
+            }
+        });
     });
 
     describe('with data provider', () => {
         var values = [
-            ['\\path\\to\\file', 'file', ''],
+            ['\\path\\to\\file', 'file', '', null],
+            ['\\path\\to\\.notext', '.notext', '', null],
+            ['\\path\\to\\file.ext', 'file.ext', 'ext', null],
+            ['\\path\\to\\12345.pdf', '12345.pdf', 'pdf', null],
+            ['\\path\\to\\12345-R5.pdf', '12345-R5.pdf', 'pdf', '5'],
+            ['\\path\\to\\12345-RC.dft', '12345-RC.dft', 'dft', 'C'],
+            // test wrong revisions
+            ['\\path\\to\\12345-R.dft', '12345-R.dft', 'dft', null],
+            ['\\path\\to\\12345-R12_layout.stp', '12345-R12_layout.stp', 'stp', '1'],
         ];
 
         it('returns the correct absolute path', () => {
@@ -95,6 +113,17 @@ describe("The file", function() {
                 var file = new File(path);
 
                 expect(file.getExtension()).toBe(ext);
+            }
+        });
+
+        it('returns the correct extension', () => {
+            for (var i = 0; i < values.length; i++) {
+                var path = values[i][0];
+                var revision = values[i][3];
+
+                var file = new File(path);
+
+                expect(file.getRevision()).toBe(revision);
             }
         });
     });
