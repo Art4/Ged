@@ -42,6 +42,9 @@ Draftpool.prototype.findDraftByString = function(identifier) {
     var i = 0;
     var dirfiles = this.fs.readdirSync(path);
 
+    // Optimize list so we don't have to iterate over all files
+    dirfiles = this.optimizeFileList(dirfiles, identifier);
+
     while (i < dirfiles.length && next === false) {
         var filename = dirfiles[i];
         i++;
@@ -95,6 +98,41 @@ Draftpool.prototype.generateSubfolderNameFromIdentifier = function (identifier) 
     var begin = identifier.slice(0,2);
 
     return 'Z.Nr.' + begin + end1 + '-' + begin + end2;
+}
+
+/**
+ * optimize the file list
+ *
+ * @param array filelist
+ * @param string identifier
+ * @param string optional pick to start from
+ * @return array
+ */
+Draftpool.prototype.optimizeFileList = function (filelist, identifier, pick) {
+    if (filelist.length < 20) {
+        return filelist;
+    }
+
+    // Get given pick or choose 50%
+    var newPick = (pick) ? pick : Math.floor(filelist.length / 2);
+
+    if (filelist[newPick].slice(0,5) === identifier) {
+        // Abort, if we have already optimized but again hit the identifier
+        if (newPick === pick) {
+            return filelist;
+        }
+
+        // check again at 25%
+        return this.optimizeFileList(filelist, identifier, Math.floor(filelist.length / 4));
+    }
+
+    if (filelist[newPick].slice(0,5) < identifier) {
+        var newFilelist = filelist.slice(newPick);
+    } else {
+        var newFilelist = filelist.slice(0, newPick);
+    }
+
+    return this.optimizeFileList(newFilelist, identifier);
 }
 
 // export the class

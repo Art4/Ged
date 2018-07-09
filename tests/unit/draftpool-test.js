@@ -146,4 +146,75 @@ describe("The draftpool", function() {
             );
         });
     });
+
+    describe('with full stack fs mock on findDraftByString()', () => {
+        var getRandomArbitrary = function(min, max) {
+            return Math.floor(Math.random() * (max - min) + min)+'';
+        };
+
+        var values = [
+            ['23000'], // minimal
+            ['23456'],
+            [getRandomArbitrary(23000,23500)],
+            [getRandomArbitrary(23000,23500)],
+            [getRandomArbitrary(23000,23500)],
+            [getRandomArbitrary(23000,23500)],
+            [getRandomArbitrary(23000,23500)],
+            [getRandomArbitrary(23000,23500)],
+            [getRandomArbitrary(23000,23500)],
+            ['23499'], // maximal
+        ];
+
+        for (var i = 0; i < values.length; i++) {
+            describe('expect data and', () => {
+                var fs = {
+                    hitCounter: 0,
+                    readdirSync: function(path) {
+                        var files = new Array();
+                        var i = 0;
+
+                        // Create a list with 5000 files
+                        for (var i = 0; i < 500; i++) {
+                            var identifier = 23000+i;
+                            files.push(identifier+'-R0.dft');
+                            files.push(identifier+'-R0.dwg');
+                            files.push(identifier+'-R0.pdf');
+                            files.push(identifier+'-R1.dft');
+                            files.push(identifier+'-R1.dwg');
+                            files.push(identifier+'-R1.pdf');
+                            files.push(identifier+'-R2.dft');
+                            files.push(identifier+'-R2.dwg');
+                            files.push(identifier+'-R2.pdf');
+                            files.push(identifier+'_3D');
+                        }
+
+                        return files;
+                    },
+                    statSync: function(path) {
+                        this.hitCounter++;
+                        // return stat mock
+                        return {
+                            isDirectory: function() {
+                                return (path.slice(-3) === '_3D');
+                            },
+                        };
+                    },
+                };
+
+                var identifier = values[i][0];
+
+                it('shouldn\'t be run more than 20 times', () => {
+                    var path = '\\base_dir\\';
+                    var draftpool = new Draftpool(fs, path);
+                    var draft = draftpool.findDraftByString(identifier);
+
+                    expect(draft).toEqual(jasmine.any(Draft));
+                    expect(draft.getNearestFile().getAbsolutePath()).toBe(
+                        '\\base_dir\\Z.Nr.23000-23499\\'+identifier+'-R2.pdf'
+                    );
+                    expect(fs.hitCounter).toBeLessThanOrEqual(20);
+                });
+            });
+        }
+    });
 });
