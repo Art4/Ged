@@ -61,7 +61,7 @@ describe("The draftpool", function() {
         });
     });
 
-    describe('with fs mock on findDraftByString()', () => {
+    describe('with fs mock with only files on findDraftByString()', () => {
         var fs = {
             readdirSync: function(path) {
                 return new Array(
@@ -92,6 +92,14 @@ describe("The draftpool", function() {
                     '12346-R0.dft',
                     '12346-R0.pdf',
                 );
+            },
+            statSync: function(path) {
+                // return stat mock
+                return {
+                    isDirectory: function() {
+                        return false;
+                    },
+                };
             },
         };
         var path = '\\base_dir\\';

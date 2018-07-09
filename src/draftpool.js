@@ -47,11 +47,11 @@ Draftpool.prototype.findDraftByString = function(identifier) {
         i++;
 
         // ingnore directories
-        // var stats = fs.statSync(main_dir + file);
-        //
-        // if (stats.isDirectory()) {
-        //     continue;
-        // }
+        var stats = this.fs.statSync(path + '\\' + filename);
+
+        if (stats.isDirectory()) {
+            continue;
+        }
 
         var fileBase = filename.slice(0, 5);
 
