@@ -20,25 +20,111 @@ const Draft = require('../../src/draft.js');
 const Draftpool = require('../../src/draftpool.js');
 
 describe("The draftpool", function() {
-    describe('on findDraftByString', () => {
+    describe('on generateSubfolderNameFromIdentifier() method with different arguments', () => {
+        var values = new Array(
+            new Array('10000', 'Z.Nr.10000-10499'),
+            new Array('12345', 'Z.Nr.12000-12499'),
+            new Array('12499', 'Z.Nr.12000-12499'),
+            new Array('12500', 'Z.Nr.12500-12999'),
+            new Array('35689', 'Z.Nr.35500-35999'),
+            new Array('78000', 'Z.Nr.78000-78499'),
+            new Array('99999', 'Z.Nr.99500-99999'),
+        );
+
+        for (var i = 0; i < values.length; i++) {
+            describe('returns correct subfolder name', () => {
+                var draftpool = new Draftpool({}, '')
+                var data = values[i];
+
+                it('the absolute path with the right value', () => {
+                    expect(draftpool.generateSubfolderNameFromIdentifier(data[0])).toBe(data[1]);
+                });
+            });
+        }
+    });
+
+    describe('on findDraftByString() with incorrect identifier', () => {
         var fs = {};
         var path = '';
         var draftpool = new Draftpool(fs, path);
 
-        it('with incorrect identifier returns null', () => {
+        it('(not an integer) returns null', () => {
             expect(draftpool.findDraftByString('not-an-identifier')).toBe(null);
         });
 
-        it('with too short identifier returns null', () => {
+        it('(too short) returns null', () => {
             expect(draftpool.findDraftByString('1234')).toBe(null);
         });
 
-        it('with too long identifier returns null', () => {
+        it('(too long) returns null', () => {
             expect(draftpool.findDraftByString('123456')).toBe(null);
+        });
+    });
+
+    describe('with fs mock on findDraftByString()', () => {
+        var fs = {
+            readdirSync: function(path) {
+                return new Array(
+                    '12338.tif',
+                    // '12339.tif', // this file is missing
+                    '12340.tif',
+                    '12341.bak',
+                    '12341.dwg',
+                    '12341.dxf',
+                    '12342.dft',
+                    '12342.pdf',
+                    '12343.dft',
+                    '12343.pdf',
+                    '12343-R2.dft',
+                    '12343-R2.pdf',
+                    '12344-R0.dft',
+                    '12344-R1.dft',
+                    '12344-R2.dft',
+                    '12344-R2.pdf',
+                    '12345-R0.dft',
+                    '12345-R0_Aufstellung.stp',
+                    '12345-R1.dft',
+                    '12345-R1.log',
+                    '12345-R1.pdf',
+                    '12345-R1_Aufstellung.stp',
+                    '12346-R0 Blatt 1 von 2.dwg',
+                    '12346-R0 Blatt 2 von 2.dwg',
+                    '12346-R0.dft',
+                    '12346-R0.pdf',
+                );
+            },
+        };
+        var path = '\\base_dir\\';
+        var draftpool = new Draftpool(fs, path);
+
+        it('with correct identifier returns Draft', () => {
+            var draft = draftpool.findDraftByString('12345');
+
+            expect(draft).toEqual(jasmine.any(Draft));
+            expect(draft.getFiles().length).toBe(6);
+            expect(draft.getNearestFile().getAbsolutePath()).toBe(
+                '\\base_dir\\Z.Nr.12000-12499\\12345-R1_Aufstellung.stp'
+            );
         });
 
         it('with correct identifier returns Draft', () => {
-            expect(draftpool.findDraftByString('12345')).toEqual(jasmine.any(Draft));
+            var draft = draftpool.findDraftByString('12338');
+
+            expect(draft).toEqual(jasmine.any(Draft));
+            expect(draft.getFiles().length).toBe(1);
+            expect(draft.getNearestFile().getAbsolutePath()).toBe(
+                '\\base_dir\\Z.Nr.12000-12499\\12338.tif'
+            );
+        });
+
+        it('with correct identifier returns Draft', () => {
+            var draft = draftpool.findDraftByString('12339');
+
+            expect(draft).toEqual(jasmine.any(Draft));
+            expect(draft.getFiles().length).toBe(0);
+            expect(draft.getNearestFile().getAbsolutePath()).toBe(
+                '\\base_dir\\Z.Nr.12000-12499\\12340.tif'
+            );
         });
     });
 });
