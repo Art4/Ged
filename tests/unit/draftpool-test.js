@@ -61,7 +61,7 @@ describe("The draftpool", function() {
         });
     });
 
-    describe('with fs mock with only files on findDraftByString()', () => {
+    describe('with fs mock on findDraftByString()', () => {
         var fs = {
             readdirSync: function(path) {
                 return new Array(
@@ -73,6 +73,7 @@ describe("The draftpool", function() {
                     '12341.dxf',
                     '12342.dft',
                     '12342.pdf',
+                    '12342_3D',
                     '12343.dft',
                     '12343.pdf',
                     '12343-R2.dft',
@@ -97,7 +98,7 @@ describe("The draftpool", function() {
                 // return stat mock
                 return {
                     isDirectory: function() {
-                        return false;
+                        return (path.slice(-3) === '_3D');
                     },
                 };
             },
@@ -132,6 +133,16 @@ describe("The draftpool", function() {
             expect(draft.getFiles().length).toBe(0);
             expect(draft.getNearestFile().getAbsolutePath()).toBe(
                 '\\base_dir\\Z.Nr.12000-12499\\12340.tif'
+            );
+        });
+
+        it('with correct identifier returns Draft and ignores folder', () => {
+            var draft = draftpool.findDraftByString('12342');
+
+            expect(draft).toEqual(jasmine.any(Draft));
+            expect(draft.getFiles().length).toBe(2);
+            expect(draft.getNearestFile().getAbsolutePath()).toBe(
+                '\\base_dir\\Z.Nr.12000-12499\\12342.pdf'
             );
         });
     });
