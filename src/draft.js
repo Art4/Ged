@@ -18,23 +18,24 @@
 'use strict'
 
 // Constructor
-function Draft(id, files, nearestFile) {
-    this.id = String(id);
+function Draft(identifier, path, files, nearestFile) {
+    this.identifier = String(identifier);
+    this.path = path;
     this.files = files;
     this.nearestFile = (nearestFile) ? nearestFile : null;
 }
 
 // class methods
-Draft.prototype.getId = function() {
-    return this.id;
-};
-
 Draft.prototype.getFiles = function() {
     return this.files;
 };
 
 Draft.prototype.getNearestFile = function() {
     return this.nearestFile;
+};
+
+Draft.prototype.get3DFolderPath = function() {
+    return this.path + '\\' + this.identifier + '_3D';
 };
 
 // export the class

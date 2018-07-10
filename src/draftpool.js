@@ -81,7 +81,7 @@ Draftpool.prototype.findDraftByString = function(identifier) {
         nearestFile = new File(path + '\\' + prev);
     }
 
-    return new Draft(identifier, files, nearestFile);
+    return new Draft(identifier, path, files, nearestFile);
 };
 
 /**
