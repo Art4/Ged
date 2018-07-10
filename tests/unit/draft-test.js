@@ -22,7 +22,7 @@ const Draft = require('../../src/draft.js');
 describe("The draft", function() {
     describe('without data', () => {
         it('returns empty array', () => {
-            var draft = new Draft('12345', 'path', []);
+            var draft = new Draft('12345', 'path\\', []);
 
             expect(draft.getFiles()).toEqual([]);
             expect(draft.getNearestFile()).toBe(null);
@@ -37,7 +37,7 @@ describe("The draft", function() {
         ];
 
         it('returns file list', () => {
-            var draft = new Draft('12345', 'path', files);
+            var draft = new Draft('12345', 'path\\', files);
 
             expect(draft.getFiles()).toBe(files);
             expect(draft.getNearestFile()).toBe(null);
@@ -50,7 +50,7 @@ describe("The draft", function() {
         var nearestFile = new File('12344.dft');
 
         it('returns empty array and nearestFile', () => {
-            var draft = new Draft('12345', 'path', files, nearestFile);
+            var draft = new Draft('12345', 'path\\', files, nearestFile);
 
             expect(draft.getFiles()).toBe(files);
             expect(draft.getNearestFile()).toBe(nearestFile);

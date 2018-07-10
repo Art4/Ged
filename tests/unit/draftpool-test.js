@@ -22,13 +22,13 @@ const Draftpool = require('../../src/draftpool.js');
 describe("The draftpool", function() {
     describe('on generateSubfolderNameFromIdentifier() method with different arguments', () => {
         var values = new Array(
-            new Array('10000', 'Z.Nr.10000-10499'),
-            new Array('12345', 'Z.Nr.12000-12499'),
-            new Array('12499', 'Z.Nr.12000-12499'),
-            new Array('12500', 'Z.Nr.12500-12999'),
-            new Array('35689', 'Z.Nr.35500-35999'),
-            new Array('78000', 'Z.Nr.78000-78499'),
-            new Array('99999', 'Z.Nr.99500-99999'),
+            new Array('10000', 'Z.Nr.10000-10499\\'),
+            new Array('12345', 'Z.Nr.12000-12499\\'),
+            new Array('12499', 'Z.Nr.12000-12499\\'),
+            new Array('12500', 'Z.Nr.12500-12999\\'),
+            new Array('35689', 'Z.Nr.35500-35999\\'),
+            new Array('78000', 'Z.Nr.78000-78499\\'),
+            new Array('99999', 'Z.Nr.99500-99999\\'),
         );
 
         for (var i = 0; i < values.length; i++) {

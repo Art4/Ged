@@ -50,7 +50,7 @@ Draftpool.prototype.findDraftByString = function(identifier) {
         i++;
 
         // ingnore directories
-        var stats = this.fs.statSync(path + '\\' + filename);
+        var stats = this.fs.statSync(path + filename);
 
         if (stats.isDirectory()) {
             continue;
@@ -62,7 +62,7 @@ Draftpool.prototype.findDraftByString = function(identifier) {
             prev = filename;
         }
         else if (fileBase === identifier) {
-            newestFile = new File(path + '\\' + filename);
+            newestFile = new File(path + filename);
             files.push(newestFile);
         }
         else {
@@ -75,10 +75,10 @@ Draftpool.prototype.findDraftByString = function(identifier) {
         nearestFile = newestFile;
     }
     else if (next !== false) {
-        nearestFile = new File(path + '\\' + next);
+        nearestFile = new File(path + next);
     }
     else if (prev !== false) {
-        nearestFile = new File(path + '\\' + prev);
+        nearestFile = new File(path + prev);
     }
 
     return new Draft(identifier, path, files, nearestFile);
@@ -97,7 +97,7 @@ Draftpool.prototype.generateSubfolderNameFromIdentifier = function (identifier) 
     var end2 = (identifier.slice(2,3) < 5) ? '499' : '999';
     var begin = identifier.slice(0,2);
 
-    return 'Z.Nr.' + begin + end1 + '-' + begin + end2;
+    return 'Z.Nr.' + begin + end1 + '-' + begin + end2 + '\\';
 }
 
 /**

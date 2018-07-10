@@ -21,13 +21,11 @@ const {ipcRenderer} = require('electron');
 const fs = require('fs');
 const Response = require('./response.js');
 const Request = require('./request.js');
+const StringInput = require('./stringinput.js');
 const FsUtils = require('./fs-utils.js');
 
 var config = null;
 var cfg = new Array();
-
-/* Dir-Store definieren */
-var dir_store = new Array();
 
 /* Dir-Store definieren */
 //-----------------------------
@@ -49,44 +47,45 @@ function msgbox_confirm(msg)
 }
 
 //Hauptprozess
-function run(query)
+function run(input, draft)
 {
     //Wenn keine Eingabe gemacht wurde, Fehler ausgeben
-    if(query == "")
+    if(input.getQuery() == "")
     {
         message('Warte auf Eingabe...');
         return false;
     }
 
     //Suchstring analysieren
-    var query_vars = get_query_vars(query);
+    var query_vars = get_query_vars(input, draft);
+
+    console.log(query_vars);
 
     //Wenn keine Endung gesetzt wurde, den Defaultwert verwenden
-    if(query_vars['file_type'] === false)
+    if (query_vars['file_type'] === null) {
         query_vars['file_type'] = cfg['default_file_type'];
+    }
 
     //3D-Ordner öffnen
-    if(query_vars['action'] == 'explorer')
-    {
-        run_explorer(query_vars);
+    if (query_vars['action'] == 'explorer') {
+        run_explorer(query_vars, draft);
         return true;
     }
 
     //Index zur Datei öffnen
-    if(query_vars['action'] == 'index')
-    {
-        run_index(query_vars);
+    if (query_vars['action'] == 'index') {
+        run_index(query_vars, draft);
         return true;
     }
 
     //Richtigen Dateinamen finden
-    var results = build_file_name(query_vars);
+    var results = build_file_name(input, draft, query_vars);
+    console.log(results);
 
-    if(results['error'] === true)
-    {
+    if (results['error'] === true) {
         //Index öffnen, wenn die Datei nicht existiert
         //since v1.1.0
-        run_index(query_vars);
+        run_index(query_vars, draft);
         return true;
     }
 
@@ -98,8 +97,7 @@ function run(query)
 
     //Schreibschutz zur Datei setzen/aufheben
     //since v1.0.4
-    if(query_vars['action'] == 'read_only' || query_vars['action'] == 'read_write')
-    {
+    if (query_vars['action'] == 'read_only' || query_vars['action'] == 'read_write') {
         run_set_attributes(query_vars);
         return true;
     }
@@ -150,38 +148,28 @@ function run_explorer(query_vars)
 //Index zur Datei öffnen
 //since v1.0.2
 //ausgelagert since v1.0.3
-function run_index(query_vars)
+function run_index(query_vars, draft)
 {
-    message('Index '+query_vars['filename']+' wird aufgebaut, bitte warten...');
+    var near = draft.getNearestFile();
 
-    //Wenn es den Zielordner nicht gibt, Fehlermeldung
-    if(folder_exists(query_vars['main_dir']+'\\') === false)
-    {
-        message("Ordner existiert nicht...");
-        return false;
-    }
-
-    var next_files = search_files_next_to(query_vars['filename'], query_vars['main_dir']);
-
-    if(next_files['near'] === false)
+    if(near === null)
     {
         message("Keine &auml;hnliche Datei gefunden...");
         return false;
     }
-
-    var near = next_files['near'];
 
     //Letze Suche löschen
     clean_last_search();
 
     //Eingabefeld leeren
     set_query('');
+
     //Nachricht ausgeben
     message('Index von ' + query_vars['filename'] + ' wird ge&ouml;ffnet');
     //Debug:
     //message('prev: ' + next_files['prev'] + ', this: ' + next_files['this'] + ', next: ' + next_files['next'] + ', near: ' + next_files['near'] + ', ');
     //Datei öffnen
-    select_file(query_vars['main_dir'] + near);
+    select_file(near.getAbsolutePath());
 
     //Fertig
     return true;
@@ -324,29 +312,6 @@ function set_file_permission(filename, mode)
     }
 }
 
-//Dir-Store definieren
-//Gibt ein Array zurück, mit dem später der übergeordnete Ordner einer Zeichnung bestimmt werden kann
-// TODO: Dynamische Ermittlung des Ordnernamens unterstützen anstelle der Liste von möglichen Ordnernamen
-function setup_dir_store()
-{
-    var end = cfg['dir_store_end'];
-
-    var arr = new Array();
-
-    var j = 100;
-    var i;
-    for(i = j; i <= end; i += 5)
-    {
-        var f = j;
-        j = j + 4;
-        var l = j;
-        j = j + 1;
-        arr[i] = f + "00-" + l + "99";
-    }
-
-    return arr;
-}
-
 function setup_rev_store()
 {
     return new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
@@ -367,77 +332,41 @@ function message(v)
 }
 
 //analysiert den Suchstring und gibt alle notwendigen Information zurück.
-function get_query_vars(q)
+function get_query_vars(input, draft)
 {
     var arr = new Array();
-    arr['query'] = q;
+    arr['query'] = input.getQuery();
 
     /* Befehle abfangen */
-    //-------------------
-    var action_parts = q.split(' ');
-
-    // Den ersten Teil wieder q zuweisen
-    q = action_parts[0];
-
-    var a = "";
-    //a kann e/3d => explorer (in 3d_ordner) oder o => open sein
-    if(action_parts.length > 1)
-        a = action_parts[1];
-
-    arr['action'] = parse_actions(a);
+    arr['action'] = parse_actions(input.getMode());
 
     /* Endung abfangen */
-    //-------------------
-    var ext_parts = q.split('.');
-    // Den ersten Teil wieder q zuweisen
-    q = ext_parts[0];
-
-    arr['file_type'] = false;
-
-    if(ext_parts.length > 1)
-        arr['file_type'] = ext_parts[1];
+    arr['file_type'] = input.getType();
 
     /* Revisionen abfangen */
-    //-------------------
-    var upper_filename = q.toUpperCase();
-    var rev_parts = upper_filename.split('-R');
-    // Den ersten Teil wieder q zuweisen
-    q = rev_parts[0];
-
-    arr['revision'] = false;
-
-    if(rev_parts.length > 1)
-        arr['revision'] = rev_parts[1];
+    arr['revision'] = input.getRevision();
 
     // Jetzt müsste nur noch der Dateiname übrig sein
-    arr['filename'] = q;
+    arr['filename'] = input.getIdentifier();
 
     /* Zeichnungspfad bestimmen */
-    //-------------------
-    var pre_dir = q.slice(0, 2);
-    var sub = q.slice(2, 3);
-
-    var sub_dir = '5';
-    if(sub >= 0 && sub <= 4)
-        sub_dir = '0';
-
-    var dir_index = pre_dir + sub_dir;
-
-    arr['dir_index'] = dir_index;
-    arr['main_dir'] = cfg['base_dir'] + 'Z.Nr.' + dir_store[dir_index] + '\\';
-    arr['3D'] = arr['filename'] + '_3D';
+    arr['3D_dir'] = draft.get3DFolderPath();
+    arr['main_dir'] = arr['3D_dir'].slice(0, -8);
+    arr['3D'] = input.getIdentifier() + '_3D';
 
     /* Pfad zum 3D-Ordner */
     //-------------------
-    arr['3D_dir'] = arr['main_dir'] + arr['3D'];
 
     return arr;
 }
 
-// parse_actions überprüft die übergebenen Befehle ab und gibt sie zurück
+// überprüft die übergebenen Befehle ab und gibt sie zurück
 // So können später einfacher neue Befehle hinzugefügt werden
 function parse_actions(c)
 {
+    if (c === null) {
+        return 'open';
+    }
     // Grossschreibung
     var a = c.toUpperCase();
 
@@ -494,8 +423,10 @@ function trim(z)
 }
 
 /* FILE HANDLER FUNCTIONS */
-function build_file_name(qv)
+function build_file_name(input, draft, qv)
 {
+    var files = draft.getFiles();
+
     var path = qv['main_dir'];
     var name = qv['filename'];
     var rev = qv['revision'];
@@ -504,11 +435,23 @@ function build_file_name(qv)
     //Ausgabe vorbereiten
     var arr = new Array();
     arr['error'] = false;
+    arr['filename'] = '';
+    arr['revision'] = '';
+
+    var search_for = function (files, rev, type) {
+        for (var i = 0; i < files.length; i++) {
+            if (files[i].getRevision() === rev && files[i].getExtension() === type) {
+                return files[i];
+            }
+
+            return null;
+        }
+    }
 
     //Wenn explizit eine Revision angegeben wurde, dann nach dieser suchen
-    if(rev !== false)
+    if(rev !== null)
     {
-        if(file_exists(path + name + '-R' + rev + '.' + type))
+        if(search_for(files, rev, type))
         {
             arr['filename'] = name + '-R' + rev + '.' + type;
             arr['revision'] = rev;
@@ -516,7 +459,7 @@ function build_file_name(qv)
         }
 
         //Wenn nichts gefunden wurde, aber Rev = 0 ist, auf Datei ohne Rev prüfen
-        if(rev == 0 && file_exists(path + name + '.' + type))
+        if(rev == 0 && search_for(files, null, type))
         {
             arr['filename'] = name + '.' + type;
             arr['revision'] = false;
@@ -540,7 +483,7 @@ function build_file_name(qv)
     }
 
     //Letzter Versuch, die Datei zu finden
-    if(file_exists(path + name + '.' + type))
+    if(search_for(files, null, type))
     {
         arr['filename'] = name + '.' + type;
         arr['revision'] = false;
@@ -598,75 +541,6 @@ function check_for_revisions(path, name, rev, ext)
     }
 
     return last_found;
-}
-
-//Sucht nach der ähnlichen und nächstgelegenen Datei zu einer Zeichnung
-//benötigt den gesuchten Zeichnungsnamen "filename" und den Ordner-Namen "main_dir", in dem gesucht wird
-//gibt ein Array zurück mit den Werten prev, this und next, die die nächsten Dateien enthalten
-//since v1.0.2
-//based on http://classicasp.aspfaq.com/files/directories-fso/how-do-i-sort-a-list-of-files.html, thanks!
-function search_files_next_to(filenamen, main_dir)
-{
-    var output = new Array();
-    output['prev'] = false;
-    output['this'] = false;
-    output['next'] = false;
-    output['near'] = false;
-
-    var filename = parseInt(filenamen, 10);
-
-    if (isNaN(filename))
-    {
-        return output;
-    }
-
-    //Alle Dateien in files auflisten
-    var files = fs.readdirSync(main_dir);
-    var i = 0;
-
-    while(i < files.length && output['next'] === false)
-    {
-        var file = files[i];
-        i++;
-
-        var stats = fs.statSync(main_dir + file);
-
-        // ingnore directories
-        if (stats.isDirectory()) {
-            continue;
-        }
-
-        var fileBase = file.slice(0, 5);
-
-        if(fileBase < filename)
-        {
-            output['prev'] = file;
-        }
-        else if(fileBase == filename)
-        {
-            output['this'] = file;
-        }
-        else
-        {
-            output['next'] = file;
-        }
-    }
-
-    //Die nächste vorhandene Datei bestimmen
-    if(output['this'] !== false)
-    {
-        output['near'] = output['this'];
-    }
-    else if(output['next'] !== false)
-    {
-        output['near'] = output['next'];
-    }
-    else if(output['prev'] !== false)
-    {
-        output['near'] = output['prev'];
-    }
-
-    return output;
 }
 
 //Löscht eine Datei, der absolute Pfad wird benötigt
@@ -736,34 +610,21 @@ function Kernel(options) {
     cfg['current_version'] = config.get('config_version', '');
     //Höchte Revision, nach der gesucht wird
     cfg['max_revisions'] = config.get('max_revisions', 25);
-    //Ende der dir_store generierung
-    cfg['dir_store_end'] = config.get('dir_store_end', 395);
 
     /* Pfad bestimmen - base_dir */
     cfg['base_dir'] = config.get('base_dir', 'H:\\Zeichnungen\\');
 
     /* Datei-Typen bestimmen */
     cfg['default_file_type'] = config.get('default_file_type', 'pdf');
-
-    dir_store = setup_dir_store();
 }
 
-// class methods
-Kernel.prototype.handleInputStringSync = function(inputString) {
-    return this.handleRequestSync(
-        Request.createFromString(inputString)
-    );
-};
-
-Kernel.prototype.handleRequestSync = function(request) {
-    run(request.getContent());
-
-    return new Response(returnMessage, returnQuery);
-};
-
 Kernel.prototype.handleRequest = function(request) {
+    return this.handleInput(new StringInput(request.getContent()));
+};
+
+Kernel.prototype.handleInput = function(input, draft) {
     return new Promise((resolve, reject) => {
-        run(request.getContent());
+        run(input, draft);
 
         resolve(new Response(returnMessage, returnQuery));
     });

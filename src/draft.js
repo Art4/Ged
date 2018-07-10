@@ -35,7 +35,7 @@ Draft.prototype.getNearestFile = function() {
 };
 
 Draft.prototype.get3DFolderPath = function() {
-    return this.path + '\\' + this.identifier + '_3D';
+    return this.path + this.identifier + '_3D';
 };
 
 // export the class
