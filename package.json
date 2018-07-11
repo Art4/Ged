@@ -16,7 +16,7 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.1.0",
-    "autoprefixer": "^8.6.4",
+    "autoprefixer": "^8.6.5",
     "bootstrap": "^4.1.1",
     "css-loader": "^0.28.11",
     "electron": "^2.0.3",
