@@ -19,6 +19,7 @@
 const electron = require('electron');
 const {app, BrowserWindow, ipcMain, shell, nativeImage} = electron;
 const Config = require('./src/config.js');
+const autoUpdater = require('electron-updater').autoUpdater;
 const config = new Config();
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -167,6 +168,9 @@ app.on('ready', function createMainWindow () {
     ipcMain.on('openexternalpage', function (e, url) {
         shell.openExternal(url);
     });
+
+    // Check for updates
+    autoUpdater.checkForUpdatesAndNotify();
 })
 
 // Quit when all windows are closed.
