@@ -61,6 +61,20 @@ describe("The draftpool", function() {
         });
     });
 
+    describe('on findDraftByString() with notexisting folder', () => {
+        var fs = {
+            existsSync: function(path) {
+                return false;
+            }
+        };
+        var path = '';
+        var draftpool = new Draftpool(fs, path);
+
+        it('returns null', () => {
+            expect(draftpool.findDraftByString('50999')).toBe(null);
+        });
+    });
+
     describe('with fs mock on findDraftByString()', () => {
         var fs = {
             readdirSync: function(path) {
@@ -101,6 +115,9 @@ describe("The draftpool", function() {
                         return (path.slice(-3) === '_3D');
                     },
                 };
+            },
+            existsSync: function(path) {
+                return true;
             },
         };
         var path = '\\base_dir\\';
@@ -198,6 +215,9 @@ describe("The draftpool", function() {
                                 return (path.slice(-3) === '_3D');
                             },
                         };
+                    },
+                    existsSync: function(path) {
+                        return true;
                     },
                 };
 

@@ -8,6 +8,9 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 ### Added
 
+- Ged prüft, ob die Eingabe eine gültige Zeichnungsnummer enthält
+- Das Finden von Dateien und das Öffnen des Explorers wurden beschleunigt
+- Einzelne neue Komponenten sind jetzt durch Tests abgesichert
 - Die Tests werden automatisiert durch [Travis-CI](https://travis-ci.org/Art4/Ged) ausgeführt
 
 ### Changed

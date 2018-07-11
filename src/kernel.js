@@ -47,11 +47,18 @@ Kernel.prototype.handleRequest = function(request) {
         // Abort, if invalid identifier provided
         if (input.getIdentifier() === null)
         {
-            resolve(new Response('Ungültige Zeichnungsnummer', ''));
+            resolve(new Response('Ungültige Zeichnungsnummer', input.getQuery()));
             return;
         }
 
         var draft = this.draftpool.findDraftByString(input.getIdentifier());
+
+        // Abort, if draft not found
+        if (draft === null)
+        {
+            resolve(new Response(input.getQuery() + ' wurde nicht gefunden', input.getQuery()));
+            return;
+        }
 
         resolve(this.kernel.handleInput(input, draft));
     });

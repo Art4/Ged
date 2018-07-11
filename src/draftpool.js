@@ -39,6 +39,10 @@ Draftpool.prototype.findDraftByString = function(identifier) {
     var nearestFile = null;
     var files = new Array();
 
+    if (! this.fs.existsSync(path)) {
+        return null;
+    }
+
     var i = 0;
     var dirfiles = this.fs.readdirSync(path);
 

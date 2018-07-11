@@ -59,8 +59,6 @@ function run(input, draft)
     //Suchstring analysieren
     var query_vars = get_query_vars(input, draft);
 
-    console.log(query_vars);
-
     //Wenn keine Endung gesetzt wurde, den Defaultwert verwenden
     if (query_vars['file_type'] === null) {
         query_vars['file_type'] = cfg['default_file_type'];
@@ -80,7 +78,6 @@ function run(input, draft)
 
     //Richtigen Dateinamen finden
     var results = build_file_name(input, draft, query_vars);
-    console.log(results);
 
     if (results['error'] === true) {
         //Index öffnen, wenn die Datei nicht existiert
