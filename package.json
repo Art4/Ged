@@ -1,17 +1,17 @@
 {
   "name": "Ged",
-  "version": "2.0.0-alpha.3",
+  "version": "2.0.0-alpha.3-RC1",
   "description": "Ged is an app for easy draft finding",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/Art4/Ged.git"
+    "type": "git",
+    "url": "https://github.com/Art4/Ged.git"
   },
   "main": "main.js",
   "scripts": {
     "build": "electron-builder",
     "deploy": "webpack -p --config webpack.config.js && electron-builder",
     "pack": "electron-builder --dir",
-    "publish": "webpack -p --config webpack.config.js && electron-builder -p onTag",
+    "publish": "webpack -p --config webpack.config.js && electron-builder -p always",
     "start": "electron .",
     "test": "jasmine --config=tests/config/jasmine.json",
     "watch": "webpack --progress --watch --config webpack.config.js",
@@ -26,7 +26,6 @@
     "css-loader": "^0.28.11",
     "electron": "^2.0.3",
     "electron-builder": "^20.19.1",
-    "electron-updater": "^2.23.3",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.11",
     "jasmine": "^3.1.0",
@@ -41,7 +40,8 @@
     "webpack": "^3.12.0"
   },
   "dependencies": {
-    "electron-store": "^2.0.0"
+    "electron-store": "^2.0.0",
+    "electron-updater": "^2.23.3"
   },
   "build": {
     "appId": "org.electron.ged",
