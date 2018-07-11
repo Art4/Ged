@@ -42,24 +42,6 @@ describe("The kernel", function() {
         });
     });
 
-    describe('kernel.handleInputStringSync()', () => {
-        it('returns Response instance', () => {
-            var response = kernel.handleInputStringSync('abc');
-
-            expect(response).toEqual(jasmine.any(Response));
-        });
-    });
-
-    describe('kernel.handleRequestSync()', () => {
-        it('returns Response instance', () => {
-            var response = kernel.handleRequestSync(
-                Request.createFromString('abc')
-            );
-
-            expect(response).toEqual(jasmine.any(Response));
-        });
-    });
-
     describe('kernel.handleRequest()', () => {
         it('returns Promise instance', () => {
             kernel.handleRequest(Request.createFromString('abc'))

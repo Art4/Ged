@@ -17,28 +17,44 @@
  */
 'use strict'
 
+const fs = require('fs');
+const Draftpool = require('./draftpool.js');
 const Response = require('./response.js');
 const Request = require('./request.js');
+const StringInput = require('./stringinput.js');
 const LegacyKernel = require('./legacykernel.js');
 
 // Constructor
 function Kernel(options) {
+    this.config = options.config;
+    this.draftpool = new Draftpool(fs, this.config.get('base_dir'));
+
     this.kernel = new LegacyKernel(options);
 }
 
 // class methods
-Kernel.prototype.handleInputStringSync = function(inputString) {
-    return this.handleRequestSync(
-        Request.createFromString(inputString)
-    );
-};
-
-Kernel.prototype.handleRequestSync = function(request) {
-    return this.kernel.handleRequestSync(request);
-};
-
 Kernel.prototype.handleRequest = function(request) {
-    return this.kernel.handleRequest(request);
+    return new Promise((resolve, reject) => {
+        var input = new StringInput(request.getContent());
+
+        // Abort, if no input provided
+        if (input.getQuery() === '')
+        {
+            resolve(new Response('Warte auf Eingabe...', ''));
+            return;
+        }
+
+        // Abort, if invalid identifier provided
+        if (input.getIdentifier() === null)
+        {
+            resolve(new Response('Ungültige Zeichnungsnummer', ''));
+            return;
+        }
+
+        var draft = this.draftpool.findDraftByString(input.getIdentifier());
+
+        resolve(this.kernel.handleInput(input, draft));
+    });
 };
 
 // export the class
