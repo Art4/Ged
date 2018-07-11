@@ -6,6 +6,8 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 ## [Unreleased]
 
+## [2.0.0-alpha.2] - 2018-07-11
+
 ### Added
 
 - Ged prüft, ob die Eingabe eine gültige Zeichnungsnummer enthält
@@ -99,7 +101,8 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 - Fehlermeldung, wenn der gesuchte 3D-Ordner nicht existiert
 
-[Unreleased]: https://github.com/Art4/Ged/compare/v2.0.0-alpha.1...HEAD
+[Unreleased]: https://github.com/Art4/Ged/compare/v2.0.0-alpha.2...HEAD
+[2.0.0-alpha.2]: https://github.com/Art4/Ged/compare/v2.0.0-alpha.1...v2.0.0-alpha.2
 [2.0.0-alpha.1]: https://github.com/Art4/Ged/compare/v1.1.0...v2.0.0-alpha.1
 [1.1.0]: https://github.com/Art4/Ged/compare/v1.0.8...v1.1.0
 [1.0.8]: https://github.com/Art4/Ged/compare/v1.0.7...v1.0.8
