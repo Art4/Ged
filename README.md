@@ -157,8 +157,7 @@ Dieser Befehl öffnet den Windows Explorer an der Stelle, an der die eingegebene
 #### Beispiel
 
 ```
-12345 e
-12345 3d
+12345 i
 ```
 
 ### `+` oder `a` - erweiterte Suche
