@@ -41,7 +41,6 @@ function init() {
             config_version: configVersion,
             app_version: Utils.getAppVersion(),
             max_revisions: 25,
-            dir_store_end: 395,
             base_dir: 'H:\\Zeichnungen\\',
             default_file_type: 'pdf',
             always_foreground: true,
@@ -50,6 +49,28 @@ function init() {
             displayY: null,
         };
     }
+
+    migrateConfigIfNeeded();
+}
+
+/**
+ * migrate old config if needed
+ */
+function migrateConfigIfNeeded() {
+    if (store.get('app_version', '') === Utils.getAppVersion()) {
+        return;
+    }
+
+    // Migrate 2.0.0-alpha.1 to 2.0.0-alpha.2
+    if (store.get('app_version', '') === '2.0.0-alpha.1') {
+        // Delete dir_store_end
+        store.delete('dir_store_end');
+
+        // Update app_version
+        store.set('app_version', '2.0.0-alpha.2');
+    }
+
+    migrateConfigIfNeeded();
 }
 
 /**
