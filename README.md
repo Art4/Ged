@@ -2,7 +2,7 @@
 
 # Ged
 
-![Icon](pages/assets/img/icon.png)
+![Icon](pages/assets/img/icon-256.png)
 
 [![Latest Version](https://img.shields.io/github/release/Art4/Ged.svg)](https://github.com/Art4/Ged/releases)
 [![Software License](pages/assets/img/license-GPL3-brightgreen.png)](LICENSE)

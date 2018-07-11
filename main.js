@@ -63,7 +63,7 @@ app.on('ready', function createMainWindow () {
         alwaysOnTop: config.get('always_foreground', true),
         fullscreenable: false,
         skipTaskbar: true,
-        icon: nativeImage.createFromPath('./pages/assets/img/icon.png'),
+        icon: nativeImage.createFromPath('./pages/assets/img/icon-256.png'),
         acceptFirstMouse: true,
         backgroundColor: '#007bff',
         opacity: config.get('opacity', 1)
@@ -134,7 +134,7 @@ app.on('ready', function createMainWindow () {
             frame: true,
             skipTaskbar: false,
             backgroundColor: '#ffffff',
-            icon: nativeImage.createFromPath('./pages/assets/img/icon.png'),
+            icon: nativeImage.createFromPath('./pages/assets/img/icon-256.png'),
         });
 
         // settingsWindow.webContents.openDevTools({mode: 'detach'})
