@@ -72,8 +72,11 @@ describe("The draftpool", function() {
 
     describe('on findDraftByIdentifier() with notexisting folder', () => {
         var fs = {
-            existsSync: function(path) {
-                return false;
+            constants: {
+                F_OK: 'F_OK'
+            },
+            access: function(path, mode, cb) {
+                cb(new Error());
             }
         };
         var path = '';
@@ -128,8 +131,11 @@ describe("The draftpool", function() {
                     },
                 };
             },
-            existsSync: function(path) {
-                return true;
+            constants: {
+                F_OK: 'F_OK'
+            },
+            access: function(path, mode, cb) {
+                cb(null);
             },
         };
         var path = '\\base_dir\\';
@@ -232,8 +238,11 @@ describe("The draftpool", function() {
                             },
                         };
                     },
-                    existsSync: function(path) {
-                        return true;
+                    constants: {
+                        F_OK: 'F_OK'
+                    },
+                    access: function(path, mode, cb) {
+                        cb(null);
                     },
                 };
 

@@ -44,7 +44,7 @@ inputField.addEventListener('keyup', (event) => {
                 event.target.value = response.getQuery();
             });
 
-        output.innerHTML = 'Bitte warten...';
+        output.innerHTML = '<span class="fas fa-spinner fa-spin"></span>';
     }
 });
 
