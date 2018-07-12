@@ -151,6 +151,7 @@ function run_index(query_vars, draft)
 
     if(near === null)
     {
+        set_query(query_vars['query']);
         message("Keine &auml;hnliche Datei gefunden...");
         return false;
     }

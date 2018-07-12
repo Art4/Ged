@@ -121,6 +121,7 @@ describe("The draftpool", function() {
                     '12346-R0 Blatt 2 von 2.dwg',
                     '12346-R0.dft',
                     '12346-R0.pdf',
+                    'Thumbs.db',
                 ));
             },
             statSync: function(path) {
@@ -181,6 +182,17 @@ describe("The draftpool", function() {
                     expect(draft.getFiles().length).toBe(2);
                     expect(draft.getNearestFile().getAbsolutePath()).toBe(
                         '\\base_dir\\Z.Nr.12000-12499\\12342.pdf'
+                    );
+                });
+        });
+
+        it('with correct identifier returns correct nearest file', () => {
+            return draftpool.findDraftByIdentifier('12400')
+                .then((draft) => {
+                    expect(draft).toEqual(jasmine.any(Draft));
+                    expect(draft.getFiles().length).toBe(0);
+                    expect(draft.getNearestFile().getAbsolutePath()).toBe(
+                        '\\base_dir\\Z.Nr.12000-12499\\12346-R0.pdf'
                     );
                 });
         });

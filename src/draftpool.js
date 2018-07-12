@@ -35,11 +35,6 @@ Draftpool.prototype.findDraftByIdentifier = function(identifier) {
         }
 
         var path = this.path + this.generateSubfolderNameFromIdentifier(identifier);
-        var prev = false;
-        var next = false;
-        var newestFile = null;
-        var nearestFile = null;
-        var files = new Array();
 
         this.fs.access(path, this.fs.constants.F_OK, (err) => {
             // Abort if folder not exists
@@ -48,58 +43,78 @@ Draftpool.prototype.findDraftByIdentifier = function(identifier) {
                 return;
             }
 
-            var i = 0;
             this.fs.readdir(path, (err, dirfiles) => {
                 if (err) {
                     reject(null);
                     return;
                 }
 
-                // Optimize list so we don't have to iterate over all files
-                dirfiles = this.optimizeFileList(dirfiles, identifier);
-
-                while (i < dirfiles.length && next === false) {
-                    var filename = dirfiles[i];
-                    i++;
-
-                    // ingnore directories
-                    var stats = this.fs.statSync(path + filename);
-
-                    if (stats.isDirectory()) {
-                        continue;
-                    }
-
-                    var fileBase = filename.slice(0, 5);
-
-                    if (fileBase < identifier) {
-                        prev = filename;
-                    }
-                    else if (fileBase === identifier) {
-                        newestFile = new File(path + filename);
-                        files.push(newestFile);
-                    }
-                    else {
-                        next = filename;
-                    }
-                }
-
-                // define nearest file
-                if (newestFile !== null) {
-                    nearestFile = newestFile;
-                }
-                else if (next !== false) {
-                    nearestFile = new File(path + next);
-                }
-                else if (prev !== false) {
-                    nearestFile = new File(path + prev);
-                }
-
-                resolve(new Draft(identifier, path, files, nearestFile));
+                resolve(this.createDraftFromFilelist(dirfiles, identifier, path));
             });
         });
     });
-
 };
+
+/**
+ * Create Draft from filelist
+ *
+ * @param array filelist
+ * @return Draft
+ */
+Draftpool.prototype.createDraftFromFilelist = function (dirfiles, identifier, path) {
+    // Optimize list so we don't have to iterate over all files
+    dirfiles = this.optimizeFileList(dirfiles, identifier);
+
+    var nearestFile = null;
+    var newestFile = null;
+    var prev = null;
+    var next = null;
+    var files = new Array();
+
+    var i = 0;
+    while (i < dirfiles.length && next === null) {
+        var filename = dirfiles[i];
+        i++;
+
+        // ingnore Thumbs.db files
+        if (filename.toLowerCase() === 'thumbs.db') {
+            continue;
+        }
+
+        var stats = this.fs.statSync(path + filename);
+
+        // ingnore directory
+        if (stats.isDirectory()) {
+            continue;
+        }
+
+        var fileBase = filename.slice(0, 5);
+
+        if (fileBase < identifier) {
+            prev = filename;
+        }
+        else if (fileBase === identifier) {
+            newestFile = new File(path + filename);
+            files.push(newestFile);
+        }
+        else {
+            next = filename;
+        }
+    }
+
+    // define nearest file
+    if (newestFile !== null) {
+        nearestFile = newestFile;
+    }
+    else if (next !== null) {
+        nearestFile = new File(path + next);
+    }
+    else if (prev !== null) {
+        nearestFile = new File(path + prev);
+    }
+
+    return new Draft(identifier, path, files, nearestFile);
+}
 
 /**
  * Generates the subfolder name from a identifier
