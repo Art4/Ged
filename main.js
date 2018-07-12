@@ -17,7 +17,7 @@
  */
 // const {app, BrowserWindow} = require('electron')
 const electron = require('electron');
-const {app, BrowserWindow, ipcMain, shell, nativeImage} = electron;
+const {app, BrowserWindow, ipcMain, shell, nativeImage, Notification} = electron;
 const Config = require('./src/config.js');
 const autoUpdater = require('electron-updater').autoUpdater;
 const config = new Config();
@@ -182,7 +182,7 @@ app.on('ready', function createMainWindow () {
         downloadPromise.then(() => {
             new Notification({
                 title: 'Neues Update ist verfügbar',
-                body: `${this.app.getName()} Version ${it.updateInfo.version} wird heruntergeladen und automatisch beim Beenden installiert.`,
+                body: `Ged Version ${it.updateInfo.version} wurde heruntergeladen und wird beim Beenden automatisch installiert.`,
                 icon: './pages/assets/img/icon-256.png'
             }).show();
         });
