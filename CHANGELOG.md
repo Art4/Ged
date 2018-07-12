@@ -4,12 +4,18 @@
 
 Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokumentiert.
 
+## [Unreleased]
+
 ## [2.0.0-alpha.3] - 2018-07-12
 
 ### Added
 
 - Ged prüft jetzt automatisch nach Updates und kann sich selbständig aktualisieren
 - Publish und Autoupdate werden in der README erklärt
+
+### Changed
+
+- Ged installiert sich jetzt sofort nach dem Doppelklick auf die exe-Datei
 
 ### Fixed
 
