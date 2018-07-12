@@ -21,6 +21,7 @@ const {app, BrowserWindow, ipcMain, shell, nativeImage, Notification} = electron
 const Config = require('./src/config.js');
 const autoUpdater = require('electron-updater').autoUpdater;
 const config = new Config();
+const isDevEnv = ('ELECTRON_IS_DEV' in process.env);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -73,8 +74,10 @@ app.on('ready', function createMainWindow () {
     // and load the index.html of the app.
     mainWindow.loadFile('pages/search.html')
 
-    // Open the DevTools.
-    // mainWindow.webContents.openDevTools({mode: 'detach'});
+    // Open the DevTools if in dev environment
+    if (isDevEnv) {
+        mainWindow.webContents.openDevTools({mode: 'detach'});
+    }
 
     // Emitted when the window is closed.
     mainWindow.on('closed', () => {
