@@ -6,6 +6,15 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 ## [Unreleased]
 
+### Added
+
+- Ged prüft jetzt automatisch nach Updates und kann sich selbständig aktualisieren
+
+### Fixed
+
+- In der Dokumentation wurde in einem Beispiel ein Fehler behoben
+- Es wurde ein Fehler bei der Migration der Configuration behoben
+
 ## [2.0.0-alpha.2] - 2018-07-11
 
 ### Added
