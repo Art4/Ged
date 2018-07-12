@@ -70,13 +70,7 @@ function migrateConfigIfNeeded() {
         store.set('app_version', '2.0.0-alpha.2');
     }
 
-    // Migrate 2.0.0-alpha.2 to 2.0.0-alpha.3
-    if (store.get('app_version', '') === '2.0.0-alpha.2') {
-        // Update app_version
-        store.set('app_version', Utils.getAppVersion());
-    }
-
-    migrateConfigIfNeeded();
+    store.set('app_version', Utils.getAppVersion());
 }
 
 /**
