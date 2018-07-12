@@ -51,16 +51,14 @@ Kernel.prototype.handleRequest = function(request) {
             return;
         }
 
-        var draft = this.draftpool.findDraftByString(input.getIdentifier());
-
-        // Abort, if draft not found
-        if (draft === null)
-        {
-            resolve(new Response(input.getQuery() + ' wurde nicht gefunden', input.getQuery()));
-            return;
-        }
-
-        resolve(this.kernel.handleInput(input, draft));
+        this.draftpool.findDraftByIdentifier(input.getIdentifier())
+            .then((draft) => {
+                resolve(this.kernel.handleInput(input, draft));
+            })
+            .catch(() => {
+                // Abort, if draft not found
+                resolve(new Response(input.getQuery() + ' wurde nicht gefunden', input.getQuery()));
+            });
     });
 };
 

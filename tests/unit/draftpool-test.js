@@ -43,25 +43,34 @@ describe("The draftpool", function() {
         }
     });
 
-    describe('on findDraftByString() with incorrect identifier', () => {
+    describe('on findDraftByIdentifier() with incorrect identifier', () => {
         var fs = {};
         var path = '';
         var draftpool = new Draftpool(fs, path);
 
         it('(not an integer) returns null', () => {
-            expect(draftpool.findDraftByString('not-an-identifier')).toBe(null);
+            return draftpool.findDraftByIdentifier('not-an-identifier')
+                .catch((draft) => {
+                    expect(draft).toBe(null);
+                });
         });
 
         it('(too short) returns null', () => {
-            expect(draftpool.findDraftByString('1234')).toBe(null);
+            return draftpool.findDraftByIdentifier('1234')
+                .catch((draft) => {
+                    expect(draft).toBe(null);
+                });
         });
 
         it('(too long) returns null', () => {
-            expect(draftpool.findDraftByString('123456')).toBe(null);
+            return draftpool.findDraftByIdentifier('123456')
+                .catch((draft) => {
+                    expect(draft).toBe(null);
+                });
         });
     });
 
-    describe('on findDraftByString() with notexisting folder', () => {
+    describe('on findDraftByIdentifier() with notexisting folder', () => {
         var fs = {
             existsSync: function(path) {
                 return false;
@@ -71,11 +80,14 @@ describe("The draftpool", function() {
         var draftpool = new Draftpool(fs, path);
 
         it('returns null', () => {
-            expect(draftpool.findDraftByString('50999')).toBe(null);
+            return draftpool.findDraftByIdentifier('50999')
+                .catch((draft) => {
+                    expect(draft).toBe(null);
+                });
         });
     });
 
-    describe('with fs mock on findDraftByString()', () => {
+    describe('with fs mock on findDraftByIdentifier()', () => {
         var fs = {
             readdirSync: function(path) {
                 return new Array(
@@ -124,47 +136,51 @@ describe("The draftpool", function() {
         var draftpool = new Draftpool(fs, path);
 
         it('with correct identifier returns Draft', () => {
-            var draft = draftpool.findDraftByString('12345');
-
-            expect(draft).toEqual(jasmine.any(Draft));
-            expect(draft.getFiles().length).toBe(6);
-            expect(draft.getNearestFile().getAbsolutePath()).toBe(
-                '\\base_dir\\Z.Nr.12000-12499\\12345-R1_Aufstellung.stp'
-            );
+            return draftpool.findDraftByIdentifier('12345')
+                .then((draft) => {
+                    expect(draft).toEqual(jasmine.any(Draft));
+                    expect(draft.getFiles().length).toBe(6);
+                    expect(draft.getNearestFile().getAbsolutePath()).toBe(
+                        '\\base_dir\\Z.Nr.12000-12499\\12345-R1_Aufstellung.stp'
+                    );
+                });
         });
 
         it('with correct identifier returns Draft', () => {
-            var draft = draftpool.findDraftByString('12338');
-
-            expect(draft).toEqual(jasmine.any(Draft));
-            expect(draft.getFiles().length).toBe(1);
-            expect(draft.getNearestFile().getAbsolutePath()).toBe(
-                '\\base_dir\\Z.Nr.12000-12499\\12338.tif'
-            );
+            return draftpool.findDraftByIdentifier('12338')
+                .then((draft) => {
+                    expect(draft).toEqual(jasmine.any(Draft));
+                    expect(draft.getFiles().length).toBe(1);
+                    expect(draft.getNearestFile().getAbsolutePath()).toBe(
+                        '\\base_dir\\Z.Nr.12000-12499\\12338.tif'
+                    );
+                });
         });
 
         it('with correct identifier returns Draft', () => {
-            var draft = draftpool.findDraftByString('12339');
-
-            expect(draft).toEqual(jasmine.any(Draft));
-            expect(draft.getFiles().length).toBe(0);
-            expect(draft.getNearestFile().getAbsolutePath()).toBe(
-                '\\base_dir\\Z.Nr.12000-12499\\12340.tif'
-            );
+            return draftpool.findDraftByIdentifier('12339')
+                .then((draft) => {
+                    expect(draft).toEqual(jasmine.any(Draft));
+                    expect(draft.getFiles().length).toBe(0);
+                    expect(draft.getNearestFile().getAbsolutePath()).toBe(
+                        '\\base_dir\\Z.Nr.12000-12499\\12340.tif'
+                    );
+                });
         });
 
         it('with correct identifier returns Draft and ignores folder', () => {
-            var draft = draftpool.findDraftByString('12342');
-
-            expect(draft).toEqual(jasmine.any(Draft));
-            expect(draft.getFiles().length).toBe(2);
-            expect(draft.getNearestFile().getAbsolutePath()).toBe(
-                '\\base_dir\\Z.Nr.12000-12499\\12342.pdf'
-            );
+            return draftpool.findDraftByIdentifier('12342')
+                .then((draft) => {
+                    expect(draft).toEqual(jasmine.any(Draft));
+                    expect(draft.getFiles().length).toBe(2);
+                    expect(draft.getNearestFile().getAbsolutePath()).toBe(
+                        '\\base_dir\\Z.Nr.12000-12499\\12342.pdf'
+                    );
+                });
         });
     });
 
-    describe('with full stack fs mock on findDraftByString()', () => {
+    describe('with full stack fs mock on findDraftByIdentifier()', () => {
         var getRandomArbitrary = function(min, max) {
             return Math.floor(Math.random() * (max - min) + min)+'';
         };
@@ -226,13 +242,15 @@ describe("The draftpool", function() {
                 it('shouldn\'t be run more than 20 times', () => {
                     var path = '\\base_dir\\';
                     var draftpool = new Draftpool(fs, path);
-                    var draft = draftpool.findDraftByString(identifier);
 
-                    expect(draft).toEqual(jasmine.any(Draft));
-                    expect(draft.getNearestFile().getAbsolutePath()).toBe(
-                        '\\base_dir\\Z.Nr.23000-23499\\'+identifier+'-R2.pdf'
-                    );
-                    expect(fs.hitCounter).toBeLessThanOrEqual(20);
+                    return draftpool.findDraftByIdentifier(identifier)
+                        .then((draft) => {
+                            expect(draft).toEqual(jasmine.any(Draft));
+                            expect(draft.getNearestFile().getAbsolutePath()).toBe(
+                                '\\base_dir\\Z.Nr.23000-23499\\'+identifier+'-R2.pdf'
+                            );
+                            expect(fs.hitCounter).toBeLessThanOrEqual(20);
+                        });
                 });
             });
         }
