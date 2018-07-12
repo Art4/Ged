@@ -4,7 +4,7 @@
 
 Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokumentiert.
 
-## [Unreleased]
+## [2.0.0-alpha.3] - 2018-07-12
 
 ### Added
 
@@ -111,7 +111,8 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 - Fehlermeldung, wenn der gesuchte 3D-Ordner nicht existiert
 
-[Unreleased]: https://github.com/Art4/Ged/compare/v2.0.0-alpha.2...HEAD
+[Unreleased]: https://github.com/Art4/Ged/compare/v2.0.0-alpha.3...HEAD
+[2.0.0-alpha.3]: https://github.com/Art4/Ged/compare/v2.0.0-alpha.2...v2.0.0-alpha.3
 [2.0.0-alpha.2]: https://github.com/Art4/Ged/compare/v2.0.0-alpha.1...v2.0.0-alpha.2
 [2.0.0-alpha.1]: https://github.com/Art4/Ged/compare/v1.1.0...v2.0.0-alpha.1
 [1.1.0]: https://github.com/Art4/Ged/compare/v1.0.8...v1.1.0
