@@ -6,6 +6,15 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 ## [Unreleased]
 
+### Added
+
+- Ged öffnet beim Start die DevTools, wenn es sich im Entwicklungsmodus befindet
+
+### Changed
+
+- Asynchrone Dateisuche implementiert, wodurch Ged bei der Suche nicht mehr kurz einfriert
+- Alle Bibliotheken wurden aktualisiert
+
 ## [2.0.0-alpha.3] - 2018-07-12
 
 ### Added
@@ -33,7 +42,7 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 ### Changed
 
-- Alle Abhängigkeiten wurden aktualisiert
+- Alle Bibliotheken wurden aktualisiert
 
 ## [2.0.0-alpha.1] - 2018-07-03
 
