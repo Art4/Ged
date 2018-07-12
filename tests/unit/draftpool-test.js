@@ -92,8 +92,8 @@ describe("The draftpool", function() {
 
     describe('with fs mock on findDraftByIdentifier()', () => {
         var fs = {
-            readdirSync: function(path) {
-                return new Array(
+            readdir: function(path, cb) {
+                cb(null, new Array(
                     '12338.tif',
                     // '12339.tif', // this file is missing
                     '12340.tif',
@@ -121,7 +121,7 @@ describe("The draftpool", function() {
                     '12346-R0 Blatt 2 von 2.dwg',
                     '12346-R0.dft',
                     '12346-R0.pdf',
-                );
+                ));
             },
             statSync: function(path) {
                 // return stat mock
@@ -208,7 +208,7 @@ describe("The draftpool", function() {
             describe('expect data and', () => {
                 var fs = {
                     hitCounter: 0,
-                    readdirSync: function(path) {
+                    readdir: function(path, cb) {
                         var files = new Array();
                         var i = 0;
 
@@ -227,7 +227,7 @@ describe("The draftpool", function() {
                             files.push(identifier+'_3D');
                         }
 
-                        return files;
+                        cb(null, files);
                     },
                     statSync: function(path) {
                         this.hitCounter++;
