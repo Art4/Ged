@@ -45,6 +45,20 @@ npm start
 npm run deploy
 ```
 
+Beim Deployment wird im Ordner `dist/` eine EXE Datei erstellt, die unter Windows installiert werden kann.
+
+### Publish
+
+Um eine neue Version zu veröffentlichen, wird ein Github Token benötigt, das als ENV Variable übergeben wird.
+
+```shell
+env GH_TOKEN=<github token> npm run publish
+```
+
+Dabei wird im Ordner `dist/` eine EXE Datei erstellt, und auf Github eine Release-Draft erstellt. Dieser Release-Draft muss anschließend auf Github veröffentlicht/freigeschaltet werden.
+
+Beim Starten von Ged wird automatisch überprüft, ob eine neue Version vorliegt. Wenn ja, wird diese heruntergeladen und nach Beenden von Ged automatisch installiert.
+
 ## Anwendung
 
 Ged erwartet eine Eingabe in dieser Form:

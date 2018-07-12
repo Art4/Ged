@@ -9,6 +9,7 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 ### Added
 
 - Ged prüft jetzt automatisch nach Updates und kann sich selbständig aktualisieren
+- Publish und Autoupdate werden in der README erklärt
 
 ### Fixed
 
