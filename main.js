@@ -170,8 +170,24 @@ app.on('ready', function createMainWindow () {
     });
 
     // Check for updates
-    autoUpdater.checkForUpdatesAndNotify();
-})
+    const checkForUpdatesPromise = autoUpdater.checkForUpdates();
+
+    checkForUpdatesPromise.then(it => {
+        const downloadPromise = it.downloadPromise;
+
+        if (downloadPromise == null) {
+            return;
+        }
+
+        downloadPromise.then(() => {
+            new Notification({
+                title: 'Neues Update ist verfügbar',
+                body: `${this.app.getName()} Version ${it.updateInfo.version} wird heruntergeladen und automatisch beim Beenden installiert.`,
+                icon: './pages/assets/img/icon-256.png'
+            }).show();
+        });
+    });
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
