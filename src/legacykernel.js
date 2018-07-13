@@ -605,15 +605,8 @@ function clean_last_search()
 function Kernel(options) {
     config = options.config;
 
-    cfg['current_version'] = config.get('config_version', '');
     //Höchte Revision, nach der gesucht wird
     cfg['max_revisions'] = config.get('max_revisions', 25);
-
-    /* Pfad bestimmen - base_dir */
-    cfg['base_dir'] = config.get('base_dir', 'H:\\Zeichnungen\\');
-
-    /* Datei-Typen bestimmen */
-    cfg['default_file_type'] = config.get('default_file_type', 'pdf');
 }
 
 Kernel.prototype.handleRequest = function(request) {
@@ -621,6 +614,10 @@ Kernel.prototype.handleRequest = function(request) {
 };
 
 Kernel.prototype.handleInput = function(input, draft) {
+    // Reload Config, because it could have changed
+    cfg['base_dir'] = config.get('base_dir', 'H:\\Zeichnungen\\');
+    cfg['default_file_type'] = config.get('default_file_type', 'pdf');
+
     return new Promise((resolve, reject) => {
         run(input, draft);
 

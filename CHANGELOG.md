@@ -15,6 +15,10 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 - Asynchrone Dateisuche implementiert, wodurch Ged bei der Suche nicht mehr kurz einfriert
 - Alle Bibliotheken wurden aktualisiert
 
+### Fixed
+
+- Das Ändern der Einstellungen wirkt sich wieder sofort auf die Suche aus, sodass kein Neustart mehr benötigt wird
+
 ## [2.0.0-alpha.3] - 2018-07-12
 
 ### Added
