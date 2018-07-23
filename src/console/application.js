@@ -17,6 +17,7 @@
  */
 'use strict';
 
+const KernelController = require('./controller/kernelcontroller.js');
 const VersionController = require('./controller/versioncontroller.js');
 const { Command } = require('commander');
 
@@ -29,8 +30,8 @@ function Application() {
     this.program
         .command('*')
         .description('catch-all for errors')
-        .action((command) => {
-            command.error = true;
+        .action(() => {
+            throw new Error('Unerwartete Eingabe');
         });
 
     // this.program
@@ -49,11 +50,11 @@ Application.prototype.addController = function(controller) {
 
 Application.prototype.run = function(input, output) {
     return new Promise((resolve, reject) => {
-        this.program.error = false;
-        this.program.output = output;
-        this.program.parse(input.getArgv());
-
-        if (this.program.error) {
+        try {
+            this.program.output = output;
+            this.program.parse(input.getArgv());
+        } catch (e) {
+            output.writeLine(e.message);
             reject();
             return;
         }
@@ -63,11 +64,12 @@ Application.prototype.run = function(input, output) {
 };
 
 // Factory method
-Application.create = function(config) {
+Application.create = function(config, fs) {
     var app = new Application();
 
     // Register Controllers
     app.addController(new VersionController(config));
+    app.addController(new KernelController(config, fs));
 
     return app;
 };

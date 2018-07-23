@@ -63,7 +63,9 @@ function SearchInput(query) {
     var argv = analyseQuery(this.query);
 
     for (var i = 0; i < argv.length; i++) {
-        this.argv.push(argv[i]);
+        if (argv[i] !== '') {
+            this.argv.push(argv[i]);
+        }
     }
 }
 

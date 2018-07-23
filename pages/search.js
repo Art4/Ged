@@ -20,6 +20,9 @@ const Utils = require('../src/window-utils.js');
 const Config = require('../src/config.js');
 const Kernel = require('../src/kernel.js');
 const Request = require('../src/request.js');
+const {Application, BufferedOutput, SearchInput} = require('../src/console');
+const EventEmitter = require('events');
+const fs = require('fs');
 
 const config = new Config();
 const inputField = document.getElementById('inputField');
@@ -32,19 +35,45 @@ var kernel = new Kernel({
     config: config,
 });
 
+const app = Application.create(config, fs);
+
+class Search extends EventEmitter {}
+const search = new Search();
+
+// Register search events
+search.on('search.output', (message) => {
+    output.innerHTML = message;
+});
+
+search.on('search.start', (event) => {
+    search.emit('search.output', '<span class="fas fa-spinner fa-spin"></span>');
+
+    var buffer = new BufferedOutput();
+
+    app.run(new SearchInput(event.target.value), buffer)
+        .then(() => {
+            search.emit('search.output', buffer.fetch());
+            event.target.value = '';
+        })
+        .catch(() => {
+            search.emit('search.output', buffer.fetch());
+            event.target.value = event.target.value;
+        });
+
+    // kernel.handleRequest(Request.createFromString(event.target.value))
+    //     .then((response) => {
+    //         console.log(response);
+    //         search.emit('search.output', response.getContent());
+    //         event.target.value = response.getQuery();
+    //     });
+});
+
 // Register universal events
 Utils.registerEventlistener();
 
 inputField.addEventListener('keyup', (event) => {
     if (event.keyCode === 13) {
-        kernel.handleRequest(Request.createFromString(event.target.value))
-            .then((response) => {
-                console.log(response);
-                output.innerHTML = response.getContent();
-                event.target.value = response.getQuery();
-            });
-
-        output.innerHTML = '<span class="fas fa-spinner fa-spin"></span>';
+        search.emit('search.start', event);
     }
 });
 

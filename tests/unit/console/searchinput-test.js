@@ -36,6 +36,7 @@ describe("The SearchInput", function() {
             ['112345-R0.pdf o', ['node', 'ged', 'open', '112345-R0.pdf']],
             ['1234-R0.pdf o', ['node', 'ged', 'open', '1234-R0.pdf']],
             ['12345 R1', ['node', 'ged', 'R1', '12345']],
+            ['', ['node', 'ged', 'open']],
         ];
 
         for (var i = 0; i < values.length; i++) {
