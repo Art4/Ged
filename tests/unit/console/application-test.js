@@ -20,7 +20,7 @@ const Application = require('../../../src/console/application.js');
 const BufferedOutput = require('../../../src/console/bufferedoutput.js');
 
 describe("The application", function() {
-    var application;
+    var config;
 
     beforeEach(function() {
         config = {
@@ -31,14 +31,31 @@ describe("The application", function() {
                 return this.store[key];
             },
         };
+    });
 
-        application = new Application({
-            config: config,
+    describe('without controllers on method application.run()', () => {
+        it('throws error', () => {
+            var application = new Application({config: config});
+            var input = {
+                getArgv: () => {
+                    return ['node', 'ged', 'version'];
+                }
+            };
+            var output = new BufferedOutput();
+
+            application.run(input, output)
+                .then(() => {
+                    expect(false).toBe("this should never call");
+                })
+                .catch(() => {
+                    expect(true).toBe(true);
+                });
         });
     });
 
-    describe('application.run()', () => {
-        it('returns Promise instance', () => {
+    describe('with controller on method application.run()', () => {
+        it('writes the correct content to output', () => {
+            var application = Application.create(config);
             var input = {
                 getArgv: () => {
                     return ['node', 'ged', 'version'];
@@ -50,6 +67,14 @@ describe("The application", function() {
                 .then(() => {
                     expect(output.fetch()).toBe("v1\n");
                 });
+        });
+    });
+
+    describe('on static method Application.create()', () => {
+        it('returns Application instance', () => {
+            var application = Application.create(config);
+
+            expect(application).toEqual(jasmine.any(Application));
         });
     });
 });

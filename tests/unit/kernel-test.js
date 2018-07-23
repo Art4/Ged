@@ -42,7 +42,7 @@ describe("The kernel", function() {
         });
     });
 
-    describe('kernel.handleRequest()', () => {
+    describe('on kernel.handleRequest()', () => {
         it('returns Promise instance', () => {
             kernel.handleRequest(Request.createFromString('abc'))
                 .then((response) => {

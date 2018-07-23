@@ -15,38 +15,61 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-'use strict'
+'use strict';
+
+const VersionController = require('./controller/versioncontroller.js');
+const { Command } = require('commander');
 
 // Constructor
 function Application(options) {
     this.config = options.config;
-    this.program = require('commander');
+    this.program = new Command();
     this.program
-        .version(config.get('app_version', ''), '-OV, --original-version');
+        .version(this.config.get('app_version', ''), '-OV, --original-version');
 
     this.program
-        .command('version')
-        .description('output the version number')
-        .action(function (command) {
-            command.parent.output.writeLine(config.get('app_version', ''));
+        .command('*')
+        .description('catch-all for errors')
+        .action((command) => {
+            command.error = true;
         });
 
-    this.program
-        .command('open [query]')
-        .description('find and open a draft')
-        .option('--in-folder', 'Open the folder that contains the draft')
-        .option('--in-3D-folder', 'Open the 3D folder of the draft')
-        .action(function (query, options) {
-        });
+    // this.program
+    //     .command('open [query]')
+    //     .description('find and open a draft')
+    //     .option('--in-folder', 'Open the folder that contains the draft')
+    //     .option('--in-3D-folder', 'Open the 3D folder of the draft')
+    //     .action(function (query, options) {
+    //     });
 }
 
 // class methods
+Application.prototype.addController = function(controller) {
+    controller.register(this.program);
+};
+
 Application.prototype.run = function(input, output) {
     return new Promise((resolve, reject) => {
+        this.program.error = false;
         this.program.output = output;
         this.program.parse(input.getArgv());
+
+        if (this.program.error) {
+            reject();
+            return;
+        }
+
         resolve();
     });
+};
+
+// Factory method
+Application.create = function(config) {
+    var app = new Application({config: config});
+
+    app.addController(new VersionController(config));
+
+    return app;
 };
 
 // export the class
