@@ -40,6 +40,7 @@
     "webpack": "^3.12.0"
   },
   "dependencies": {
+    "commander": "^2.16.0",
     "electron-store": "^2.0.0",
     "electron-updater": "^2.23.3"
   },
