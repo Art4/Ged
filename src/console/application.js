@@ -21,11 +21,10 @@ const VersionController = require('./controller/versioncontroller.js');
 const { Command } = require('commander');
 
 // Constructor
-function Application(options) {
-    this.config = options.config;
+function Application() {
     this.program = new Command();
     this.program
-        .version(this.config.get('app_version', ''), '-OV, --original-version');
+        .version('unknown', '-OV, --original-version');
 
     this.program
         .command('*')
@@ -65,8 +64,9 @@ Application.prototype.run = function(input, output) {
 
 // Factory method
 Application.create = function(config) {
-    var app = new Application({config: config});
+    var app = new Application();
 
+    // Register Controllers
     app.addController(new VersionController(config));
 
     return app;

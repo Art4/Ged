@@ -17,6 +17,7 @@
  */
 
 const Application = require('../../../src/console/application.js');
+const VersionController = require('../../../src/console/controller/versioncontroller.js');
 const BufferedOutput = require('../../../src/console/bufferedoutput.js');
 
 describe("The application", function() {
@@ -35,7 +36,7 @@ describe("The application", function() {
 
     describe('without controllers on method application.run()', () => {
         it('throws error', () => {
-            var application = new Application({config: config});
+            var application = new Application();
             var input = {
                 getArgv: () => {
                     return ['node', 'ged', 'version'];
@@ -55,7 +56,10 @@ describe("The application", function() {
 
     describe('with controller on method application.run()', () => {
         it('writes the correct content to output', () => {
-            var application = Application.create(config);
+            var controller = new VersionController(config);
+            var application = new Application();
+            application.addController(controller);
+
             var input = {
                 getArgv: () => {
                     return ['node', 'ged', 'version'];
@@ -66,6 +70,9 @@ describe("The application", function() {
             application.run(input, output)
                 .then(() => {
                     expect(output.fetch()).toBe("v1\n");
+                })
+                .catch(() => {
+                    expect(false).toBe("this should never call");
                 });
         });
     });
