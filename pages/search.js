@@ -18,7 +18,6 @@
 
 const Utils = require('../src/window-utils.js');
 const Config = require('../src/config.js');
-const Kernel = require('../src/kernel.js');
 const Request = require('../src/request.js');
 const {Application, BufferedOutput, SearchInput} = require('../src/console');
 const EventEmitter = require('events');
@@ -30,10 +29,6 @@ const output = document.getElementById('outputField');
 const searchWin = document.getElementById('search__wrapper');
 const closeButton = document.getElementById('close-button');
 const settingsButton = document.getElementById('settings-button');
-
-var kernel = new Kernel({
-    config: config,
-});
 
 const app = Application.create(config, fs);
 
@@ -49,6 +44,9 @@ search.on('search.start', (event) => {
     search.emit('search.output', '<span class="fas fa-spinner fa-spin"></span>');
 
     var buffer = new BufferedOutput();
+    buffer.on('message', (message) => {
+        search.emit('search.output', message);
+    });
 
     app.run(new SearchInput(event.target.value), buffer)
         .then(() => {
@@ -59,13 +57,6 @@ search.on('search.start', (event) => {
             search.emit('search.output', buffer.fetch());
             event.target.value = event.target.value;
         });
-
-    // kernel.handleRequest(Request.createFromString(event.target.value))
-    //     .then((response) => {
-    //         console.log(response);
-    //         search.emit('search.output', response.getContent());
-    //         event.target.value = response.getQuery();
-    //     });
 });
 
 // Register universal events

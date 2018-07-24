@@ -17,22 +17,27 @@
  */
 'use strict'
 
+const EventEmitter = require('events');
+
 // Constructor
-function BufferedOutput() {
-    this.buffer = '';
+class BufferedOutput extends EventEmitter {
+    constructor() {
+        super();
+        this.buffer = '';
+    }
+
+    writeLine(message) {
+        this.emit('message', message);
+        this.buffer += message+"\n";
+    }
+
+    fetch() {
+        var content = this.buffer;
+        this.buffer = '';
+
+        return content;
+    }
 }
-
-// class methods
-BufferedOutput.prototype.writeLine = function(message) {
-    this.buffer += message+"\n";
-};
-
-BufferedOutput.prototype.fetch = function() {
-    var content = this.buffer;
-    this.buffer = '';
-
-    return content;
-};
 
 // export the class
 module.exports = BufferedOutput;

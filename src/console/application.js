@@ -53,13 +53,11 @@ Application.prototype.run = function(input, output) {
         try {
             this.program.output = output;
             this.program.parse(input.getArgv());
+            resolve();
         } catch (e) {
             output.writeLine(e.message);
             reject();
-            return;
         }
-
-        resolve();
     });
 };
 

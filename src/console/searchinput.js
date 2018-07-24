@@ -34,7 +34,7 @@ function analyseQuery(query) {
             return ['open', raw[0], '--in-3d-folder'];
             break;
         case 'i':
-            return ['open', raw[0], '--in-explorer'];
+            return ['open', raw[0], '--in-folder'];
             break;
         case '+':
         case 'a':
