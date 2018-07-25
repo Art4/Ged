@@ -15,13 +15,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-'use strict'
+'use strict';
 
-const Application = require('./application.js');
-const Output = require('./output.js');
-const Input = require('./input.js');
+// Constructor
+function Input(argv) {
+    this.argv = ['node', 'ged'];
+
+    for (var i = 0; i < argv.length; i++) {
+        this.argv.push(argv[i]);
+    }
+}
+
+// class methods
+Input.prototype.getArgv = function() {
+    return this.argv;
+};
 
 // export the class
-module.exports.Application = Application;
-module.exports.Output = Output;
-module.exports.Input = Input;
+module.exports = Input;

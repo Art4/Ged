@@ -15,7 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-'use strict'
+'use strict';
+
+const { Input } = require('./console');
 
 function analyseQuery(query) {
     var raw = query.split(' ');
@@ -55,28 +57,27 @@ function analyseQuery(query) {
     }
 }
 
-// Constructor
-function SearchInput(query) {
-    this.query = String(query);
-    this.argv = ['node', 'ged'];
+// Class
+class SearchInput extends Input {
+    constructor(query) {
+        query = String(query);
+        var rawArgv = analyseQuery(query);
+        var argv = [];
 
-    var argv = analyseQuery(this.query);
-
-    for (var i = 0; i < argv.length; i++) {
-        if (argv[i] !== '') {
-            this.argv.push(argv[i]);
+        for (var i = 0; i < rawArgv.length; i++) {
+            if (rawArgv[i] !== '') {
+                argv.push(rawArgv[i]);
+            }
         }
+
+        super(argv);
+        this.query = query;
     }
+
+    getQuery() {
+        return this.query;
+    };
 }
-
-// class methods
-SearchInput.prototype.getQuery = function() {
-    return this.query;
-};
-
-SearchInput.prototype.getArgv = function() {
-    return this.argv;
-};
 
 // export the class
 module.exports = SearchInput;

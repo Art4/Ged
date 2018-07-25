@@ -18,7 +18,8 @@
 
 const Utils = require('../src/window-utils.js');
 const Config = require('../src/config.js');
-const {Application, Output, SearchInput} = require('../src/console');
+const { Application, Output } = require('../src/console');
+const SearchInput = require('../src/searchinput.js');
 const EventEmitter = require('events');
 const fs = require('fs');
 
