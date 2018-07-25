@@ -20,7 +20,6 @@
 const {ipcRenderer} = require('electron');
 const fs = require('fs');
 const Response = require('./response.js');
-const Request = require('./request.js');
 const StringInput = require('./stringinput.js');
 const FsUtils = require('./fs-utils.js');
 
@@ -47,7 +46,7 @@ function msgbox_confirm(msg)
 }
 
 //Hauptprozess
-function run(input, draft)
+function run(input, draft, mode)
 {
     //Wenn keine Eingabe gemacht wurde, Fehler ausgeben
     if(input.getQuery() == "")
@@ -57,7 +56,7 @@ function run(input, draft)
     }
 
     //Suchstring analysieren
-    var query_vars = get_query_vars(input, draft);
+    var query_vars = get_query_vars(input, draft, mode);
 
     //Wenn keine Endung gesetzt wurde, den Defaultwert verwenden
     if (query_vars['file_type'] === null) {
@@ -330,13 +329,13 @@ function message(v)
 }
 
 //analysiert den Suchstring und gibt alle notwendigen Information zurück.
-function get_query_vars(input, draft)
+function get_query_vars(input, draft, mode)
 {
     var arr = new Array();
     arr['query'] = input.getQuery();
 
     /* Befehle abfangen */
-    arr['action'] = parse_actions(input.getMode());
+    arr['action'] = parse_actions(mode);
 
     /* Endung abfangen */
     arr['file_type'] = input.getType();
@@ -609,17 +608,13 @@ function Kernel(options) {
     cfg['max_revisions'] = config.get('max_revisions', 25);
 }
 
-Kernel.prototype.handleRequest = function(request) {
-    return this.handleInput(new StringInput(request.getContent()));
-};
-
-Kernel.prototype.handleInput = function(input, draft) {
+Kernel.prototype.handleInput = function(input, draft, mode) {
     // Reload Config, because it could have changed
     cfg['base_dir'] = config.get('base_dir', 'H:\\Zeichnungen\\');
     cfg['default_file_type'] = config.get('default_file_type', 'pdf');
 
     return new Promise((resolve, reject) => {
-        run(input, draft);
+        run(input, draft, mode);
 
         resolve(new Response(returnMessage, returnQuery));
     });

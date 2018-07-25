@@ -83,7 +83,7 @@ KernelController.prototype.executeCommand = function(draft, command, output, mod
         return;
     }
 
-    var input = new StringInput(draft+' '+mode);
+    var input = new StringInput(draft);
 
     // Abort, if invalid identifier provided
     if (input.getIdentifier() === null)
@@ -95,7 +95,7 @@ KernelController.prototype.executeCommand = function(draft, command, output, mod
     this.draftpool.findDraftByIdentifier(input.getIdentifier())
         .then((draft) => {
             // Call LegacyKernel
-            this.kernel.handleInput(input, draft)
+            this.kernel.handleInput(input, draft, mode)
                 .then((response) => {
                     output.end(response.getContent());
                 });

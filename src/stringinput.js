@@ -23,16 +23,17 @@ function StringInput(query) {
     this.identifier = null;
     this.revision = null;
     this.type = null;
-    this.mode = null;
 
-    var regex = /^(\d+)(\-R[0-9a-z]{1})?(\.[a-z]{1,3})?( [a-z0-9]+)?/i;
+    var regex = /^(\d+)(\-R[0-9a-z]{1})?(\.[a-z]{1,3})?/i;
     var results = regex.exec(this.query);
 
     if (results && results[1].length === 5) {
-        this.identifier = results[1];
-        this.revision = (results[2]) ? results[2].slice(2) : null;
-        this.type = (results[3]) ? results[3].slice(1) : null;
-        this.mode = (results[4]) ? results[4].slice(1) : null;
+        // Prevent inputs like '12345i'
+        if (this.query.slice(5,6) === '-' || this.query.slice(5,6) === '.' || this.query.slice(5,6) === '') {
+            this.identifier = results[1];
+            this.revision = (results[2]) ? results[2].slice(2) : null;
+            this.type = (results[3]) ? results[3].slice(1) : null;
+        }
     }
 }
 
@@ -51,10 +52,6 @@ StringInput.prototype.getRevision = function() {
 
 StringInput.prototype.getType = function() {
     return this.type;
-};
-
-StringInput.prototype.getMode = function() {
-    return this.mode;
 };
 
 // export the class

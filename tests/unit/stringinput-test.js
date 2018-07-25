@@ -21,14 +21,13 @@ const StringInput = require('../../src/stringinput.js');
 describe("The StringInput", function() {
     describe('with valuemap', () => {
         var values = [
-            ['12345', '12345', null, null, null],
-            ['12345-R0', '12345', '0', null, null],
-            ['12345-r0.pdf', '12345', '0', 'pdf', null],
-            ['12345-r0.pdf o', '12345', '0', 'pdf', 'o'],
+            ['12345', '12345', null, null],
+            ['12345-R0', '12345', '0', null],
+            ['12345-r0.pdf', '12345', '0', 'pdf'],
             // test invalid inputs
-            ['112345-R0.pdf o', null, null, null, null],
-            ['1234-R0.pdf o', null, null, null, null],
-            ['12345 R1', '12345', null, null, 'R1'],
+            ['12345i', null, null, null],
+            ['112345-R0.pdf', null, null, null],
+            ['1234-R0.pdf', null, null, null],
         ];
 
         for (var i = 0; i < values.length; i++) {
@@ -37,7 +36,6 @@ describe("The StringInput", function() {
                 var identifier = values[i][1];
                 var revision = values[i][2];
                 var type = values[i][3];
-                var mode = values[i][4];
                 var stringinput = new StringInput(query);
 
                 it('and getQuery() returns the original query', () => {
@@ -54,10 +52,6 @@ describe("The StringInput", function() {
 
                 it('and getType() returns the type', () => {
                     expect(stringinput.getType()).toBe(type);
-                });
-
-                it('and getMode() returns the mode', () => {
-                    expect(stringinput.getMode()).toBe(mode);
                 });
             });
         }
