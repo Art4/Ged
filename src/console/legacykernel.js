@@ -15,11 +15,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-'use strict'
+'use strict';
 
 const {ipcRenderer} = require('electron');
 const fs = require('fs');
-const StringInput = require('./stringinput.js');
 const FsUtils = require('./fs-utils.js');
 
 var config = null;

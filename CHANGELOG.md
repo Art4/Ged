@@ -8,6 +8,14 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Der Kernel von Ged wurde zu einer modularen Console umgeschrieben
+
+### Changed
+
+- Bessere Trennung zwischen Eingabemaske und Verarbeitung der Suchanfrage zur Ermöglichung zukünftiger Features
+
 ## [2.0.0-beta.1] - 2018-07-13
 
 ### Added

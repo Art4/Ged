@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-'use strict'
+'use strict';
 
 const Store = require('electron-store');
 const Utils = require('./window-utils.js');
