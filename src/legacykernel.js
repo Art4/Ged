@@ -19,7 +19,6 @@
 
 const {ipcRenderer} = require('electron');
 const fs = require('fs');
-const Response = require('./response.js');
 const StringInput = require('./stringinput.js');
 const FsUtils = require('./fs-utils.js');
 
@@ -608,16 +607,18 @@ function Kernel(options) {
     cfg['max_revisions'] = config.get('max_revisions', 25);
 }
 
-Kernel.prototype.handleInput = function(input, draft, mode) {
+Kernel.prototype.handleInput = function(input, output, draft, mode) {
     // Reload Config, because it could have changed
     cfg['base_dir'] = config.get('base_dir', 'H:\\Zeichnungen\\');
     cfg['default_file_type'] = config.get('default_file_type', 'pdf');
 
-    return new Promise((resolve, reject) => {
-        run(input, draft, mode);
+    run(input, draft, mode);
 
-        resolve(new Response(returnMessage, returnQuery));
-    });
+    if (returnQuery === '') {
+        output.end(returnMessage);
+    } else {
+        output.destroy(returnMessage);
+    }
 };
 
 // export the class

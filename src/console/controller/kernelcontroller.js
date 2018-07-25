@@ -20,7 +20,6 @@
 const Draftpool = require('../../draftpool.js');
 const LegacyKernel = require('../../legacykernel.js');
 const StringInput = require('../../stringinput.js');
-const Response = require('../../response.js');
 
 // Constructor
 function KernelController(config, fs) {
@@ -95,10 +94,7 @@ KernelController.prototype.executeCommand = function(draft, command, output, mod
     this.draftpool.findDraftByIdentifier(input.getIdentifier())
         .then((draft) => {
             // Call LegacyKernel
-            this.kernel.handleInput(input, draft, mode)
-                .then((response) => {
-                    output.end(response.getContent());
-                });
+            this.kernel.handleInput(input, output, draft, mode);
         })
         .catch(() => {
             // Abort, if draft not found
