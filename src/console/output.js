@@ -15,29 +15,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-'use strict'
+'use strict';
 
-const EventEmitter = require('events');
+const { Writable } = require('stream');
 
 // Constructor
-class BufferedOutput extends EventEmitter {
-    constructor() {
-        super();
-        this.buffer = '';
+class Output extends Writable {
+    constructor(options) {
+        super(options);
     }
 
-    writeLine(message) {
-        this.emit('message', message);
-        this.buffer += message+"\n";
+    _write(chunk) {
+        if (Buffer.isBuffer(chunk)) {
+            chunk = chunk.toString();
+        }
+
+        this.emit('data', chunk);
     }
 
-    fetch() {
-        var content = this.buffer;
-        this.buffer = '';
+    end(chunk, encoding, cb) {
+        super.end(chunk, encoding, cb);
+        if (! this._writableState.destroyed) {
+            this.emit('ended');
+        }
+    }
 
-        return content;
+    writeLine(chunk) {
+        this.write(chunk+"\n");
     }
 }
 
 // export the class
-module.exports = BufferedOutput;
+module.exports = Output;

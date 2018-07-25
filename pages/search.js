@@ -19,13 +19,13 @@
 const Utils = require('../src/window-utils.js');
 const Config = require('../src/config.js');
 const Request = require('../src/request.js');
-const {Application, BufferedOutput, SearchInput} = require('../src/console');
+const {Application, Output, SearchInput} = require('../src/console');
 const EventEmitter = require('events');
 const fs = require('fs');
 
 const config = new Config();
 const inputField = document.getElementById('inputField');
-const output = document.getElementById('outputField');
+const outputElement = document.getElementById('outputField');
 const searchWin = document.getElementById('search__wrapper');
 const closeButton = document.getElementById('close-button');
 const settingsButton = document.getElementById('settings-button');
@@ -37,26 +37,27 @@ const search = new Search();
 
 // Register search events
 search.on('search.output', (message) => {
-    output.innerHTML = message;
+    outputElement.innerHTML = message;
 });
 
 search.on('search.start', (event) => {
-    search.emit('search.output', '<span class="fas fa-spinner fa-spin"></span>');
+    var input = new SearchInput(event.target.value);
+    var buffer = new Output();
 
-    var buffer = new BufferedOutput();
-    buffer.on('message', (message) => {
-        search.emit('search.output', message);
+    buffer.on('data', (data) => {
+        search.emit('search.output', data);
+    });
+    buffer.on('error', (error) => {
+        search.emit('search.output', error);
+    });
+    buffer.on('ended', () => {
+        // Input field leeren
+        event.target.value = '';
     });
 
-    app.run(new SearchInput(event.target.value), buffer)
-        .then(() => {
-            search.emit('search.output', buffer.fetch());
-            event.target.value = '';
-        })
-        .catch(() => {
-            search.emit('search.output', buffer.fetch());
-            event.target.value = event.target.value;
-        });
+    buffer.emit('data', '<span class="fas fa-spinner fa-spin"></span>');
+
+    app.run(input, buffer);
 });
 
 // Register universal events

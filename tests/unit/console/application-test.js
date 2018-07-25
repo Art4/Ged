@@ -18,7 +18,7 @@
 
 const Application = require('../../../src/console/application.js');
 const VersionController = require('../../../src/console/controller/versioncontroller.js');
-const BufferedOutput = require('../../../src/console/bufferedoutput.js');
+const Output = require('../../../src/console/output.js');
 
 describe("The application", function() {
     var config;
@@ -35,45 +35,47 @@ describe("The application", function() {
     });
 
     describe('without controllers on method application.run()', () => {
-        it('throws error', () => {
+        it('triggers error', () => {
             var application = new Application();
             var input = {
                 getArgv: () => {
                     return ['node', 'ged', 'version'];
                 }
             };
-            var output = new BufferedOutput();
+            var output = new Output();
+            output.on('error', (error) => {
+                expect(error).toBe('Unerwartete Eingabe');
+            });
+            output.on('ended', (error) => {
+                expect(false).toBe("this should never been called");
+            });
 
-            application.run(input, output)
-                .then(() => {
-                    expect(false).toBe("this should never call");
-                })
-                .catch(() => {
-                    expect(true).toBe(true);
-                });
+            application.run(input, output);
         });
     });
 
     describe('with controller on method application.run()', () => {
         it('writes the correct content to output', () => {
-            var controller = new VersionController(config);
             var application = new Application();
-            application.addController(controller);
+            application.addController(new VersionController(config));
 
             var input = {
                 getArgv: () => {
                     return ['node', 'ged', 'version'];
                 }
             };
-            var output = new BufferedOutput();
+            var output = new Output();
+            output.on('error', (error) => {
+                expect(false).toBe("this should never been called");
+            });
+            output.on('data', (data) => {
+                expect(data).toBe('v1'+"\n");
+            });
+            output.on('ended', () => {
+                expect(true).toBe(true);
+            });
 
-            application.run(input, output)
-                .then(() => {
-                    expect(output.fetch()).toBe("v1\n");
-                })
-                .catch(() => {
-                    expect(false).toBe("this should never call");
-                });
+            application.run(input, output);
         });
     });
 

@@ -79,7 +79,8 @@ KernelController.prototype.register = function(commander) {
 
 KernelController.prototype.executeCommand = function(draft, command, output, mode) {
     if (! draft) {
-        throw new Error('Warte auf Eingabe...');
+        output.destroy('Warte auf Eingabe...');
+        return;
     }
 
     var input = new StringInput(draft+' '+mode);
@@ -87,7 +88,8 @@ KernelController.prototype.executeCommand = function(draft, command, output, mod
     // Abort, if invalid identifier provided
     if (input.getIdentifier() === null)
     {
-        throw new Error('Ungültige Zeichnungsnummer');
+        output.destroy('Ungültige Zeichnungsnummer');
+        return;
     }
 
     this.draftpool.findDraftByIdentifier(input.getIdentifier())
@@ -95,13 +97,12 @@ KernelController.prototype.executeCommand = function(draft, command, output, mod
             // Call LegacyKernel
             this.kernel.handleInput(input, draft)
                 .then((response) => {
-                    output.writeLine(response.getContent());
+                    output.end(response.getContent());
                 });
         })
         .catch(() => {
             // Abort, if draft not found
-            throw new Error(input.getIdentifier() + ' wurde nicht gefunden');
-
+            output.destroy(input.getIdentifier() + ' wurde nicht gefunden');
         });
 };
 

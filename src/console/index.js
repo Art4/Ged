@@ -18,10 +18,10 @@
 'use strict'
 
 const Application = require('./application.js');
-const BufferedOutput = require('./bufferedoutput.js');
+const Output = require('./output.js');
 const SearchInput = require('./searchinput.js');
 
 // export the class
 module.exports.Application = Application;
-module.exports.BufferedOutput = BufferedOutput;
+module.exports.Output = Output;
 module.exports.SearchInput = SearchInput;

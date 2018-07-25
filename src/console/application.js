@@ -31,16 +31,8 @@ function Application() {
         .command('*')
         .description('catch-all for errors')
         .action(() => {
-            throw new Error('Unerwartete Eingabe');
+            this.program.output.destroy('Unerwartete Eingabe');
         });
-
-    // this.program
-    //     .command('open [query]')
-    //     .description('find and open a draft')
-    //     .option('--in-folder', 'Open the folder that contains the draft')
-    //     .option('--in-3D-folder', 'Open the 3D folder of the draft')
-    //     .action(function (query, options) {
-    //     });
 }
 
 // class methods
@@ -49,16 +41,8 @@ Application.prototype.addController = function(controller) {
 };
 
 Application.prototype.run = function(input, output) {
-    return new Promise((resolve, reject) => {
-        try {
-            this.program.output = output;
-            this.program.parse(input.getArgv());
-            resolve();
-        } catch (e) {
-            output.writeLine(e.message);
-            reject();
-        }
-    });
+    this.program.output = output;
+    this.program.parse(input.getArgv());
 };
 
 // Factory method
