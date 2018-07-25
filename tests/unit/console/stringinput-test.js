@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const StringInput = require('../../src/stringinput.js');
+const StringInput = require('../../../src/console/stringinput.js');
 
 describe("The StringInput", function() {
     describe('with valuemap', () => {

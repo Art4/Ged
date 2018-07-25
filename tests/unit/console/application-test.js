@@ -16,9 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Application = require('../../../src/console/application.js');
+const { Application, Output } = require('../../../src/console');
 const VersionController = require('../../../src/console/controller/versioncontroller.js');
-const Output = require('../../../src/console/output.js');
 
 describe("The application", function() {
     var config;

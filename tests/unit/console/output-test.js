@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Output = require('../../../src/console/output.js');
+const { Output } = require('../../../src/console');
 
 describe("The Output", function() {
     describe('with valuemap', () => {

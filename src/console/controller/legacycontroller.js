@@ -17,12 +17,12 @@
  */
 'use strict';
 
-const Draftpool = require('../../draftpool.js');
-const LegacyKernel = require('../../legacykernel.js');
-const StringInput = require('../../stringinput.js');
+const Draftpool = require('../draftpool.js');
+const LegacyKernel = require('../legacykernel.js');
+const StringInput = require('../stringinput.js');
 
 // Constructor
-function KernelController(config, fs) {
+function LegacyController(config, fs) {
     this.config = config;
     this.fs = fs;
 
@@ -32,7 +32,7 @@ function KernelController(config, fs) {
 }
 
 // class methods
-KernelController.prototype.register = function(commander) {
+LegacyController.prototype.register = function(commander) {
     commander
         .command('open [draft]')
         .description('find and open a specific draft file')
@@ -76,7 +76,7 @@ KernelController.prototype.register = function(commander) {
         });
 };
 
-KernelController.prototype.executeCommand = function(draft, command, output, mode) {
+LegacyController.prototype.executeCommand = function(draft, command, output, mode) {
     if (! draft) {
         output.destroy('Warte auf Eingabe...');
         return;
@@ -103,4 +103,4 @@ KernelController.prototype.executeCommand = function(draft, command, output, mod
 };
 
 // export the class
-module.exports = KernelController;
+module.exports = LegacyController;

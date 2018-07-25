@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Draft = require('../../src/draft.js');
-const Draftpool = require('../../src/draftpool.js');
+const Draft = require('../../../src/console/draft.js');
+const Draftpool = require('../../../src/console/draftpool.js');
 
 describe("The draftpool", function() {
     describe('on generateSubfolderNameFromIdentifier() method with different arguments', () => {

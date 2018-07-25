@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const File = require('../../src/file.js');
+const File = require('../../../src/console/file.js');
 
 describe("The file", function() {
     describe('constructor method with different arguments', () => {

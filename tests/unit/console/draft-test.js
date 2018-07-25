@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const File = require('../../src/file.js');
-const Draft = require('../../src/draft.js');
+const File = require('../../../src/console/file.js');
+const Draft = require('../../../src/console/draft.js');
 
 describe("The draft", function() {
     describe('without data', () => {

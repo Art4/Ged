@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const SearchInput = require('../../../src/console/searchinput.js');
+const { SearchInput } = require('../../../src/console');
 
 describe("The SearchInput", function() {
     describe('with valuemap', () => {

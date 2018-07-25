@@ -17,7 +17,7 @@
  */
 'use strict';
 
-const KernelController = require('./controller/kernelcontroller.js');
+const LegacyController = require('./controller/legacycontroller.js');
 const VersionController = require('./controller/versioncontroller.js');
 const { Command } = require('commander');
 
@@ -51,7 +51,7 @@ Application.create = function(config, fs) {
 
     // Register Controllers
     app.addController(new VersionController(config));
-    app.addController(new KernelController(config, fs));
+    app.addController(new LegacyController(config, fs));
 
     return app;
 };
