@@ -17,16 +17,16 @@
  */
 'use strict';
 
-const fs = require('fs');
-
 // Constructor
-function FsUtils() {}
+function FsUtils(fs) {
+    this.fs = fs;
+}
 
 /**
  * @see https://stackoverflow.com/a/30062783
  */
-FsUtils.isFileWriteProtected = function(filepath) {
-    var stats = fs.statSync(filepath);
+FsUtils.prototype.isFileWriteProtected = function(filepath) {
+    var stats = this.fs.statSync(filepath);
 
     //stats.mode = 33206: beschreibbar; = 33060: schreibgeschützt
     return ((stats.mode & 146) === 0);
@@ -35,21 +35,21 @@ FsUtils.isFileWriteProtected = function(filepath) {
 /**
  * @see https://stackoverflow.com/a/30062783
  */
-FsUtils.setFileWriteProtected = function(filepath, writeProtected) {
+FsUtils.prototype.setFileWriteProtected = function(filepath, writeProtected) {
     if (writeProtected === false) {
         // Ist Datei schreibgeschützt?
-        if (FsUtils.isFileWriteProtected(filepath)) {
+        if (this.isFileWriteProtected(filepath)) {
             // Hebe Schreibschutz auf
-            fs.chmodSync(filepath, 766);
+            this.fs.chmodSync(filepath, 766);
         }
 
         return true;
     }
 
     // Ist Datei beschreibbar?
-    if (! FsUtils.isFileWriteProtected(filepath)) {
+    if (! this.isFileWriteProtected(filepath)) {
         // Setze Schreibschutz
-        fs.chmodSync(filepath, 544);
+        this.fs.chmodSync(filepath, 544);
     }
 
     return true;

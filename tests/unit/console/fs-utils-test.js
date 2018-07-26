@@ -21,6 +21,7 @@ const FsUtils = require('../../../src/console/fs-utils.js');
 
 describe("FsUtils", function() {
     var filepath = './tests/testfile';
+    var fsutils = new FsUtils(fs);
 
     beforeEach(function() {
         fs.writeFileSync(filepath, 'file content');
@@ -30,25 +31,25 @@ describe("FsUtils", function() {
         fs.unlinkSync(filepath);
     });
 
-    describe('FsUtils.isFileWriteProtected()', () => {
+    describe('on method isFileWriteProtected()', () => {
         it('returns false', () => {
-            expect(FsUtils.isFileWriteProtected(filepath)).toBe(false);
+            expect(fsutils.isFileWriteProtected(filepath)).toBe(false);
         });
     });
 
-    describe('FsUtils.setFileWriteProtected()', () => {
+    describe('on method setFileWriteProtected()', () => {
         it('set the file writeprotected', () => {
-            expect(FsUtils.setFileWriteProtected(filepath, true)).toBe(true);
-            expect(FsUtils.isFileWriteProtected(filepath)).toBe(true);
+            expect(fsutils.setFileWriteProtected(filepath, true)).toBe(true);
+            expect(fsutils.isFileWriteProtected(filepath)).toBe(true);
         });
     });
 
-    describe('FsUtils.setFileWriteProtected()', () => {
+    describe('on method setFileWriteProtected()', () => {
         it('set the file writeprotected and back again', () => {
-            expect(FsUtils.setFileWriteProtected(filepath, true)).toBe(true);
-            expect(FsUtils.isFileWriteProtected(filepath)).toBe(true);
-            expect(FsUtils.setFileWriteProtected(filepath, false)).toBe(true);
-            expect(FsUtils.isFileWriteProtected(filepath)).toBe(false);
+            expect(fsutils.setFileWriteProtected(filepath, true)).toBe(true);
+            expect(fsutils.isFileWriteProtected(filepath)).toBe(true);
+            expect(fsutils.setFileWriteProtected(filepath, false)).toBe(true);
+            expect(fsutils.isFileWriteProtected(filepath)).toBe(false);
         });
     });
 });

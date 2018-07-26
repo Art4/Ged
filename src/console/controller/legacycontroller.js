@@ -28,7 +28,7 @@ function LegacyController(config, fs) {
 
     this.draftpool = new Draftpool(this.fs, this.config.get('base_dir'));
 
-    this.kernel = new LegacyKernel({config: this.config});
+    this.kernel = new LegacyKernel(this.config, this.fs);
 }
 
 // class methods

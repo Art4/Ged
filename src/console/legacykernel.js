@@ -18,9 +18,10 @@
 'use strict';
 
 const {ipcRenderer} = require('electron');
-const fs = require('fs');
 const FsUtils = require('./fs-utils.js');
 
+var fs;
+var fsutils;
 var config = null;
 var cfg = new Array();
 
@@ -293,7 +294,7 @@ function set_file_permission(filename, mode)
     //Schreibschutz aufheben
     if(mode == 'read_write')
     {
-        FsUtils.setFileWriteProtected(filename, false);
+        fsutils.setFileWriteProtected(filename, false);
 
         return true;
     }
@@ -301,7 +302,7 @@ function set_file_permission(filename, mode)
     //Schreibschutz setzen
     if(mode == 'read_only')
     {
-        FsUtils.setFileWriteProtected(filename, true);
+        fsutils.setFileWriteProtected(filename, true);
 
         return true;
     }
@@ -599,8 +600,11 @@ function clean_last_search()
 }
 
 // Constructor
-function Kernel(options) {
-    config = options.config;
+function Kernel(cnf, filesystem) {
+    config = cnf;
+    fs = filesystem;
+
+    fsutils = new FsUtils(fs);
 
     //Höchte Revision, nach der gesucht wird
     cfg['max_revisions'] = config.get('max_revisions', 25);
