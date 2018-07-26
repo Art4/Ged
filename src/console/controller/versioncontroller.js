@@ -33,7 +33,7 @@ VersionController.prototype.register = function(commander) {
 };
 
 VersionController.prototype.executeCommand = function(command, output) {
-    output.writeLine(this.config.get('app_version', ''));
+    output.write(this.config.get('app_version', ''));
 };
 
 // export the class

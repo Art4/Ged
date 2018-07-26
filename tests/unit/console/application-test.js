@@ -68,7 +68,7 @@ describe("The application", function() {
                 expect(false).toBe("this should never been called");
             });
             output.on('data', (data) => {
-                expect(data).toBe('v1'+"\n");
+                expect(data).toBe('v1');
             });
             output.on('ended', () => {
                 expect(true).toBe(true);
