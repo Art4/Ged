@@ -15,6 +15,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Bessere Trennung zwischen Eingabemaske und Verarbeitung der Suchanfrage zur Ermöglichung zukünftiger Features
+- Alle Bibliotheken wurden aktualisiert
 
 ## [2.0.0-beta.1] - 2018-07-13
 

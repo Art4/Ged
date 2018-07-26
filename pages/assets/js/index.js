@@ -17,5 +17,5 @@
  */
 import 'bootstrap';
 import '@fortawesome/fontawesome-free/scss/fontawesome.scss';
-import '@fortawesome/fontawesome-free/scss/fa-solid.scss';
+import '@fortawesome/fontawesome-free/scss/solid.scss';
 import '../css/style.scss';
