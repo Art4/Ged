@@ -22,13 +22,14 @@ const LegacyKernel = require('../legacykernel.js');
 const StringInput = require('../stringinput.js');
 
 // Constructor
-function LegacyController(config, fs) {
+function LegacyController(config, fs, ipcRenderer) {
     this.config = config;
     this.fs = fs;
+    this.ipcRenderer = ipcRenderer;
 
     this.draftpool = new Draftpool(this.fs, this.config.get('base_dir'));
 
-    this.kernel = new LegacyKernel(this.config, this.fs);
+    this.kernel = new LegacyKernel(this.config, this.fs, this.ipcRenderer);
 }
 
 // class methods

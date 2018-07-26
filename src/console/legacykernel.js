@@ -17,9 +17,9 @@
  */
 'use strict';
 
-const {ipcRenderer} = require('electron');
 const FsUtils = require('./fs-utils.js');
 
+var ipcRenderer;
 var fs;
 var fsutils;
 var config = null;
@@ -600,9 +600,10 @@ function clean_last_search()
 }
 
 // Constructor
-function Kernel(cnf, filesystem) {
+function Kernel(cnf, filesystem, ipc) {
     config = cnf;
     fs = filesystem;
+    ipcRenderer = ipc;
 
     fsutils = new FsUtils(fs);
 

@@ -46,12 +46,12 @@ Application.prototype.run = function(input, output) {
 };
 
 // Factory method
-Application.create = function(config, fs) {
+Application.create = function(config, fs, ipcRenderer) {
     var app = new Application();
 
     // Register Controllers
     app.addController(new VersionController(config));
-    app.addController(new LegacyController(config, fs));
+    app.addController(new LegacyController(config, fs, ipcRenderer));
 
     return app;
 };

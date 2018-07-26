@@ -80,7 +80,7 @@ describe("The application", function() {
 
     describe('on static method Application.create()', () => {
         it('returns Application instance', () => {
-            var application = Application.create(config);
+            var application = Application.create(config, {}, {});
 
             expect(application).toEqual(jasmine.any(Application));
         });

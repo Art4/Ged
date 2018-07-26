@@ -21,16 +21,17 @@ const Config = require('../src/config.js');
 const { Application, Output } = require('../src/console');
 const SearchInput = require('../src/searchinput.js');
 const EventEmitter = require('events');
+const config = new Config();
+const { ipcRenderer } = require('electron');
 const fs = require('fs');
 
-const config = new Config();
 const inputField = document.getElementById('inputField');
 const outputElement = document.getElementById('outputField');
 const searchWin = document.getElementById('search__wrapper');
 const closeButton = document.getElementById('close-button');
 const settingsButton = document.getElementById('settings-button');
 
-const app = Application.create(config, fs);
+const app = Application.create(config, fs, ipcRenderer);
 
 class Search extends EventEmitter {}
 const search = new Search();
