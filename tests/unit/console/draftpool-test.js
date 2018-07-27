@@ -72,10 +72,7 @@ describe("The draftpool", function() {
 
     describe('on findDraftByIdentifier() with notexisting folder', () => {
         var fs = {
-            constants: {
-                F_OK: 'F_OK'
-            },
-            access: function(path, mode, cb) {
+            access: function(path, cb) {
                 cb(new Error());
             }
         };
@@ -132,10 +129,7 @@ describe("The draftpool", function() {
                     },
                 };
             },
-            constants: {
-                F_OK: 'F_OK'
-            },
-            access: function(path, mode, cb) {
+            access: function(path, cb) {
                 cb(null);
             },
         };
@@ -250,10 +244,7 @@ describe("The draftpool", function() {
                             },
                         };
                     },
-                    constants: {
-                        F_OK: 'F_OK'
-                    },
-                    access: function(path, mode, cb) {
+                    access: function(path, cb) {
                         cb(null);
                     },
                 };

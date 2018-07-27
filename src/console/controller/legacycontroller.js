@@ -97,7 +97,8 @@ LegacyController.prototype.executeCommand = function(draft, command, output, mod
             // Call LegacyKernel
             this.kernel.handleInput(input, output, draft, mode);
         })
-        .catch(() => {
+        .catch((err) => {
+            console.error(err);
             // Abort, if draft not found
             output.destroy(input.getIdentifier() + ' wurde nicht gefunden');
         });

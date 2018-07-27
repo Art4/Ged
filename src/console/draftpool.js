@@ -36,7 +36,7 @@ Draftpool.prototype.findDraftByIdentifier = function(identifier) {
 
         var path = this.path + this.generateSubfolderNameFromIdentifier(identifier);
 
-        this.fs.access(path, this.fs.constants.F_OK, (err) => {
+        this.fs.access(path, (err) => {
             // Abort if folder not exists
             if (err) {
                 reject(null);
