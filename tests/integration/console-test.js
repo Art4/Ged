@@ -18,116 +18,70 @@
 
 const { Application, Input, Output } = require('../../src/console');
 const EventEmitter = require('events');
+const fs = require('fs');
 
-describe("The application", function() {
-    describe('with valuemap', () => {
-        var values = [
-            ['foobar', '', 'Unerwartete Eingabe', ''],
-            ['version', '0.0.1', '', ''],
-        ];
+describe("The application with valuemap", () => {
+    var values = [
+        ['foobar', '', 'Unerwartete Eingabe', ''],
+        ['version', '0.0.1', '', ''],
+        ['open', '', 'Warte auf Eingabe...', ''],
+        ['open 12338', 'Index von 12338 wird geöffnet', '', 'openfileinfolder: '+__dirname+'\\mock\\Z.Nr.12000-12499\\12338.tif'],
+    ];
 
-        for (var i = 0; i < values.length; i++) {
-            describe('on method run("'+values[i][0]+'")', () => {
-                var stdin = values[i][0].split(' ');
-                var expectedStdout = values[i][1];
-                var expectedErrout = values[i][2];
-                var expectedIpcout = values[i][3];
+    for (var i = 0; i < values.length; i++) {
+        describe('on method run("'+values[i][0]+'")', () => {
+            var data = values[i];
+            it('emits the correct output, error and ipcRenderer calls', () => {
+                var stdin = data[0].split(' ');
+                var expectedStdout = data[1];
+                var expectedErrout = data[2];
+                var expectedIpcout = data[3];
 
                 var config = {
                     store: {
                         app_version: '0.0.1',
-                        base_dir: '\\base_dir\\',
+                        base_dir: __dirname+'\\mock\\',
+                        default_file_type: 'pdf',
+                        max_revisions: '25',
                     },
                     get: function(key, def) {
                         return this.store[key];
                     },
                 };
-                var fs = {
-                    readdir: function(path, cb) {
-                        cb(null, new Array(
-                            '12338.tif',
-                            // '12339.tif', // this file is missing
-                            '12340.tif',
-                            '12341.bak',
-                            '12341.dwg',
-                            '12341.dxf',
-                            '12342.dft',
-                            '12342.pdf',
-                            '12342_3D',
-                            '12343.dft',
-                            '12343.pdf',
-                            '12343-R2.dft',
-                            '12343-R2.pdf',
-                            '12344-R0.dft',
-                            '12344-R1.dft',
-                            '12344-R2.dft',
-                            '12344-R2.pdf',
-                            '12345-R0.dft',
-                            '12345-R0_Aufstellung.stp',
-                            '12345-R1.dft',
-                            '12345-R1.log',
-                            '12345-R1.pdf',
-                            '12345-R1_Aufstellung.stp',
-                            '12346-R0 Blatt 1 von 2.dwg',
-                            '12346-R0 Blatt 2 von 2.dwg',
-                            '12346-R0.dft',
-                            '12346-R0.pdf',
-                            'Thumbs.db',
-                        ));
-                    },
-                    statSync: function(path) {
-                        // return stat mock
-                        return {
-                            isDirectory: function() {
-                                return (path.slice(-3) === '_3D');
-                            },
-                        };
-                    },
-                    constants: {
-                        F_OK: 'F_OK'
-                    },
-                    access: function(path, mode, cb) {
-                        cb(null);
-                    },
+                var ipcRenderer = new EventEmitter();
+                var stdout = '';
+                var errout = '';
+                var ipcout = '';
+
+                ipcRenderer.send = (key, value) => {
+                    ipcRenderer.emit('send', key+': '+value);
                 };
-
-                it('emits the correct output, error and ipcRenderer calls', () => {
-                    var ipcRenderer = new EventEmitter();
-                    ipcRenderer.send = (key, value) => {
-                        this.emit('send', key+': '+value);
-                    };
-                    ipcRenderer.on('send', (chunk) => {
-                        ipcout += chunk;
-                    });
-
-
-                    var output = new Output();
-                    output.on('data', (chunk) => {
-                        stdout += chunk;
-                    });
-                    output.on('error', (chunk) => {
-                        errout += chunk;
-                    });
-
-                    var stdout = '';
-                    var errout = '';
-                    var ipcout = '';
-
-                    var app = Application.create(config, fs, ipcRenderer);
-                    app.run(new Input(stdin), output);
-
-                    output.on('ended', () => {
-                        expect(stdout).toBe(expectedStdout);
-                        expect(errout).toBe(expectedErrout);
-                        expect(ipcout).toBe(expectedIpcout);
-                    });
-                    output.on('error', () => {
-                        expect(stdout).toBe(expectedStdout);
-                        expect(errout).toBe(expectedErrout);
-                        expect(ipcout).toBe(expectedIpcout);
-                    });
+                ipcRenderer.on('send', (chunk) => {
+                    ipcout += chunk;
                 });
+
+                var output = new Output();
+                output.on('data', (chunk) => {
+                    stdout += chunk;
+                });
+                output.on('error', (chunk) => {
+                    errout += chunk;
+                });
+                output.on('ended', () => {
+                    expect(stdout).toBe(expectedStdout);
+                    expect(errout).toBe(expectedErrout);
+                    expect(ipcout).toBe(expectedIpcout);
+                });
+                output.on('error', () => {
+                    expect(stdout).toBe(expectedStdout);
+                    expect(errout).toBe(expectedErrout);
+                    expect(ipcout).toBe(expectedIpcout);
+                });
+
+
+                var app = Application.create(config, fs, ipcRenderer);
+                app.run(new Input(stdin), output);
             });
-        }
-    });
+        });
+    }
 });

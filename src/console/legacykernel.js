@@ -161,7 +161,7 @@ function run_index(query_vars, draft)
     set_query('');
 
     //Nachricht ausgeben
-    message('Index von ' + query_vars['filename'] + ' wird ge&ouml;ffnet');
+    message('Index von ' + query_vars['filename'] + ' wird geöffnet');
     //Debug:
     //message('prev: ' + next_files['prev'] + ', this: ' + next_files['this'] + ', next: ' + next_files['next'] + ', near: ' + next_files['near'] + ', ');
     //Datei öffnen
