@@ -62,6 +62,7 @@ describe("The application with valuemap", () => {
         ['version', '0.0.1', '', ''],
         ['open', '', 'Warte auf Eingabe...', ''],
         ['open 12338', 'Index von 12338 wird geöffnet', '', 'openfileinfolder: \\base_dir\\Z.Nr.12000-12499\\12338.tif'],
+        ['open 12338.tif', '12338.tif wird geöffnet', '', 'openfile: \\base_dir\\Z.Nr.12000-12499\\12338.tif'],
         ['open 12339', 'Index von 12339 wird geöffnet', '', 'openfileinfolder: \\base_dir\\Z.Nr.12000-12499\\12340.tif'],
     ];
 

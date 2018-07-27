@@ -110,7 +110,7 @@ function run(input, draft, mode)
     //Eingabefeld leeren
     set_query('');
     //Nachricht ausgeben
-    message(query_vars['filename'] + ' wird ge&ouml;ffnet');
+    message(query_vars['filename'] + ' wird geöffnet');
     //Datei öffnen
     open_file(query_vars['main_dir'] + query_vars['filename']);
 
