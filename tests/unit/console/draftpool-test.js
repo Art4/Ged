@@ -18,17 +18,18 @@
 
 const Draft = require('../../../src/console/draft.js');
 const Draftpool = require('../../../src/console/draftpool.js');
+const Path = require('path');
 
 describe("The draftpool", function() {
     describe('on generateSubfolderNameFromIdentifier() method with different arguments', () => {
         var values = new Array(
-            new Array('10000', 'Z.Nr.10000-10499\\'),
-            new Array('12345', 'Z.Nr.12000-12499\\'),
-            new Array('12499', 'Z.Nr.12000-12499\\'),
-            new Array('12500', 'Z.Nr.12500-12999\\'),
-            new Array('35689', 'Z.Nr.35500-35999\\'),
-            new Array('78000', 'Z.Nr.78000-78499\\'),
-            new Array('99999', 'Z.Nr.99500-99999\\'),
+            new Array('10000', 'Z.Nr.10000-10499'+Path.sep),
+            new Array('12345', 'Z.Nr.12000-12499'+Path.sep),
+            new Array('12499', 'Z.Nr.12000-12499'+Path.sep),
+            new Array('12500', 'Z.Nr.12500-12999'+Path.sep),
+            new Array('35689', 'Z.Nr.35500-35999'+Path.sep),
+            new Array('78000', 'Z.Nr.78000-78499'+Path.sep),
+            new Array('99999', 'Z.Nr.99500-99999'+Path.sep),
         );
 
         for (var i = 0; i < values.length; i++) {
@@ -133,7 +134,7 @@ describe("The draftpool", function() {
                 cb(null);
             },
         };
-        var path = '\\base_dir\\';
+        var path = Path.sep+'base_dir'+Path.sep;
         var draftpool = new Draftpool(fs, path);
 
         it('with correct identifier returns Draft', () => {
@@ -142,7 +143,7 @@ describe("The draftpool", function() {
                     expect(draft).toEqual(jasmine.any(Draft));
                     expect(draft.getFiles().length).toBe(6);
                     expect(draft.getNearestFile().getAbsolutePath()).toBe(
-                        '\\base_dir\\Z.Nr.12000-12499\\12345-R1_Aufstellung.stp'
+                        '\\base_dir\\Z.Nr.12000-12499\\12345-R1_Aufstellung.stp'.replace(/\\/g, Path.sep)
                     );
                 });
         });
@@ -153,7 +154,7 @@ describe("The draftpool", function() {
                     expect(draft).toEqual(jasmine.any(Draft));
                     expect(draft.getFiles().length).toBe(1);
                     expect(draft.getNearestFile().getAbsolutePath()).toBe(
-                        '\\base_dir\\Z.Nr.12000-12499\\12338.tif'
+                        '\\base_dir\\Z.Nr.12000-12499\\12338.tif'.replace(/\\/g, Path.sep)
                     );
                 });
         });
@@ -164,7 +165,7 @@ describe("The draftpool", function() {
                     expect(draft).toEqual(jasmine.any(Draft));
                     expect(draft.getFiles().length).toBe(0);
                     expect(draft.getNearestFile().getAbsolutePath()).toBe(
-                        '\\base_dir\\Z.Nr.12000-12499\\12340.tif'
+                        '\\base_dir\\Z.Nr.12000-12499\\12340.tif'.replace(/\\/g, Path.sep)
                     );
                 });
         });
@@ -175,7 +176,7 @@ describe("The draftpool", function() {
                     expect(draft).toEqual(jasmine.any(Draft));
                     expect(draft.getFiles().length).toBe(2);
                     expect(draft.getNearestFile().getAbsolutePath()).toBe(
-                        '\\base_dir\\Z.Nr.12000-12499\\12342.pdf'
+                        '\\base_dir\\Z.Nr.12000-12499\\12342.pdf'.replace(/\\/g, Path.sep)
                     );
                 });
         });
@@ -186,7 +187,7 @@ describe("The draftpool", function() {
                     expect(draft).toEqual(jasmine.any(Draft));
                     expect(draft.getFiles().length).toBe(0);
                     expect(draft.getNearestFile().getAbsolutePath()).toBe(
-                        '\\base_dir\\Z.Nr.12000-12499\\12346-R0.pdf'
+                        '\\base_dir\\Z.Nr.12000-12499\\12346-R0.pdf'.replace(/\\/g, Path.sep)
                     );
                 });
         });
@@ -252,14 +253,14 @@ describe("The draftpool", function() {
                 var identifier = values[i][0];
 
                 it('shouldn\'t be run more than 20 times', () => {
-                    var path = '\\base_dir\\';
+                    var path = Path.sep+'base_dir'+Path.sep;
                     var draftpool = new Draftpool(fs, path);
 
                     return draftpool.findDraftByIdentifier(identifier)
                         .then((draft) => {
                             expect(draft).toEqual(jasmine.any(Draft));
                             expect(draft.getNearestFile().getAbsolutePath()).toBe(
-                                '\\base_dir\\Z.Nr.23000-23499\\'+identifier+'-R2.pdf'
+                                new String('\\base_dir\\Z.Nr.23000-23499\\'+identifier+'-R2.pdf').replace(/\\/g, Path.sep)
                             );
                             expect(fs.hitCounter).toBeLessThanOrEqual(20);
                         });

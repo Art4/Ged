@@ -19,51 +19,52 @@
 const { Application, Input, Output } = require('../../src/console');
 const EventEmitter = require('events');
 const { Volume } = require('memfs');
+const Path = require('path');
 
 const fs = Volume.fromJSON(
     {
-        './Z.Nr.12000-12499/12338.tif': '',
-        // './Z.Nr.12000-12499/12339.tif': '', // this file is missing
-        './Z.Nr.12000-12499/12340.tif': '',
-        './Z.Nr.12000-12499/12341.bak': '',
-        './Z.Nr.12000-12499/12341.dwg': '',
-        './Z.Nr.12000-12499/12341.dxf': '',
-        './Z.Nr.12000-12499/12342.dft': '',
-        './Z.Nr.12000-12499/12342.pdf': '',
-        './Z.Nr.12000-12499/12342_3D': '',
-        './Z.Nr.12000-12499/12343.dft': '',
-        './Z.Nr.12000-12499/12343.pdf': '',
-        './Z.Nr.12000-12499/12343-R2.dft': '',
-        './Z.Nr.12000-12499/12343-R2.pdf': '',
-        './Z.Nr.12000-12499/12344-R0.dft': '',
-        './Z.Nr.12000-12499/12344-R1.dft': '',
-        './Z.Nr.12000-12499/12344-R2.dft': '',
-        './Z.Nr.12000-12499/12344-R2.pdf': '',
-        './Z.Nr.12000-12499/12345-R0.dft': '',
-        './Z.Nr.12000-12499/12345-R0_Aufstellung.stp': '',
-        './Z.Nr.12000-12499/12345-R1.dft': '',
-        './Z.Nr.12000-12499/12345-R1.log': '',
-        './Z.Nr.12000-12499/12345-R1.pdf': '',
-        './Z.Nr.12000-12499/12345-R1_Aufstellung.stp': '',
-        './Z.Nr.12000-12499/12346-R0 Blatt 1 von 2.dwg': '',
-        './Z.Nr.12000-12499/12346-R0 Blatt 2 von 2.dwg': '',
-        './Z.Nr.12000-12499/12346-R0.dft': '',
-        './Z.Nr.12000-12499/12346-R0.pdf': '',
-        './Z.Nr.12000-12499/Thumbs.db': '',
+        './Z.Nr.10000-10499/10338.tif': '',
+        // './Z.Nr.10000-10499/10339.tif': '', // this file is missing
+        './Z.Nr.10000-10499/10340.tif': '',
+        './Z.Nr.10000-10499/10341.bak': '',
+        './Z.Nr.10000-10499/10341.dwg': '',
+        './Z.Nr.10000-10499/10341.dxf': '',
+        './Z.Nr.10000-10499/10342.dft': '',
+        './Z.Nr.10000-10499/10342.pdf': '',
+        './Z.Nr.10000-10499/10342_3D': '',
+        './Z.Nr.10000-10499/10343.dft': '',
+        './Z.Nr.10000-10499/10343.pdf': '',
+        './Z.Nr.10000-10499/10343-R2.dft': '',
+        './Z.Nr.10000-10499/10343-R2.pdf': '',
+        './Z.Nr.10000-10499/10344-R0.dft': '',
+        './Z.Nr.10000-10499/10344-R1.dft': '',
+        './Z.Nr.10000-10499/10344-R2.dft': '',
+        './Z.Nr.10000-10499/10344-R2.pdf': '',
+        './Z.Nr.10000-10499/10345-R0.dft': '',
+        './Z.Nr.10000-10499/10345-R0_Aufstellung.stp': '',
+        './Z.Nr.10000-10499/10345-R1.dft': '',
+        './Z.Nr.10000-10499/10345-R1.log': '',
+        './Z.Nr.10000-10499/10345-R1.pdf': '',
+        './Z.Nr.10000-10499/10345-R1_Aufstellung.stp': '',
+        './Z.Nr.10000-10499/10346-R0 Blatt 1 von 2.dwg': '',
+        './Z.Nr.10000-10499/10346-R0 Blatt 2 von 2.dwg': '',
+        './Z.Nr.10000-10499/10346-R0.dft': '',
+        './Z.Nr.10000-10499/10346-R0.pdf': '',
+        './Z.Nr.10000-10499/Thumbs.db': '',
     },
     '/base_dir'
 );
 
-// console.log(fs.readdirSync('\\base_dir\\Z.Nr.12000-12499\\'));
+// console.log(fs.readdirSync('\\base_dir\\Z.Nr.10000-10499\\'));
 
 describe("The application with valuemap", () => {
     var values = [
         ['foobar', '', 'Unerwartete Eingabe', ''],
         ['version', '0.0.1', '', ''],
         ['open', '', 'Warte auf Eingabe...', ''],
-        ['open 12338', 'Index von 12338 wird geöffnet', '', 'openfileinfolder: \\base_dir\\Z.Nr.12000-12499\\12338.tif'],
-        ['open 12338.tif', '12338.tif wird geöffnet', '', 'openfile: \\base_dir\\Z.Nr.12000-12499\\12338.tif'],
-        ['open 12339', 'Index von 12339 wird geöffnet', '', 'openfileinfolder: \\base_dir\\Z.Nr.12000-12499\\12340.tif'],
+        ['open 10338', 'Index von 10338 wird geöffnet', '', 'openfileinfolder: \\base_dir\\Z.Nr.10000-10499\\10338.tif'.replace(/\\/g, Path.sep)],
+        ['open 10338.tif', '10338.tif wird geöffnet', '', 'openfile: \\base_dir\\Z.Nr.10000-10499\\10338.tif'.replace(/\\/g, Path.sep)],
+        ['open 10339', 'Index von 10339 wird geöffnet', '', 'openfileinfolder: \\base_dir\\Z.Nr.10000-10499\\10340.tif'.replace(/\\/g, Path.sep)],
     ];
 
     for (var i = 0; i < values.length; i++) {
@@ -78,7 +79,7 @@ describe("The application with valuemap", () => {
                 var config = {
                     store: {
                         app_version: '0.0.1',
-                        base_dir: '\\base_dir\\',
+                        base_dir: Path.sep+'base_dir'+Path.sep,
                         default_file_type: 'pdf',
                         max_revisions: '25',
                     },

@@ -19,6 +19,7 @@
 
 const Draft = require('./draft.js');
 const File = require('./file.js');
+const path = require('path');
 
 // Constructor
 function Draftpool(fs, path) {
@@ -129,7 +130,7 @@ Draftpool.prototype.generateSubfolderNameFromIdentifier = function (identifier) 
     var end2 = (identifier.slice(2,3) < 5) ? '499' : '999';
     var begin = identifier.slice(0,2);
 
-    return 'Z.Nr.' + begin + end1 + '-' + begin + end2 + '\\';
+    return 'Z.Nr.' + begin + end1 + '-' + begin + end2 + path.sep;
 }
 
 /**
