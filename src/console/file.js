@@ -17,11 +17,13 @@
  */
 'use strict';
 
+const Path = require('path');
+
 // Constructor
 function File(path) {
-    this.path = String(path);
+    this.path = String(path).replace(/\\|\//g, Path.sep);
 
-    var parts = this.path.split('\\');
+    var parts = this.path.split(Path.sep);
 
     // could be 12345.tif, 12345-R1.dft or 12345-R3_layout.stp
     this.filename = parts.pop();

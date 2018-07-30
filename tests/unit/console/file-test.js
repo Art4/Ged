@@ -17,6 +17,7 @@
  */
 
 const File = require('../../../src/console/file.js');
+const Path = require('path');
 
 describe("The file", function() {
     describe('constructor method with different arguments', () => {
@@ -59,20 +60,21 @@ describe("The file", function() {
     describe('constructor method with string arguments', () => {
         var values = [
             ['\\path\\to\\file', 'file', '', null],
-            ['\\path\\to\\.notext', '.notext', '', null],
-            ['\\path\\to\\file.ext', 'file.ext', 'ext', null],
-            ['\\path\\to\\12345.pdf', '12345.pdf', 'pdf', null],
-            ['\\path\\to\\12345-R5.pdf', '12345-R5.pdf', 'pdf', '5'],
-            ['\\path\\to\\12345-RC.dft', '12345-RC.dft', 'dft', 'C'],
+            ['/path/to/file', 'file', '', null],
+            ['/path/to/.notext', '.notext', '', null],
+            ['/path/to/file.ext', 'file.ext', 'ext', null],
+            ['/path/to/12345.pdf', '12345.pdf', 'pdf', null],
+            ['/path/to/12345-R5.pdf', '12345-R5.pdf', 'pdf', '5'],
+            ['/path/to/12345-RC.dft', '12345-RC.dft', 'dft', 'C'],
             // test wrong revisions
-            ['\\path\\to\\12345-R.dft', '12345-R.dft', 'dft', null],
-            ['\\path\\to\\12345-R12_layout.stp', '12345-R12_layout.stp', 'stp', '1'],
-            ['\\path\\to\\123456-R1_layout.stp', '123456-R1_layout.stp', 'stp', null],
+            ['/path/to/12345-R.dft', '12345-R.dft', 'dft', null],
+            ['/path/to/12345-R12_layout.stp', '12345-R12_layout.stp', 'stp', '1'],
+            ['/path/to/123456-R1_layout.stp', '123456-R1_layout.stp', 'stp', null],
         ];
 
         for (var i = 0; i < values.length; i++) {
             describe('expect data and returns', () => {
-                var path = values[i][0];
+                var path = values[i][0].replace(/\\|\//g, Path.sep);
                 var name = values[i][1];
                 var ext = values[i][2];
                 var revision = values[i][3];

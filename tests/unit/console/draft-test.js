@@ -22,11 +22,11 @@ const Draft = require('../../../src/console/draft.js');
 describe("The draft", function() {
     describe('without data', () => {
         it('returns empty array', () => {
-            var draft = new Draft('12345', 'path\\', []);
+            var draft = new Draft('12345', 'path/', []);
 
             expect(draft.getFiles()).toEqual([]);
             expect(draft.getNearestFile()).toBe(null);
-            expect(draft.get3DFolderPath()).toBe('path\\12345_3D');
+            expect(draft.get3DFolderPath()).toBe('path/12345_3D');
         });
     });
 

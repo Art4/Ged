@@ -21,6 +21,43 @@ const Draftpool = require('../../../src/console/draftpool.js');
 const Path = require('path');
 
 describe("The draftpool", function() {
+    describe('with path without directory separator at the end', () => {
+        var fs = {
+            readdir: function(path, cb) {
+                cb(null, new Array(
+                    '12345.pdf',
+                ));
+            },
+            statSync: function(path) {
+                // return stat mock
+                return {
+                    isDirectory: function() {
+                        return false;
+                    },
+                };
+            },
+            access: function(path, cb) {
+                cb(null);
+            },
+        };
+
+        it('returns correct path', () => {
+            var draftpool = new Draftpool(fs, Path.sep+'path'); // No / an the end of path
+            return draftpool.findDraftByIdentifier('12345')
+                .then((draft) => {
+                    expect(draft.getNearestFile().getAbsolutePath()).toBe('/path/Z.Nr.12000-12499/12345.pdf'.replace(/\//g, Path.sep));
+                });
+        });
+
+        it('returns correct path', () => {
+            var draftpool = new Draftpool(fs, Path.sep+'path'+Path.sep); // With / an the end of path
+            return draftpool.findDraftByIdentifier('12345')
+                .then((draft) => {
+                    expect(draft.getNearestFile().getAbsolutePath()).toBe('/path/Z.Nr.12000-12499/12345.pdf'.replace(/\//g, Path.sep));
+                });
+        });
+    });
+
     describe('on generateSubfolderNameFromIdentifier() method with different arguments', () => {
         var values = new Array(
             new Array('10000', 'Z.Nr.10000-10499'+Path.sep),
@@ -260,7 +297,7 @@ describe("The draftpool", function() {
                         .then((draft) => {
                             expect(draft).toEqual(jasmine.any(Draft));
                             expect(draft.getNearestFile().getAbsolutePath()).toBe(
-                                new String('\\base_dir\\Z.Nr.23000-23499\\'+identifier+'-R2.pdf').replace(/\\/g, Path.sep)
+                                new String('/base_dir/Z.Nr.23000-23499/'+identifier+'-R2.pdf').replace(/\//g, Path.sep)
                             );
                             expect(fs.hitCounter).toBeLessThanOrEqual(20);
                         });

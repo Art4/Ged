@@ -19,12 +19,12 @@
 
 const Draft = require('./draft.js');
 const File = require('./file.js');
-const path = require('path');
+const Path = require('path');
 
 // Constructor
 function Draftpool(fs, path) {
     this.fs = fs;
-    this.path = String(path);
+    this.path = String(path).replace(/(\\|\/)*$/, '')+Path.sep;
 }
 
 // class methods
@@ -130,7 +130,7 @@ Draftpool.prototype.generateSubfolderNameFromIdentifier = function (identifier) 
     var end2 = (identifier.slice(2,3) < 5) ? '499' : '999';
     var begin = identifier.slice(0,2);
 
-    return 'Z.Nr.' + begin + end1 + '-' + begin + end2 + path.sep;
+    return 'Z.Nr.' + begin + end1 + '-' + begin + end2 + Path.sep;
 }
 
 /**
