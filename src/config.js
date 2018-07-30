@@ -41,6 +41,7 @@ function init() {
         store.store = {
             config_version: configVersion,
             app_version: Utils.getAppVersion(),
+            installed_at: new Date().toISOString(),
             base_dir: 'H:\\Zeichnungen\\',
             default_file_type: 'pdf',
             always_foreground: true,
@@ -74,6 +75,10 @@ function migrateConfigIfNeeded() {
     if (compareVersions(store.get('app_version', ''), '2.0.0-beta.3') === -1) {
         // Delete max_revisions
         store.delete('max_revisions');
+
+        // Set date of release v2.0.0-beta.1 as installDate
+        var installDate = new Date('2018-07-13T12:00:00+0200');
+        store.set('installed_at', installDate.toISOString());
 
         // Update app_version
         store.set('app_version', '2.0.0-beta.3');

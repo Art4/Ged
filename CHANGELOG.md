@@ -8,6 +8,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- In der Konfiguration wird das Installations-Datum von Ged gespeichert
+
 ### Removed
 
 - Eine nicht mehr benötigte Einstellung in der Konfiguration wurde entfernt
