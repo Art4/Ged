@@ -25,7 +25,7 @@ const fs = Volume.fromJSON(
     {
         './Z.Nr.10000-10499/10338.tif': '',
         // './Z.Nr.10000-10499/10339.tif': '', // this file is missing
-        './Z.Nr.10000-10499/10340.tif': '',
+        './Z.Nr.10000-10499/10340.TIF': '',
         './Z.Nr.10000-10499/10341.bak': '',
         './Z.Nr.10000-10499/10341.dwg': '',
         './Z.Nr.10000-10499/10341.dxf': '',
@@ -55,16 +55,46 @@ const fs = Volume.fromJSON(
     '/base_dir'
 );
 
-// console.log(fs.readdirSync('\\base_dir\\Z.Nr.10000-10499\\'));
+// console.log(fs.readdirSync('/base_dir/Z.Nr.10000-10499/'));
 
 describe("The application with valuemap", () => {
     var values = [
-        ['foobar', '', 'Unerwartete Eingabe', ''],
-        ['version', '0.0.1', '', ''],
-        ['open', '', 'Warte auf Eingabe...', ''],
-        ['open 10338', 'Index von 10338 wird geöffnet', '', 'openfileinfolder: \\base_dir\\Z.Nr.10000-10499\\10338.tif'.replace(/\\/g, Path.sep)],
-        ['open 10338.tif', '10338.tif wird geöffnet', '', 'openfile: \\base_dir\\Z.Nr.10000-10499\\10338.tif'.replace(/\\/g, Path.sep)],
-        ['open 10339', 'Index von 10339 wird geöffnet', '', 'openfileinfolder: \\base_dir\\Z.Nr.10000-10499\\10340.tif'.replace(/\\/g, Path.sep)],
+        [
+            'foobar', 'pdf',
+            '', 'Unerwartete Eingabe', '',
+        ],
+        [
+            'version', 'pdf',
+            '0.0.1', '', '',
+        ],
+        [
+            'open', 'pdf',
+            '', 'Warte auf Eingabe...', '',
+        ],
+        [
+            'open 10338', 'pdf',
+            'Index von 10338 wird geöffnet', '', 'openfileinfolder: /base_dir/Z.Nr.10000-10499/10338.tif'.replace(/\//g, Path.sep),
+        ],
+        [
+            'open 10338.tif', 'pdf',
+            '10338.tif wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10338.tif'.replace(/\//g, Path.sep),
+        ],
+        [
+            'open 10339', 'pdf',
+            'Index von 10339 wird geöffnet', '', 'openfileinfolder: /base_dir/Z.Nr.10000-10499/10340.TIF'.replace(/\//g, Path.sep),
+        ],
+        [
+            'open 10340.tif', 'pdf',
+            '10340.TIF wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10340.TIF'.replace(/\//g, Path.sep),
+        ],
+        [
+            'open 10340.tif', 'pdf',
+            '10340.TIF wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10340.TIF'.replace(/\//g, Path.sep),
+        ],
+        [
+            'open 10344', 'dft',
+            '10344-R2.dft wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10344-R2.dft'.replace(/\//g, Path.sep),
+        ],
     ];
 
     for (var i = 0; i < values.length; i++) {
@@ -72,15 +102,16 @@ describe("The application with valuemap", () => {
             var data = values[i];
             it('emits the correct output, error and ipcRenderer calls', () => {
                 var stdin = data[0].split(' ');
-                var expectedStdout = data[1];
-                var expectedErrout = data[2];
-                var expectedIpcout = data[3];
+                var configFileType = data[1];
+                var expectedStdout = data[2];
+                var expectedErrout = data[3];
+                var expectedIpcout = data[4];
 
                 var config = {
                     store: {
                         app_version: '0.0.1',
                         base_dir: Path.sep+'base_dir'+Path.sep,
-                        default_file_type: 'pdf',
+                        default_file_type: configFileType,
                         max_revisions: '25',
                     },
                     get: function(key, def) {
@@ -106,17 +137,19 @@ describe("The application with valuemap", () => {
                 output.on('error', (chunk) => {
                     errout += chunk;
                 });
-                output.on('ended', () => {
+
+                var checkExpectations = () => {
                     expect(stdout).toBe(expectedStdout);
                     expect(errout).toBe(expectedErrout);
                     expect(ipcout).toBe(expectedIpcout);
+                }
+
+                output.on('ended', () => {
+                    checkExpectations()
                 });
                 output.on('error', () => {
-                    expect(stdout).toBe(expectedStdout);
-                    expect(errout).toBe(expectedErrout);
-                    expect(ipcout).toBe(expectedIpcout);
+                    checkExpectations();
                 });
-
 
                 var app = Application.create(config, fs, ipcRenderer);
                 app.run(new Input(stdin), output);

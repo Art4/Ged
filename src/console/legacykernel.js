@@ -422,6 +422,7 @@ function trim(z)
 function build_file_name(input, draft, qv)
 {
     var files = draft.getFiles();
+    var file = null;
 
     var path = qv['main_dir'];
     var name = qv['filename'];
@@ -436,7 +437,7 @@ function build_file_name(input, draft, qv)
 
     var search_for = function (files, rev, type) {
         for (var i = 0; i < files.length; i++) {
-            if (files[i].getRevision() === rev && files[i].getExtension() === type) {
+            if (files[i].getRevision() === rev && files[i].getExtension().toLowerCase() === type.toLowerCase()) {
                 return files[i];
             }
 
@@ -445,21 +446,20 @@ function build_file_name(input, draft, qv)
     }
 
     //Wenn explizit eine Revision angegeben wurde, dann nach dieser suchen
-    if(rev !== null)
-    {
-        if(search_for(files, rev, type))
-        {
-            arr['filename'] = name + '-R' + rev + '.' + type;
+    if (rev !== null) {
+        if (file = search_for(files, rev, type)) {
+            arr['filename'] = name + '-R' + rev + '.' + file.getExtension();
             arr['revision'] = rev;
             return arr;
         }
 
         //Wenn nichts gefunden wurde, aber Rev = 0 ist, auf Datei ohne Rev prüfen
-        if(rev == 0 && search_for(files, null, type))
-        {
-            arr['filename'] = name + '.' + type;
-            arr['revision'] = false;
-            return arr;
+        if (rev == 0) {
+            if (file = search_for(files, null, type)) {
+                arr['filename'] = name + '.' + file.getExtension();
+                arr['revision'] = false;
+                return arr;
+            }
         }
 
         //Wenn wieder nichts gefunden wurde, Fehler ausgeben
@@ -471,17 +471,15 @@ function build_file_name(input, draft, qv)
     //Wenn keine Rev angegeben, gehts hier weiter
     //Neuste Revision suchen
     var have_rev = check_for_revisions(path, name, 0, type);
-    if(have_rev !== false)
-    {
+    if (have_rev !== false) {
         arr['filename'] = name + '-R' + have_rev + '.' + type;
         arr['revision'] = have_rev;
         return arr;
     }
 
     //Letzter Versuch, die Datei zu finden
-    if(search_for(files, null, type))
-    {
-        arr['filename'] = name + '.' + type;
+    if (file = search_for(files, null, type)) {
+        arr['filename'] = name + '.' + file.getExtension();
         arr['revision'] = false;
         return arr;
     }
@@ -489,12 +487,9 @@ function build_file_name(input, draft, qv)
     //since 1.0.1
     //Noch ein letzter Versuch, die Zeichnung im 3D-Ordner zu finden
     //Nur auf Befehl "open_advanced" prüfen, ob ein 3D-Ordner existiert
-    if(qv['action'] == "open_advanced")
-    {
-        if(folder_exists(qv['3D_dir']+'\\'))
-        {
-            if(file_exists(qv['3D_dir'] + '\\' + name + '-R0' + '.' + type))
-            {
+    if (qv['action'] == "open_advanced") {
+        if (folder_exists(qv['3D_dir']+'\\')) {
+            if (file_exists(qv['3D_dir'] + '\\' + name + '-R0' + '.' + type)) {
                 arr['filename'] = qv['3D'] + '\\' + name + '-R0' + '.' + type;
                 arr['revision'] = '0';
                 return arr;

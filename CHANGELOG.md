@@ -19,6 +19,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - Interoperabilität mit Unix-Systemen verbessert
 - Alle Bibliotheken wurden aktualisiert
 
+### Fixed
+
+- Ged erkennt jetzt wieder Dateien mit großgeschriebenen Dateiendungen (z.B. 12345.TIF)
+
 ## [2.0.0-beta.1] - 2018-07-13
 
 ### Added
