@@ -19,6 +19,7 @@
 
 const Store = require('electron-store');
 const Utils = require('./window-utils.js');
+const compareVersions = require('compare-versions');
 
 var store = null;
 
@@ -62,7 +63,7 @@ function migrateConfigIfNeeded() {
     }
 
     // Migrate 2.0.0-alpha.1 to 2.0.0-alpha.2
-    if (store.get('app_version', '') === '2.0.0-alpha.1') {
+    if (compareVersions(store.get('app_version', ''), '2.0.0-alpha.2') === -1) {
         // Delete dir_store_end
         store.delete('dir_store_end');
 
