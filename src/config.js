@@ -41,7 +41,6 @@ function init() {
         store.store = {
             config_version: configVersion,
             app_version: Utils.getAppVersion(),
-            max_revisions: 25,
             base_dir: 'H:\\Zeichnungen\\',
             default_file_type: 'pdf',
             always_foreground: true,
@@ -62,13 +61,22 @@ function migrateConfigIfNeeded() {
         return;
     }
 
-    // Migrate 2.0.0-alpha.1 to 2.0.0-alpha.2
+    // Migrate 2.0.0-alpha.2
     if (compareVersions(store.get('app_version', ''), '2.0.0-alpha.2') === -1) {
         // Delete dir_store_end
         store.delete('dir_store_end');
 
         // Update app_version
         store.set('app_version', '2.0.0-alpha.2');
+    }
+
+    // Migrate to 2.0.0-beta.3
+    if (compareVersions(store.get('app_version', ''), '2.0.0-beta.3') === -1) {
+        // Delete max_revisions
+        store.delete('max_revisions');
+
+        // Update app_version
+        store.set('app_version', '2.0.0-beta.3');
     }
 
     store.set('app_version', Utils.getAppVersion());

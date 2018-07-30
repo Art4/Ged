@@ -517,7 +517,8 @@ function check_for_revisions(path, name, rev, ext)
 
     var c = 0;
 
-    while(c <= cfg['max_revisions'])
+    // Höchte Revision, nach der gesucht wird, ist 25
+    while(c <= 25)
     {
         rev = rev_store[c];
         var check_file = path + name + '-R' + rev + '.' + ext;
@@ -601,9 +602,6 @@ function Kernel(cnf, filesystem, ipc) {
     ipcRenderer = ipc;
 
     fsutils = new FsUtils(fs);
-
-    //Höchte Revision, nach der gesucht wird
-    cfg['max_revisions'] = config.get('max_revisions', 25);
 }
 
 Kernel.prototype.handleInput = function(input, output, draft, mode) {

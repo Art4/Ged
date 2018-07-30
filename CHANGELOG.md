@@ -8,6 +8,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Removed
+
+- Eine nicht mehr benötigte Einstellung in der Konfiguration wurde entfernt
+
 ## [2.0.0-beta.2] - 2018-07-30
 
 ### Added
