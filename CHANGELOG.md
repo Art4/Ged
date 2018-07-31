@@ -6,6 +6,8 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## [Unreleased]
+
 ## [2.0.0-beta.4] - 2018-07-31
 
 ### Changed
@@ -103,7 +105,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - Wenn eine gesuchte Datei nicht existiert, wird sofort der Explorer geöffnet, womit man sich das zweite Absenden der Suche spart
 - Die Standard-Dateiendung wurde von `dft` auf `pdf` gesetzt
 - Ged steht jetzt unter [GPL-3.0](http://opensource.org/licenses/gpl-3.0.html)
-- Der Changelog wurde zu Markdown konvertiert und folgt dem Empfehlungen von [keepachangelog.com](http://keepachangelog.com/)
+- Der Changelog wurde zu Markdown konvertiert und folgt den Empfehlungen von [keepachangelog.com](http://keepachangelog.com/)
 
 ## [1.0.8] - 2014-08-11
 
