@@ -98,7 +98,7 @@ app.on('ready', function createMainWindow () {
         var position = mainWindow.getPosition();
         var createdAt = Date.now();
 
-        positionQueue = {
+        lastWindowPosition = {
             createdAt: createdAt,
             x: position[0],
             y: position[1],
@@ -106,12 +106,12 @@ app.on('ready', function createMainWindow () {
 
         // Only save after 250ms, if position hasn't changed
         setTimeout(function() {
-            if (positionQueue.createdAt > createdAt) {
+            if (lastWindowPosition.createdAt > createdAt) {
                 return;
             }
 
-            config.set('displayX', positionQueue.x);
-            config.set('displayY', positionQueue.y);
+            config.set('displayX', lastWindowPosition.x);
+            config.set('displayY', lastWindowPosition.y);
         }, 250);
     });
 
@@ -172,24 +172,30 @@ app.on('ready', function createMainWindow () {
         shell.openExternal(url);
     });
 
-    // Check for updates
-    const checkForUpdatesPromise = autoUpdater.checkForUpdates();
-
-    checkForUpdatesPromise.then(it => {
-        const downloadPromise = it.downloadPromise;
-
-        if (downloadPromise == null) {
-            return;
-        }
-
-        downloadPromise.then(() => {
-            new Notification({
-                title: 'Neues Update ist verfügbar',
-                body: `Ged Version ${it.updateInfo.version} wurde heruntergeladen und wird beim Beenden automatisch installiert.`,
-                icon: './pages/assets/img/icon-256.png'
-            }).show();
-        });
+    // Ignore errors in autoUpdater
+    autoUpdater.on('error', (err) => {
+        // #TODO Log autoUpdater errors
+        console.log(err);
     });
+
+    // Restart after update downloaded
+    autoUpdater.on('update-downloaded', (info) => {
+        console.log(info);
+        new Notification({
+            title: 'Neues Update ist verfügbar',
+            body: `Ged Version ${info.version} wurde heruntergeladen und wird jetzt automatisch installiert.`,
+            icon: './pages/assets/img/icon-256.png'
+        }).show();
+
+        setTimeout(() => {
+            autoUpdater.quitAndInstall(true, true);
+        }, 5000);
+    });
+
+    // Check for updates
+    setTimeout(() => {
+        autoUpdater.checkForUpdates();
+    }, 2000);
 });
 
 // Quit when all windows are closed.

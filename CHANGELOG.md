@@ -10,6 +10,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Autoupdate wird 5 Sekunden nach dem Download sofort installiert, da die Installation beim Herunterfahren von Windows nicht funktioniert
 - Alle Bibliotheken wurden aktualisiert
 
 ## [2.0.0-beta.3] - 2018-07-31
