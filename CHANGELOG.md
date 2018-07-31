@@ -6,7 +6,7 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased]
+## [2.0.0-beta.3] - 2018-07-31
 
 ### Added
 
@@ -15,6 +15,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Removed
 
 - Eine nicht mehr benötigte Einstellung in der Konfiguration wurde entfernt
+
+### Fixed
+
+- Fehler behoben, durch den immer der Explorer geöffnet wurde, statt die Datei selber zu öffnen
 
 ## [2.0.0-beta.2] - 2018-07-30
 
@@ -159,7 +163,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Fehlermeldung, wenn der gesuchte 3D-Ordner nicht existiert
 
-[Unreleased]: https://github.com/Art4/Ged/compare/v2.0.0-beta.2...HEAD
+[Unreleased]: https://github.com/Art4/Ged/compare/v2.0.0-beta.3...HEAD
+[2.0.0-beta.3]: https://github.com/Art4/Ged/compare/v2.0.0-beta.2...v2.0.0-beta.3
 [2.0.0-beta.2]: https://github.com/Art4/Ged/compare/v2.0.0-beta.1...v2.0.0-beta.2
 [2.0.0-beta.1]: https://github.com/Art4/Ged/compare/v2.0.0-alpha.3...v2.0.0-beta.1
 [2.0.0-alpha.3]: https://github.com/Art4/Ged/compare/v2.0.0-alpha.2...v2.0.0-alpha.3
