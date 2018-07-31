@@ -23,6 +23,13 @@ const { Command } = require('commander');
 
 // Constructor
 function Application() {
+    this.program = null;
+    this.controllers = [];
+}
+
+Application.prototype.setupCommander = function() {
+    // Commander kann nicht mehrfach verwendet werden, sondern muss immer wieder
+    // neu geladen werden, siehe https://github.com/tj/commander.js/pull/499
     this.program = new Command();
     this.program
         .version('unknown', '-OV, --original-version');
@@ -33,16 +40,27 @@ function Application() {
         .action(() => {
             this.program.output.destroy('Unerwartete Eingabe');
         });
+
+    for (var i = 0; i < this.controllers.length; i++) {
+        var controller = this.controllers[i];
+
+        controller.register(this.program);
+    }
 }
 
 // class methods
 Application.prototype.addController = function(controller) {
-    controller.register(this.program);
+    this.controllers.push(controller);
 };
 
 Application.prototype.run = function(input, output) {
+    // Setup commander
+    this.setupCommander();
+
     this.program.output = output;
     this.program.parse(input.getArgv());
+
+    this.program = null;
 };
 
 // Factory method
