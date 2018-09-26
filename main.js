@@ -20,7 +20,6 @@ const electron = require('electron');
 const {app, BrowserWindow, ipcMain, shell, nativeImage, Notification} = electron;
 const Config = require('./src/config.js');
 const autoUpdater = require('electron-updater').autoUpdater;
-const AutoLaunch = require('auto-launch');
 const config = new Config();
 const isDevEnv = ('ELECTRON_IS_DEV' in process.env);
 
@@ -155,7 +154,11 @@ app.on('ready', function createMainWindow () {
         if (settingsWindow) {
             mainWindow.setAlwaysOnTop(config.get('always_foreground', true));
             mainWindow.setOpacity(config.get('opacity', 1));
-            // TODO: Autolaunch einrichten
+
+            // setup Autolaunch
+            app.setLoginItemSettings({
+                openAtLogin: config.get('autolaunch', true),
+            });
 
             settingsWindow.close();
             settingsWindow = null;
