@@ -155,6 +155,11 @@ app.on('ready', function createMainWindow () {
             mainWindow.setAlwaysOnTop(config.get('always_foreground', true));
             mainWindow.setOpacity(config.get('opacity', 1));
 
+            // setup Autolaunch
+            app.setLoginItemSettings({
+                openAtLogin: config.get('autolaunch', true),
+            });
+
             settingsWindow.close();
             settingsWindow = null;
         }

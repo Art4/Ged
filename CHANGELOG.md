@@ -8,6 +8,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Über die Einstellungen kann bestimmt werden, ob Ged bei Windows-Anmeldung automatisch starten soll
+
 ### Changed
 
 - Alle Bibliotheken wurden aktualisiert

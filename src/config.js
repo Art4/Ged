@@ -45,6 +45,7 @@ function init() {
             base_dir: 'H:\\Zeichnungen\\',
             default_file_type: 'pdf',
             always_foreground: true,
+            autolaunch: true,
             opacity: 1,
             displayX: null,
             displayY: null,
@@ -82,6 +83,14 @@ function migrateConfigIfNeeded() {
 
         // Update app_version
         store.set('app_version', '2.0.0-beta.3');
+    }
+
+    // Migrate to 2.0.0-beta.5
+    if (compareVersions(store.get('app_version', ''), '2.0.0-beta.5') === -1) {
+        store.set('autolaunch', false);
+
+        // Update app_version
+        store.set('app_version', '2.0.0-beta.5');
     }
 
     store.set('app_version', Utils.getAppVersion());

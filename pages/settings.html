@@ -39,15 +39,6 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label for="formDraftPathInput">
-                    <!-- <span class="fas fa-folder-open"></span> --><span class="h6">Pfad zum Zeichnungs-Ordner</span><br />
-                    <span class="text-muted">Der absolute Pfad zum Zeichnungs-Ordner lautet in der Regel <code>H:\Zeichnungen\</code></span>
-                </label>
-                <input type="text" class="form-control" id="formDraftPathInput" placeholder="H:\Zeichnungen\">
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
                 <label for="formDefaultFileTypeInput">
                     <!-- <span class="fas fa-file"></span> --><span class="h6">Bevorzugtes Zeichnungsformat</span><br />
                     <span class="text-muted">Falls vorhanden, wird Ged beim Öffnen einer Zeichnung immer das bevorzugte Format wählen.</span>
@@ -69,6 +60,15 @@
             </div>
         </div>
         <div class="col-12">
+            <div class="form-check form-group">
+                <input class="form-check-input" type="checkbox" id="formAutolaunchInput">
+                <label class="form-check-label" for="formAutolaunchInput">
+                    <span class="h6">Autostart bei Anmeldung</span><br />
+                    <span class="text-muted">Ged startet nach der Anmeldung automatisch</span>
+                </label>
+            </div>
+        </div>
+        <div class="col-12">
             <div class="form-group">
                 <label for="formOpacityInput">
                     <span class="h6">Transparenz</span><br />
@@ -81,6 +81,15 @@
                     <option value="0.4">60%</option>
                     <option value="0.2">80%</option>
                 </select>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label for="formDraftPathInput">
+                    <!-- <span class="fas fa-folder-open"></span> --><span class="h6">Pfad zum Zeichnungs-Ordner</span><br />
+                    <span class="text-muted">Der absolute Pfad zum Zeichnungs-Ordner lautet in der Regel <code>H:\Zeichnungen\</code></span>
+                </label>
+                <input type="text" class="form-control" id="formDraftPathInput" placeholder="H:\Zeichnungen\">
             </div>
         </div>
 
