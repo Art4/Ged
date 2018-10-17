@@ -19,7 +19,7 @@
 const File = require('../../../src/console/file.js');
 const Path = require('path');
 
-describe("The file", function() {
+describe('The file', function() {
     describe('constructor method with different arguments', () => {
         var values = new Array(
             new Array('null', null),
@@ -29,7 +29,7 @@ describe("The file", function() {
             new Array('123.456', 123.456),
             new Array('string', 'string'),
             new Array('', new Array()),
-            new Array('[object Object]', {}),
+            new Array('[object Object]', {})
         );
 
         for (var i = 0; i < values.length; i++) {
@@ -69,7 +69,7 @@ describe("The file", function() {
             // test wrong revisions
             ['/path/to/12345-R.dft', '12345-R.dft', 'dft', null],
             ['/path/to/12345-R12_layout.stp', '12345-R12_layout.stp', 'stp', '1'],
-            ['/path/to/123456-R1_layout.stp', '123456-R1_layout.stp', 'stp', null],
+            ['/path/to/123456-R1_layout.stp', '123456-R1_layout.stp', 'stp', null]
         ];
 
         for (var i = 0; i < values.length; i++) {

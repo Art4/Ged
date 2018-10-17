@@ -18,12 +18,12 @@
 
 const { Output } = require('../../../src/console');
 
-describe("The Output", function() {
+describe('The Output', function() {
     describe('with valuemap', () => {
         var values = [
             ['line1'],
             ['line2'],
-            ['line_with_linebreak'+"\n"],
+            ['line_with_linebreak'+'\n'],
         ];
 
         for (var i = 0; i < values.length; i++) {
@@ -45,7 +45,7 @@ describe("The Output", function() {
 
             describe('on method writeLine()', () => {
                 var line = values[i][0];
-                var expected = line+"\n";
+                var expected = line+'\n';
                 var buffer = '';
 
                 var output = new Output();

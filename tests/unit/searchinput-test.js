@@ -18,7 +18,7 @@
 
 const SearchInput = require('../../src/searchinput.js');
 
-describe("The SearchInput", function() {
+describe('The SearchInput', function() {
     describe('with valuemap', () => {
         var values = [
             ['12345', ['node', 'ged', 'open', '12345']],

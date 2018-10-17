@@ -30,7 +30,7 @@ FsUtils.prototype.isFileWriteProtected = function(filepath) {
 
     //stats.mode = 33206: beschreibbar; = 33060: schreibgeschützt
     return ((stats.mode & 146) === 0);
-}
+};
 
 /**
  * @see https://stackoverflow.com/a/30062783
@@ -53,7 +53,7 @@ FsUtils.prototype.setFileWriteProtected = function(filepath, writeProtected) {
     }
 
     return true;
-}
+};
 
 // export the class
 module.exports = FsUtils;

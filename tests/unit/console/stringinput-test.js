@@ -18,7 +18,7 @@
 
 const StringInput = require('../../../src/console/stringinput.js');
 
-describe("The StringInput", function() {
+describe('The StringInput', function() {
     describe('with valuemap', () => {
         var values = [
             ['12345', '12345', null, null],

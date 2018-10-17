@@ -18,7 +18,7 @@
 
 const { Input } = require('../../../src/console');
 
-describe("The Input", function() {
+describe('The Input', function() {
     describe('with valuemap', () => {
         var values = [
             [[], ['node', 'ged']],

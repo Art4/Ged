@@ -19,7 +19,7 @@
 const File = require('../../../src/console/file.js');
 const Draft = require('../../../src/console/draft.js');
 
-describe("The draft", function() {
+describe('The draft', function() {
     describe('without data', () => {
         it('returns empty array', () => {
             var draft = new Draft('12345', 'path/', []);

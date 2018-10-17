@@ -115,7 +115,7 @@ Draftpool.prototype.createDraftFromFilelist = function (dirfiles, identifier, pa
     }
 
     return new Draft(identifier, path, files, nearestFile);
-}
+};
 
 /**
  * Generates the subfolder name from a identifier
@@ -131,7 +131,7 @@ Draftpool.prototype.generateSubfolderNameFromIdentifier = function (identifier) 
     var begin = identifier.slice(0,2);
 
     return 'Z.Nr.' + begin + end1 + '-' + begin + end2 + Path.sep;
-}
+};
 
 /**
  * optimize the file list
@@ -159,14 +159,16 @@ Draftpool.prototype.optimizeFileList = function (filelist, identifier, pick) {
         return this.optimizeFileList(filelist, identifier, Math.floor(filelist.length / 4));
     }
 
+    var newFilelist;
+
     if (filelist[newPick].slice(0,5) < identifier) {
-        var newFilelist = filelist.slice(newPick);
+        newFilelist = filelist.slice(newPick);
     } else {
-        var newFilelist = filelist.slice(0, newPick);
+        newFilelist = filelist.slice(0, newPick);
     }
 
     return this.optimizeFileList(newFilelist, identifier);
-}
+};
 
 // export the class
 module.exports = Draftpool;

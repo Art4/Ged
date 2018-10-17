@@ -19,7 +19,7 @@
 const fs = require('fs');
 const FsUtils = require('../../../src/console/fs-utils.js');
 
-describe("FsUtils", function() {
+describe('FsUtils', function() {
     var filepath = './tests/testfile';
     var fsutils = new FsUtils(fs);
 

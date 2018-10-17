@@ -46,7 +46,7 @@ Application.prototype.setupCommander = function() {
 
         controller.register(this.program);
     }
-}
+};
 
 // class methods
 Application.prototype.addController = function(controller) {

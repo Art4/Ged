@@ -19,7 +19,7 @@
 const { Application, Output } = require('../../../src/console');
 const VersionController = require('../../../src/console/controller/versioncontroller.js');
 
-describe("The application", function() {
+describe('The application', function() {
     var config;
 
     beforeEach(function() {
@@ -46,7 +46,7 @@ describe("The application", function() {
                 expect(error).toBe('Unerwartete Eingabe');
             });
             output.on('ended', (error) => {
-                expect(false).toBe("this should never been called");
+                expect(false).toBe('this should never been called');
             });
 
             application.run(input, output);
@@ -65,7 +65,7 @@ describe("The application", function() {
             };
             var output = new Output();
             output.on('error', (error) => {
-                expect(false).toBe("this should never been called");
+                expect(false).toBe('this should never been called');
             });
             output.on('data', (data) => {
                 expect(data).toBe('v1');

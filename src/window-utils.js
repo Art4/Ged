@@ -19,14 +19,14 @@
 const {ipcRenderer} = require('electron');
 const packageData = require('../package.json');
 
-function Utils() {};
+function Utils() {}
 
 Utils.changeWindowOpacity = function(endOpacity) {
     var startOpacity = ipcRenderer.sendSync('getopacity');
 
     var diffOpacity = endOpacity - startOpacity;
-    increaseOpacity = (diffOpacity > 0);
-    steps = Math.abs(Math.floor(diffOpacity/0.1));
+    var increaseOpacity = (diffOpacity > 0);
+    var steps = Math.abs(Math.floor(diffOpacity/0.1));
 
     function changeOpacity(currentOpacity, endOpacity, currentStep, steps) {
         if (currentStep >= steps) {

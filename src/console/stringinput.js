@@ -24,7 +24,7 @@ function StringInput(query) {
     this.revision = null;
     this.type = null;
 
-    var regex = /^(\d+)(\-R[0-9a-z]{1})?(\.[a-z]{1,3})?/i;
+    var regex = /^(\d+)(-R[0-9a-z]{1})?(\.[a-z]{1,3})?/i;
     var results = regex.exec(this.query);
 
     if (results && results[1].length === 5) {

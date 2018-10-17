@@ -41,7 +41,7 @@ class Output extends Writable {
     }
 
     writeLine(chunk) {
-        this.write(chunk+"\n");
+        this.write(chunk+'\n');
     }
 }
 

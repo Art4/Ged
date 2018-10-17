@@ -11,6 +11,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Alle Bibliotheken wurden aktualisiert
+- [Eslint](https://eslint.org) wird eingesetzt, um den Source Code automatisch zu bereinigen
 
 ## [2.0.0-beta.5] - 2018-09-26
 

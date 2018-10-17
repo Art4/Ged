@@ -20,12 +20,12 @@ const Draft = require('../../../src/console/draft.js');
 const Draftpool = require('../../../src/console/draftpool.js');
 const Path = require('path');
 
-describe("The draftpool", function() {
+describe('The draftpool', function() {
     describe('with path without directory separator at the end', () => {
         var fs = {
             readdir: function(path, cb) {
                 cb(null, new Array(
-                    '12345.pdf',
+                    '12345.pdf'
                 ));
             },
             statSync: function(path) {
@@ -66,12 +66,12 @@ describe("The draftpool", function() {
             new Array('12500', 'Z.Nr.12500-12999'+Path.sep),
             new Array('35689', 'Z.Nr.35500-35999'+Path.sep),
             new Array('78000', 'Z.Nr.78000-78499'+Path.sep),
-            new Array('99999', 'Z.Nr.99500-99999'+Path.sep),
+            new Array('99999', 'Z.Nr.99500-99999'+Path.sep)
         );
 
         for (var i = 0; i < values.length; i++) {
             describe('returns correct subfolder name', () => {
-                var draftpool = new Draftpool({}, '')
+                var draftpool = new Draftpool({}, '');
                 var data = values[i];
 
                 it('the absolute path with the right value', () => {
@@ -156,7 +156,7 @@ describe("The draftpool", function() {
                     '12346-R0 Blatt 2 von 2.dwg',
                     '12346-R0.dft',
                     '12346-R0.pdf',
-                    'Thumbs.db',
+                    'Thumbs.db'
                 ));
             },
             statSync: function(path) {
@@ -245,7 +245,7 @@ describe("The draftpool", function() {
             [getRandomArbitrary(23000,23500)],
             [getRandomArbitrary(23000,23500)],
             [getRandomArbitrary(23000,23500)],
-            ['23499'], // maximal
+            ['23499'] // maximal
         ];
 
         for (var i = 0; i < values.length; i++) {
@@ -254,7 +254,6 @@ describe("The draftpool", function() {
                     hitCounter: 0,
                     readdir: function(path, cb) {
                         var files = new Array();
-                        var i = 0;
 
                         // Create a list with 5000 files
                         for (var i = 0; i < 500; i++) {

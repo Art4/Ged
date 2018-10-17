@@ -27,33 +27,35 @@ function analyseQuery(query) {
         return ['open', raw[0]];
     }
 
+    /*eslint no-unreachable: "off"*/
+
     switch (raw[1]) {
-        case 'o':
-            return ['open', raw[0]];
-            break;
-        case 'e':
-        case '3d':
-            return ['open', raw[0], '--in-3d-folder'];
-            break;
-        case 'i':
-            return ['open', raw[0], '--in-folder'];
-            break;
-        case '+':
-        case 'a':
-            return ['open', raw[0], '--search-in-3d-folder'];
-            break;
-        case 's':
-            return ['chmod', raw[0], '--read-only'];
-            break;
-        case 'f':
-            return ['chmod', raw[0], '--read-write'];
-            break;
-        case 'c':
-            return ['clean', raw[0]];
-            break;
-        default:
-            return [raw[1], raw[0]];
-            break;
+    case 'o':
+        return ['open', raw[0]];
+        break;
+    case 'e':
+    case '3d':
+        return ['open', raw[0], '--in-3d-folder'];
+        break;
+    case 'i':
+        return ['open', raw[0], '--in-folder'];
+        break;
+    case '+':
+    case 'a':
+        return ['open', raw[0], '--search-in-3d-folder'];
+        break;
+    case 's':
+        return ['chmod', raw[0], '--read-only'];
+        break;
+    case 'f':
+        return ['chmod', raw[0], '--read-write'];
+        break;
+    case 'c':
+        return ['clean', raw[0]];
+        break;
+    default:
+        return [raw[1], raw[0]];
+        break;
     }
 }
 
@@ -76,7 +78,7 @@ class SearchInput extends Input {
 
     getQuery() {
         return this.query;
-    };
+    }
 }
 
 // export the class

@@ -48,7 +48,7 @@ function msgbox_confirm(msg)
 function run(input, draft, mode)
 {
     //Wenn keine Eingabe gemacht wurde, Fehler ausgeben
-    if(input.getQuery() == "")
+    if(input.getQuery() == '')
     {
         message('Warte auf Eingabe...');
         return false;
@@ -150,7 +150,7 @@ function run_index(query_vars, draft)
     if(near === null)
     {
         set_query(query_vars['query']);
-        message("Keine &auml;hnliche Datei gefunden...");
+        message('Keine &auml;hnliche Datei gefunden...');
         return false;
     }
 
@@ -177,7 +177,7 @@ function run_index(query_vars, draft)
 //https://developer.mozilla.org/en/JavaScript/Reference/Operators/Bitwise_Operators
 function run_set_attributes(query_vars)
 {
-    file = query_vars['main_dir'] + query_vars['filename'];
+    var file = query_vars['main_dir'] + query_vars['filename'];
 
     //message(query_vars['filename'] + ' ist ' + file.Attributes);
 
@@ -250,7 +250,7 @@ function run_clean(query_vars)
             //Bugfix since v1.0.6
             set_file_permission(query_vars['main_dir'] + file, 'read_only');
 
-            message(file + " bereinigt");
+            message(file + ' bereinigt');
             //Suchfeld leeren
             set_query('');
 
@@ -261,7 +261,7 @@ function run_clean(query_vars)
             //Schreibschutz setzen
             set_file_permission(query_vars['main_dir'] + file, 'read_only');
 
-            message(file + " wurde schreibgesch&uuml;tzt");
+            message(file + ' wurde schreibgesch&uuml;tzt');
             //Suchfeld leeren
             set_query('');
 
@@ -273,7 +273,7 @@ function run_clean(query_vars)
         //Schreibschutz setzen
         set_file_permission(query_vars['main_dir'] + file, 'read_only');
 
-        message(file + " wurde schreibgesch&uuml;tzt");
+        message(file + ' wurde schreibgesch&uuml;tzt');
         //Suchfeld leeren
         set_query('');
 
@@ -367,55 +367,49 @@ function parse_actions(c)
     var a = c.toUpperCase();
 
     // Explorer
-    if(a == "E" || a == "3D" )
+    if(a == 'E' || a == '3D' )
     {
         return 'explorer';
     }
 
     // Open Advanced
-    if(a == "A" || a == "+")
+    if(a == 'A' || a == '+')
     {
         return 'open_advanced';
     }
 
     // Index
-    if(a == "I" || a == "index")
+    if(a == 'I' || a == 'index')
     {
         return 'index';
     }
 
     // Schreibschutz setzen; since v1.0.4
-    if(a == "S")
+    if(a == 'S')
     {
         return 'read_only';
     }
 
     // Schreibschutz aufheben; since v1.0.4
-    if(a == "F")
+    if(a == 'F')
     {
         return 'read_write';
     }
 
     // Open
-    if(a == "O" || a == "OPEN" )
+    if(a == 'O' || a == 'OPEN' )
     {
         return 'open';
     }
 
     // Clean
-    if(a == "C" || a == "CLEAN" )
+    if(a == 'C' || a == 'CLEAN' )
     {
         return 'clean';
     }
 
     //Default ist open
     return 'open';
-}
-
-//funktioniert wie trim() in PHP
-function trim(z)
-{
-    return z.replace (/^\s+/, '').replace (/\s+$/, '');
 }
 
 /* FILE HANDLER FUNCTIONS */
@@ -443,11 +437,13 @@ function build_file_name(input, draft, qv)
 
             return null;
         }
-    }
+    };
 
     //Wenn explizit eine Revision angegeben wurde, dann nach dieser suchen
     if (rev !== null) {
-        if (file = search_for(files, rev, type)) {
+        file = search_for(files, rev, type);
+
+        if (file) {
             arr['filename'] = name + '-R' + rev + '.' + file.getExtension();
             arr['revision'] = rev;
             return arr;
@@ -455,7 +451,9 @@ function build_file_name(input, draft, qv)
 
         //Wenn nichts gefunden wurde, aber Rev = 0 ist, auf Datei ohne Rev prüfen
         if (rev == 0) {
-            if (file = search_for(files, null, type)) {
+            file = search_for(files, null, type);
+
+            if (file) {
                 arr['filename'] = name + '.' + file.getExtension();
                 arr['revision'] = false;
                 return arr;
@@ -478,7 +476,9 @@ function build_file_name(input, draft, qv)
     }
 
     //Letzter Versuch, die Datei zu finden
-    if (file = search_for(files, null, type)) {
+    file = search_for(files, null, type);
+
+    if (file) {
         arr['filename'] = name + '.' + file.getExtension();
         arr['revision'] = false;
         return arr;
@@ -487,7 +487,7 @@ function build_file_name(input, draft, qv)
     //since 1.0.1
     //Noch ein letzter Versuch, die Zeichnung im 3D-Ordner zu finden
     //Nur auf Befehl "open_advanced" prüfen, ob ein 3D-Ordner existiert
-    if (qv['action'] == "open_advanced") {
+    if (qv['action'] == 'open_advanced') {
         if (folder_exists(qv['3D_dir']+'\\')) {
             if (file_exists(qv['3D_dir'] + '\\' + name + '-R0' + '.' + type)) {
                 arr['filename'] = qv['3D'] + '\\' + name + '-R0' + '.' + type;
@@ -510,7 +510,7 @@ function build_file_name(input, draft, qv)
 function check_for_revisions(path, name, rev, ext)
 {
     var last_found = false;
-    if(rev == "")
+    if(rev == '')
     {
         rev = rev_store[0];
     }
@@ -578,7 +578,7 @@ function folder_exists(foldername)
 //since v1.0.2
 function is_same_search_as_last(query_vars)
 {
-    if(last_search_filename == "" || last_search_filetype == "")
+    if(last_search_filename == '' || last_search_filetype == '')
         return false;
 
     if(last_search_filename == query_vars['filename'] && last_search_filetype == query_vars['file_type'] && query_vars['action'] == 'open')
@@ -591,8 +591,8 @@ function is_same_search_as_last(query_vars)
 //since v1.0.3
 function clean_last_search()
 {
-    last_search_filename = "";
-    last_search_filetype = "";
+    last_search_filename = '';
+    last_search_filetype = '';
 }
 
 // Constructor

@@ -107,7 +107,7 @@ function Config() {}
 Config.prototype.get = function(key, def) {
     init();
     return store.get(key, def);
-}
+};
 
 /**
  * set a value by key
@@ -115,7 +115,7 @@ Config.prototype.get = function(key, def) {
 Config.prototype.set = function(key, value) {
     init();
     store.set(key, value);
-}
+};
 
 // export the class
 module.exports = Config;

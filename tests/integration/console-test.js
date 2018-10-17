@@ -57,7 +57,7 @@ const fs = Volume.fromJSON(
 
 // console.log(fs.readdirSync('/base_dir/Z.Nr.10000-10499/'));
 
-describe("The application with valuemap", () => {
+describe('The application with valuemap', () => {
     var values = [
         [
             'foobar', 'pdf',
@@ -142,10 +142,10 @@ describe("The application with valuemap", () => {
                     expect(stdout).toBe(expectedStdout);
                     expect(errout).toBe(expectedErrout);
                     expect(ipcout).toBe(expectedIpcout);
-                }
+                };
 
                 output.on('ended', () => {
-                    checkExpectations()
+                    checkExpectations();
                 });
                 output.on('error', () => {
                     checkExpectations();

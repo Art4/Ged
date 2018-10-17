@@ -34,7 +34,7 @@ function File(path) {
 
     this.revision = null;
 
-    if (this.filename.match(/^\d{5}\-R[0-9a-z]+/i)) {
+    if (this.filename.match(/^\d{5}-R[0-9a-z]+/i)) {
         this.revision = this.filename.slice(7, 8);
     }
 }
