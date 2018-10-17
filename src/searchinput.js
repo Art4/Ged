@@ -29,7 +29,7 @@ function analyseQuery(query) {
 
     /*eslint no-unreachable: "off"*/
 
-    switch (raw[1]) {
+    switch (raw[1].toLowerCase()) {
     case 'o':
         return ['open', raw[0]];
         break;
