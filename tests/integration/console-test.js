@@ -27,6 +27,7 @@ const fs = Volume.fromJSON(
         // './Z.Nr.10000-10499/10339.tif': '', // this file is missing
         './Z.Nr.10000-10499/10340.TIF': '',
         './Z.Nr.10000-10499/10341.bak': '',
+        './Z.Nr.10000-10499/10341.dft': '',
         './Z.Nr.10000-10499/10341.dwg': '',
         './Z.Nr.10000-10499/10341.dxf': '',
         './Z.Nr.10000-10499/10342.dft': '',
@@ -50,6 +51,9 @@ const fs = Volume.fromJSON(
         './Z.Nr.10000-10499/10346-R0 Blatt 2 von 2.dwg': '',
         './Z.Nr.10000-10499/10346-R0.dft': '',
         './Z.Nr.10000-10499/10346-R0.pdf': '',
+        './Z.Nr.10000-10499/10347-R0.bak': '',
+        './Z.Nr.10000-10499/10347-R0.dft': '',
+        './Z.Nr.10000-10499/10347-R0.dwg': '',
         './Z.Nr.10000-10499/Thumbs.db': '',
     },
     '/base_dir'
@@ -92,8 +96,16 @@ describe('The application with valuemap', () => {
             '10340.TIF wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10340.TIF'.replace(/\//g, Path.sep),
         ],
         [
+            'open 10341', 'dft',
+            '10341.dft wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10341.dft'.replace(/\//g, Path.sep),
+        ],
+        [
             'open 10344', 'dft',
             '10344-R2.dft wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10344-R2.dft'.replace(/\//g, Path.sep),
+        ],
+        [
+            'open 10347', 'dft',
+            '10347-R0.dft wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10347-R0.dft'.replace(/\//g, Path.sep),
         ],
     ];
 
@@ -153,7 +165,6 @@ describe('The application with valuemap', () => {
 
                 var app = Application.create(config, fs, ipcRenderer);
                 app.run(new Input(stdin), output);
-
             });
         });
     }
