@@ -8,6 +8,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Befehle in der Eingabemaske können auch groß geschrieben werden, z.B. `12345 3D` statt `12345 3d`
+
 ### Changed
 
 - Alle Bibliotheken wurden aktualisiert
