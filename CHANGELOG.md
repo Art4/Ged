@@ -17,6 +17,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - Alle Bibliotheken wurden aktualisiert
 - [Eslint](https://eslint.org) wird eingesetzt, um den Source Code automatisch zu bereinigen
 
+### Fixed
+
+- Fehler behoben, durch den in einigen Fällen der Explorer statt der Zeichnung geöffnet wurde
+
 ## [2.0.0-beta.5] - 2018-09-26
 
 ### Added

@@ -434,9 +434,9 @@ function build_file_name(input, draft, qv)
             if (files[i].getRevision() === rev && files[i].getExtension().toLowerCase() === type.toLowerCase()) {
                 return files[i];
             }
-
-            return null;
         }
+
+        return null;
     };
 
     //Wenn explizit eine Revision angegeben wurde, dann nach dieser suchen
