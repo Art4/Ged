@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import 'bootstrap';
+import 'bootstrap/js/dist/collapse.js';
 import '@fortawesome/fontawesome-free/scss/fontawesome.scss';
 import '@fortawesome/fontawesome-free/scss/solid.scss';
 import '../css/style.scss';

@@ -10,6 +10,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- JS-Code von Bootstrap entfernt, der nicht im Einsatz ist
 - Alle Bibliotheken wurden aktualisiert
 
 ## [2.0.0-beta.6] - 2018-10-17
