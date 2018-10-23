@@ -89,12 +89,14 @@ searchWin.addEventListener('mouseleave', (event) => {
     }, 100);
 });
 
-// Let the menu icon rotate
+// Effects
 (function () {
-    var button = document.getElementById('menu-button');
+    var menuButton = document.getElementById('menu-button');
+    var menubox = document.getElementById('menubox');
     var rotated = true;
 
-    button.addEventListener('click', (event) => {
+    // Let the menu icon rotate on click
+    menuButton.addEventListener('click', (event) => {
         if (rotated === false) {
             return;
         }
@@ -106,5 +108,12 @@ searchWin.addEventListener('mouseleave', (event) => {
         }, 250);
 
         document.getElementById('menu-button-icon').classList.toggle('open');
+    });
+
+    // close the menu if search is on focus
+    inputField.addEventListener('focus', () => {
+        if (menubox.classList.contains('show')) {
+            menuButton.click();
+        }
     });
 })();
