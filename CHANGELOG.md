@@ -6,6 +6,8 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
+## [Unreleased]
+
 ## [2.0.0-beta.7] - 2018-10-23
 
 ### Changed
