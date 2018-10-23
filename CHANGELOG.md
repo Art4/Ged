@@ -10,6 +10,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Das Menü wird automatisch geschlossen, wenn das Suchfeld angeklickt wird
 - JS-Code von Bootstrap entfernt, der nicht im Einsatz ist
 - Alle Bibliotheken wurden aktualisiert
 
