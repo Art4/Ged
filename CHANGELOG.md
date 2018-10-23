@@ -6,7 +6,7 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased]
+## [2.0.0-beta.7] - 2018-10-23
 
 ### Changed
 
@@ -203,7 +203,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Fehlermeldung, wenn der gesuchte 3D-Ordner nicht existiert
 
-[Unreleased]: https://github.com/Art4/Ged/compare/v2.0.0-beta.6...HEAD
+[Unreleased]: https://github.com/Art4/Ged/compare/v2.0.0-beta.7...HEAD
+[2.0.0-beta.7]: https://github.com/Art4/Ged/compare/v2.0.0-beta.6...v2.0.0-beta.7
 [2.0.0-beta.6]: https://github.com/Art4/Ged/compare/v2.0.0-beta.5...v2.0.0-beta.6
 [2.0.0-beta.5]: https://github.com/Art4/Ged/compare/v2.0.0-beta.4...v2.0.0-beta.5
 [2.0.0-beta.4]: https://github.com/Art4/Ged/compare/v2.0.0-beta.3...v2.0.0-beta.4
