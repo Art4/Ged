@@ -116,4 +116,11 @@ searchWin.addEventListener('mouseleave', (event) => {
             menuButton.click();
         }
     });
+
+    // close the menu if settingspage was closed
+    ipcRenderer.on('settingspageclosed', (e) => {
+        if (menubox.classList.contains('show')) {
+            menuButton.click();
+        }
+    })
 })();

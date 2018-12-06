@@ -147,6 +147,12 @@ app.on('ready', function createMainWindow () {
             settingsWindow.show();
             // settingsWindow.focus();
         });
+
+        // Trigger to mainWindow if settingspage is closed
+        settingsWindow.on('close', () => {
+            mainWindow.webContents.send('settingspageclosed');
+        });
+
         settingsWindow.loadFile('pages/settings.html');
     });
 

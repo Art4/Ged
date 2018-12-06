@@ -10,6 +10,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Wenn das Einstellungs-Fenster geschlossen wird, wird auch das Menü eingeklappt
 - Alle Bibliotheken wurden aktualisiert
 
 ### Fixed
