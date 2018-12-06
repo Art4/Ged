@@ -15,50 +15,6 @@ Die Änderungen des Projekts können im [Changelog](CHANGELOG.md) nachverfolgt w
 
 Der Quellcode ist auf [Github](https://github.com/Art4/Ged) zu finden und unterliegt der [GPL3](LICENSE). Alles Notwendige für das Deployment ist unter [Ged-Deployment](https://github.com/Art4/Ged-Deployment) zu finden.
 
-## Überarbeitung als Electron App
-
-Windows Gadgets werden von Microsoft nicht mehr unterstützt. Daher wird Ged auf Basis von Electron komplett neu geschrieben.
-
-Die folgenden Informationen beziehen sich auf die Installation und Anwendung mit Electron.
-
-### Anforderungen
-
-- node.js
-- npm
-
-### Installation
-
-```shell
-npm install
-npm run webpack
-```
-
-### Starten
-
-```shell
-npm start
-```
-
-### Deployment
-
-```shell
-npm run deploy
-```
-
-Beim Deployment wird im Ordner `dist/` eine EXE Datei erstellt, die unter Windows installiert werden kann.
-
-### Publish
-
-Um eine neue Version zu veröffentlichen, wird ein Github Token benötigt, das als ENV Variable übergeben wird.
-
-```shell
-env GH_TOKEN=<github token> npm run publish
-```
-
-Dabei wird im Ordner `dist/` eine EXE Datei erstellt, und auf Github eine Release-Draft erstellt. Dieser Release-Draft muss anschließend auf Github veröffentlicht/freigeschaltet werden.
-
-Beim Starten von Ged wird automatisch überprüft, ob eine neue Version vorliegt. Wenn ja, wird diese heruntergeladen und nach Beenden von Ged automatisch installiert.
-
 ## Anwendung
 
 Ged erwartet eine Eingabe in dieser Form:
@@ -243,3 +199,47 @@ Die Dateien sehen dann so aus:
 - 12345-R0.dft (schreibgeschützt)
 - 12345-R1.dft (schreibgeschützt)
 - 12345-R2.dft
+
+## Technische Details
+
+Ged v1 war als Windows Gadget umgesetzt, welche seit Windows 8 nicht mehr unterstützt werden. Daher wurde Ged auf Basis von [Electron](https://electronjs.org/) komplett neu geschrieben.
+
+Die folgenden Informationen beziehen sich auf die Entwicklung von Electron.
+
+### Anforderungen
+
+- node.js
+- npm
+
+### Installation
+
+```shell
+npm install
+npm run webpack
+```
+
+### Starten
+
+```shell
+npm start
+```
+
+### Deployment
+
+```shell
+npm run deploy
+```
+
+Beim Deployment wird im Ordner `dist/` eine EXE Datei erstellt, die unter Windows installiert werden kann.
+
+### Publish
+
+Um eine neue Version [auf Github](https://github.com/Art4/Ged) zu veröffentlichen, wird ein Github Token benötigt, das als ENV Variable übergeben wird.
+
+```shell
+env GH_TOKEN=<github token> npm run publish
+```
+
+Dabei wird im Ordner `dist/` eine EXE Datei erstellt, und auf Github eine Release-Draft erstellt. Dieser Release-Draft muss anschließend auf Github veröffentlicht/freigeschaltet werden.
+
+Beim Starten von Ged wird automatisch überprüft, ob eine neue Version vorliegt. Wenn ja, wird diese heruntergeladen und nach Beenden von Ged automatisch installiert.
