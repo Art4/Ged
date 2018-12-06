@@ -8,6 +8,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2.0.0] - 2018-12-06
+
 ### Changed
 
 - Wenn das Einstellungs-Fenster geschlossen wird, wird auch das Menü eingeklappt
@@ -215,7 +217,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Fehlermeldung, wenn der gesuchte 3D-Ordner nicht existiert
 
-[Unreleased]: https://github.com/Art4/Ged/compare/v2.0.0-beta.7...HEAD
+[Unreleased]: https://github.com/Art4/Ged/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/Art4/Ged/compare/v2.0.0-beta.7...v2.0.0
 [2.0.0-beta.7]: https://github.com/Art4/Ged/compare/v2.0.0-beta.6...v2.0.0-beta.7
 [2.0.0-beta.6]: https://github.com/Art4/Ged/compare/v2.0.0-beta.5...v2.0.0-beta.6
 [2.0.0-beta.5]: https://github.com/Art4/Ged/compare/v2.0.0-beta.4...v2.0.0-beta.5
