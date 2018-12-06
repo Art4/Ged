@@ -66,6 +66,9 @@ Draftpool.prototype.createDraftFromFilelist = function (dirfiles, identifier, pa
     // Optimize list so we don't have to iterate over all files
     dirfiles = this.optimizeFileList(dirfiles, identifier);
 
+    // sort files for Windows
+    dirfiles = dirfiles.sort(this.compareFilesForWindows);
+
     var nearestFile = null;
     var newestFile = null;
     var prev = null;
@@ -168,6 +171,45 @@ Draftpool.prototype.optimizeFileList = function (filelist, identifier, pick) {
     }
 
     return this.optimizeFileList(newFilelist, identifier);
+};
+
+/**
+ * sort files for Windows
+ *
+ * JS sorts the 6th symbol `.` (U+002E) after `-` (U+002D)
+ *
+ * @param string a
+ * @param string b
+ * @return int
+ */
+Draftpool.prototype.compareFilesForWindows = function (a, b) {
+    var defaultSort = function (varA, varB) {
+        if (varA < varB) {
+            return -1;
+        }
+
+        if (varA > varB) {
+            return 1;
+        }
+
+        // names must be equal
+        return 0;
+    };
+
+    if (a.slice(0,5) !== b.slice(0,5)) {
+        return defaultSort(a, b);
+    }
+
+    if (a.slice(5,6) == '-' && b.slice(5,6) == '.') {
+        return 1;
+    }
+
+    if (a.slice(5,6) == '.' && b.slice(5,6) == '-') {
+        return -1;
+    }
+
+    return defaultSort(a, b);
+
 };
 
 // export the class

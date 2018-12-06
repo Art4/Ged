@@ -81,6 +81,29 @@ describe('The draftpool', function() {
         }
     });
 
+    describe('on compareFilesForWindows() method', () => {
+        var values = new Array(
+            ['10000', '10000', 0],
+            ['10500', '10600', -1],
+            ['10600', '10500', 1],
+            ['10500.pdf', '10500.dft', 1],
+            ['10500-R0.pdf', '10500-R0.dft', 1],
+            ['10500-R1.dft', '10500-R0.dft', 1],
+            ['10500-R1.dft', '10500.dft', 1],
+        );
+
+        for (var i = 0; i < values.length; i++) {
+            describe('with different arguments', () => {
+                var draftpool = new Draftpool({}, '');
+                var data = values[i];
+
+                it(`sorts ${data[0]} and ${data[1]} correct to ${data[2]}`, () => {
+                    expect(draftpool.compareFilesForWindows(data[0], data[1])).toBe(data[2]);
+                });
+            });
+        }
+    });
+
     describe('on findDraftByIdentifier() with incorrect identifier', () => {
         var fs = {};
         var path = '';
@@ -138,10 +161,10 @@ describe('The draftpool', function() {
                     '12342.dft',
                     '12342.pdf',
                     '12342_3D',
-                    '12343.dft',
-                    '12343.pdf',
                     '12343-R2.dft',
                     '12343-R2.pdf',
+                    '12343.dft', // JS sorts the 6th symbol `.` (U+002E) after `-` (U+002D)
+                    '12343.pdf',
                     '12344-R0.dft',
                     '12344-R1.dft',
                     '12344-R2.dft',
@@ -214,6 +237,17 @@ describe('The draftpool', function() {
                     expect(draft.getFiles().length).toBe(2);
                     expect(draft.getNearestFile().getAbsolutePath()).toBe(
                         '\\base_dir\\Z.Nr.12000-12499\\12342.pdf'.replace(/\\/g, Path.sep)
+                    );
+                });
+        });
+
+        it('with correct identifier and reordered files returns correct nearest file', () => {
+            return draftpool.findDraftByIdentifier('12343')
+                .then((draft) => {
+                    expect(draft).toEqual(jasmine.any(Draft));
+                    expect(draft.getFiles().length).toBe(4);
+                    expect(draft.getNearestFile().getAbsolutePath()).toBe(
+                        '\\base_dir\\Z.Nr.12000-12499\\12343-R2.pdf'.replace(/\\/g, Path.sep)
                     );
                 });
         });

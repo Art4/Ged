@@ -32,11 +32,11 @@ const fs = Volume.fromJSON(
         './Z.Nr.10000-10499/10341.dxf': '',
         './Z.Nr.10000-10499/10342.dft': '',
         './Z.Nr.10000-10499/10342.pdf': '',
+        './Z.Nr.10000-10499/10342.stp': '',
         './Z.Nr.10000-10499/10342_3D': '',
-        './Z.Nr.10000-10499/10343.dft': '',
-        './Z.Nr.10000-10499/10343.pdf': '',
-        './Z.Nr.10000-10499/10343-R2.dft': '',
-        './Z.Nr.10000-10499/10343-R2.pdf': '',
+        './Z.Nr.10000-10499/10343-R1.dft': '',
+        './Z.Nr.10000-10499/10343-R1.pdf': '',
+        './Z.Nr.10000-10499/10343.dft': '', // JS sorts the 6th symbol `.` (U+002E) after `-` (U+002D)
         './Z.Nr.10000-10499/10344-R0.dft': '',
         './Z.Nr.10000-10499/10344-R1.dft': '',
         './Z.Nr.10000-10499/10344-R2.dft': '',
@@ -98,6 +98,10 @@ describe('The application with valuemap', () => {
         [
             'open 10341', 'dft',
             '10341.dft wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10341.dft'.replace(/\//g, Path.sep),
+        ],
+        [
+            'open 10343 --in-folder', 'dft',
+            'Index von 10343 wird geöffnet', '', 'openfileinfolder: /base_dir/Z.Nr.10000-10499/10343-R1.pdf'.replace(/\//g, Path.sep),
         ],
         [
             'open 10344', 'dft',
