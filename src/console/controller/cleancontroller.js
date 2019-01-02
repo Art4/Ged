@@ -22,7 +22,7 @@ const LegacyKernel = require('../legacykernel.js');
 const StringInput = require('../stringinput.js');
 
 // Constructor
-function LegacyController(config, fs, ipcRenderer) {
+function CleanController(config, fs, ipcRenderer) {
     this.config = config;
     this.fs = fs;
     this.ipcRenderer = ipcRenderer;
@@ -33,43 +33,17 @@ function LegacyController(config, fs, ipcRenderer) {
 }
 
 // class methods
-LegacyController.prototype.register = function(commander) {
+CleanController.prototype.register = function(commander) {
     commander
-        .command('open [draft]')
-        .description('find and open a specific draft file')
-        .option('--in-folder', 'Open the folder that contains the draft')
-        .option('--in-3d-folder', 'Open the 3D folder of the draft')
-        .option('--search-in-3d-folder', 'Search also in 3D folder for the draft')
+        .command('clean [draft]')
+        .description('Remove unused and old files next to a draft')
+        .option('--all-revisions', 'Check files of all revisions')
         .action((draft, command) => {
-            var mode = 'o';
-
-            if (command.inFolder) {
-                mode = 'i';
-            } else if (command.in3dFolder) {
-                mode = 'e';
-            } else if (command.searchIn3dFolder) {
-                mode = 'a';
-            }
-            this.executeCommand(draft, command, commander.output, mode);
-        });
-
-    commander
-        .command('chmod [draft]')
-        .description('change read-write permission of a specific draft file')
-        .option('--read-only', 'Set the draft to read-only')
-        .option('--read-write', 'Set the draft to read-write')
-        .action((draft, command) => {
-            var mode = 's';
-
-            if (command.readWrite) {
-                mode = 'f';
-            }
-
-            this.executeCommand(draft, command, commander.output, mode);
+            this.executeCommand(draft, command, commander.output);
         });
 };
 
-LegacyController.prototype.executeCommand = function(draft, command, output, mode) {
+CleanController.prototype.executeCommand = function(draft, command, output) {
     if (! draft) {
         output.destroy('Warte auf Eingabe...');
         return;
@@ -87,7 +61,7 @@ LegacyController.prototype.executeCommand = function(draft, command, output, mod
     this.draftpool.findDraftByIdentifier(input.getIdentifier())
         .then((draft) => {
             // Call LegacyKernel
-            this.kernel.handleInput(input, output, draft, mode);
+            this.kernel.handleInput(input, output, draft, 'c');
         })
         .catch((err) => {
             // Abort, if draft not found
@@ -96,4 +70,4 @@ LegacyController.prototype.executeCommand = function(draft, command, output, mod
 };
 
 // export the class
-module.exports = LegacyController;
+module.exports = CleanController;
