@@ -18,8 +18,8 @@
 'use strict';
 
 const Draftpool = require('../draftpool.js');
-const LegacyKernel = require('../legacykernel.js');
 const StringInput = require('../stringinput.js');
+const FsUtils = require('../fs-utils.js');
 
 // Constructor
 function CleanController(config, fs, ipcRenderer) {
@@ -28,8 +28,7 @@ function CleanController(config, fs, ipcRenderer) {
     this.ipcRenderer = ipcRenderer;
 
     this.draftpool = new Draftpool(this.fs, this.config.get('base_dir'));
-
-    this.kernel = new LegacyKernel(this.config, this.fs, this.ipcRenderer);
+    this.fsutils = new FsUtils(this.fs);
 }
 
 // class methods
@@ -60,14 +59,66 @@ CleanController.prototype.executeCommand = function(draft, command, output) {
 
     this.draftpool.findDraftByIdentifier(input.getIdentifier())
         .then((draft) => {
-            // Call LegacyKernel
-            this.kernel.handleInput(input, output, draft, 'c');
+            // Call clean function
+            this.cleanDraft(draft, input, output);
         })
         .catch((err) => {
             // Abort, if draft not found
+            console.log(err);
             output.destroy(input.getIdentifier() + ' wurde nicht gefunden');
         });
 };
+
+// Datei Schreibschutz setzen und evtl. vorhandene PDF-Datei löschen
+// since v1.0.5
+CleanController.prototype.cleanDraft = function(draft, input, output)
+{
+    // Zeichnungspfad bestimmen
+    var main_dir = draft.get3DFolderPath().slice(0, -8);
+
+    var file = draft.getNearestFile();
+    var prev_revision_file = null;
+    var prev_revision_pdffile = null;
+
+    var revision = file.getRevision();
+
+    if(input.getRevision() !== null)
+    {
+        revision = input.getRevision();
+    }
+
+    // Vorherige Revision nehmen
+    var prev_revision = (revision - 1).toString();
+
+    draft.getFiles().forEach((f) => {
+        if (f.getRevision() === revision && f.getExtension().toLowerCase() === 'dft') {
+            file = f;
+        }
+        else if (f.getRevision() === prev_revision && f.getExtension().toLowerCase() === 'dft') {
+            prev_revision_file = f;
+        }
+        else if (f.getRevision() === prev_revision && f.getExtension().toLowerCase() === 'pdf') {
+            prev_revision_pdffile = f;
+        }
+    });
+
+    if (prev_revision_file !== null) {
+        // Schreibschutz setzen
+        // Bugfix since v1.0.6
+        this.fsutils.setFileWriteProtected(prev_revision_file.getAbsolutePath(), true);
+    }
+
+    if (prev_revision_pdffile !== null) {
+        // Sicherheits-Abfrage, bevor eine Datei gelöscht wird
+        if(confirm('Datei ' + prev_revision_pdffile.getName() + ' wird entfernt?') === true)
+        {
+            // PDF-Datei löschen
+            this.fs.unlinkSync(prev_revision_pdffile.getAbsolutePath());
+        }
+    }
+
+    output.end(file.getName() + ' bereinigt');
+}
 
 // export the class
 module.exports = CleanController;

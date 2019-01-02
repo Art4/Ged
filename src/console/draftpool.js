@@ -209,7 +209,6 @@ Draftpool.prototype.compareFilesForWindows = function (a, b) {
     }
 
     return defaultSort(a, b);
-
 };
 
 // export the class

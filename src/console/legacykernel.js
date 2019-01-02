@@ -32,13 +32,6 @@ var rev_store = setup_rev_store();
 var returnMessage = '';
 var returnQuery = '';
 
-//Zeigt eine Ja/Nein Nachricht beim User an und liefert das Ergebnis als bool zurück
-//since v1.0.5
-function msgbox_confirm(msg)
-{
-    return confirm(msg);
-}
-
 //Hauptprozess
 function run(input, draft, mode)
 {
@@ -86,14 +79,6 @@ function run(input, draft, mode)
     //since v1.0.4
     if (query_vars['action'] == 'read_only' || query_vars['action'] == 'read_write') {
         run_set_attributes(query_vars);
-        return true;
-    }
-
-    //Eine Datei auf Schreibschutz setzen und evtl. vorhandene PDF-Datei löschen
-    //since v1.0.5
-    if(query_vars['action'] == 'clean')
-    {
-        run_clean(query_vars);
         return true;
     }
 
@@ -182,93 +167,6 @@ function run_set_attributes(query_vars)
 
     //Suchfeld leeren
     set_query('');
-    return true;
-}
-
-//Datei Schreibschutz setzen und evtl. vorhandene PDF-Datei löschen
-//since v1.0.5
-function run_clean(query_vars)
-{
-    var file = query_vars['main_dir'] + query_vars['filename'];
-
-    //*
-    var revision = false;
-
-    if(query_vars['revision'] !== false)
-        revision = parseInt(query_vars['revision'], 10);
-
-    if(revision !== false && revision > 0)
-    {
-        //Vorherige Revision nehmen
-        var prev_revision = revision - 1;
-        var prev_revision_file = query_vars['filename'].replace('-R'+query_vars['revision'], '-R'+prev_revision);
-
-        if(file_exists(query_vars['main_dir'] + prev_revision_file))
-        {
-            file = prev_revision_file;
-        }
-        else
-        {
-            prev_revision_file = query_vars['filename'].replace('-R'+query_vars['revision'], '');
-
-            if(file_exists(query_vars['main_dir'] + prev_revision_file))
-            {
-                file = prev_revision_file;
-            }
-        }
-    }
-    //*/
-
-    //PDF-Datei ermitteln
-    var file_type = query_vars['file_type'];
-    var pdffile = file.replace(file_type, 'pdf');
-
-    //Existiert die Datei?
-    if(file_exists(query_vars['main_dir'] + pdffile))
-    {
-        //Sicherheits-Abfrage, bevor eine Datei gelöscht wird
-        if(msgbox_confirm('Datei ' + pdffile + ' wird entfernt?') == true)
-        {
-            //PDF-Datei löschen
-            delete_file(query_vars['main_dir'] + pdffile);
-
-            //Schreibschutz setzen
-            //Bugfix since v1.0.6
-            set_file_permission(query_vars['main_dir'] + file, 'read_only');
-
-            message(file + ' bereinigt');
-            //Suchfeld leeren
-            set_query('');
-
-            return true;
-        }
-        else if(file_exists(query_vars['main_dir'] + file))
-        {
-            //Schreibschutz setzen
-            set_file_permission(query_vars['main_dir'] + file, 'read_only');
-
-            message(file + ' wurde schreibgesch&uuml;tzt');
-            //Suchfeld leeren
-            set_query('');
-
-            return true;
-        }
-    }
-    else if(file_exists(query_vars['main_dir'] + file))
-    {
-        //Schreibschutz setzen
-        set_file_permission(query_vars['main_dir'] + file, 'read_only');
-
-        message(file + ' wurde schreibgesch&uuml;tzt');
-        //Suchfeld leeren
-        set_query('');
-
-        return true;
-    }
-
-    //set_query('');
-    message('Cleaning fehlgeschlagen');
-
     return true;
 }
 
@@ -519,20 +417,6 @@ function check_for_revisions(path, name, rev, ext)
     }
 
     return last_found;
-}
-
-//Löscht eine Datei, der absolute Pfad wird benötigt
-//via http://www.java2s.com/Tutorial/JavaScript/0600__MS-JScript/FileSystemObjectDeleteFile.htm, thanks!
-//since v1.0.5
-function delete_file(file)
-{
-    if(file_exists(file))
-    {
-        fs.unlinkSync(file);
-        return true;
-    }
-
-    return false;
 }
 
 //Öffnet eine Datei, der absolute Pfad wird benötigt
