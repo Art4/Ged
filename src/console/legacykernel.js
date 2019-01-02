@@ -29,11 +29,6 @@ var cfg = new Array();
 //-----------------------------
 var rev_store = setup_rev_store();
 
-//since v1.0.2
-//letzte Suche
-var last_search_filename = '';
-var last_search_filetype = '';
-
 var returnMessage = '';
 var returnQuery = '';
 
@@ -87,9 +82,6 @@ function run(input, draft, mode)
     query_vars['filename'] = results['filename'];
     query_vars['revision'] = results['revision'];
 
-    //Letze Suche löschen
-    clean_last_search();
-
     //Schreibschutz zur Datei setzen/aufheben
     //since v1.0.4
     if (query_vars['action'] == 'read_only' || query_vars['action'] == 'read_write') {
@@ -129,9 +121,6 @@ function run_explorer(query_vars)
         return false;
     }
 
-    //Letze Suche löschen
-    clean_last_search();
-
     //Eingabefeld leeren
     set_query('');
     message(' &Ouml;ffne den Ordner '+query_vars['3D']);
@@ -153,9 +142,6 @@ function run_index(query_vars, draft)
         message('Keine &auml;hnliche Datei gefunden...');
         return false;
     }
-
-    //Letze Suche löschen
-    clean_last_search();
 
     //Eingabefeld leeren
     set_query('');
@@ -572,27 +558,6 @@ function file_exists(filename)
 function folder_exists(foldername)
 {
     return fs.existsSync(foldername);
-}
-
-//Überprüft, ob das zweite Mal nach der gleichen Datei gesucht wurde
-//since v1.0.2
-function is_same_search_as_last(query_vars)
-{
-    if(last_search_filename == '' || last_search_filetype == '')
-        return false;
-
-    if(last_search_filename == query_vars['filename'] && last_search_filetype == query_vars['file_type'] && query_vars['action'] == 'open')
-        return true;
-
-    return false;
-}
-
-//Löscht die letzen Suche aus dem Cache
-//since v1.0.3
-function clean_last_search()
-{
-    last_search_filename = '';
-    last_search_filetype = '';
 }
 
 // Constructor
