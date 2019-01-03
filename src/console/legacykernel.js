@@ -155,41 +155,19 @@ function run_set_attributes(query_vars)
     //Schreibschutz aufheben
     if(query_vars['action'] == 'read_write')
     {
-        set_file_permission(file, 'read_write');
+        fsutils.setFileWriteProtected(file, false);
         message(query_vars['filename'] + ' ist beschreibbar');
     }
     else
     {
         //Schreibschutz setzen
-        set_file_permission(file, 'read_only');
+        fsutils.setFileWriteProtected(file, true);
         message(query_vars['filename'] + ' ist schreibgesch&uuml;tzt');
     }
 
     //Suchfeld leeren
     set_query('');
     return true;
-}
-
-//Schreibschutz einer Datei setzen oder aufheben
-//ausgelagert aus run_set_attributes()
-//since v1.0.5
-function set_file_permission(filename, mode)
-{
-    //Schreibschutz aufheben
-    if(mode == 'read_write')
-    {
-        fsutils.setFileWriteProtected(filename, false);
-
-        return true;
-    }
-
-    //Schreibschutz setzen
-    if(mode == 'read_only')
-    {
-        fsutils.setFileWriteProtected(filename, true);
-
-        return true;
-    }
 }
 
 function setup_rev_store()
