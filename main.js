@@ -1,5 +1,5 @@
 /*
- * Ged-App
+ * Ged
  * Copyright (C) 2011-2019  Artur Weigandt  https://wlabs.de/kontakt
 
  * This program is free software: you can redistribute it and/or modify
