@@ -37,6 +37,7 @@ CleanController.prototype.register = function(commander) {
         .command('clean [draft]')
         .description('Remove unused and old files next to a draft')
         .option('--all-revisions', 'Check files of all revisions')
+        .option('--only-previous-revision', 'Clean only files for the previous revision of the defined/latest revision')
         .action((draft, command) => {
             this.executeCommand(draft, command, commander.output);
         });
@@ -59,8 +60,10 @@ CleanController.prototype.executeCommand = function(draft, command, output) {
 
     this.draftpool.findDraftByIdentifier(input.getIdentifier())
         .then((draft) => {
-            // Call clean function
-            this.cleanDraft(draft, input, output);
+            // Call clean function for previous revision
+            if (command.onlyPreviousRevision) {
+                this.cleanPreviousRevisionOfDraft(draft, input, output);
+            }
         })
         .catch((err) => {
             // Abort, if draft not found
@@ -71,7 +74,7 @@ CleanController.prototype.executeCommand = function(draft, command, output) {
 
 // Datei Schreibschutz setzen und evtl. vorhandene PDF-Datei löschen
 // since v1.0.5
-CleanController.prototype.cleanDraft = function(draft, input, output)
+CleanController.prototype.cleanPreviousRevisionOfDraft = function(draft, input, output)
 {
     // Zeichnungspfad bestimmen
     var main_dir = draft.get3DFolderPath().slice(0, -8);

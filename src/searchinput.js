@@ -51,7 +51,7 @@ function analyseQuery(query) {
         return ['chmod', raw[0], '--read-write'];
         break;
     case 'c':
-        return ['clean', raw[0]];
+        return ['clean', raw[0], '--only-previous-revision'];
         break;
     default:
         return [raw[1], raw[0]];
