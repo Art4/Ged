@@ -79,7 +79,7 @@ function run(input, draft, mode)
     //Nachricht ausgeben
     message(query_vars['filename'] + ' wird geöffnet');
     //Datei öffnen
-    open_file(query_vars['main_dir'] + query_vars['filename']);
+    ipcRenderer.send('openfile', query_vars['main_dir'] + query_vars['filename']);
 
     //Fertig
     return true;
@@ -90,7 +90,7 @@ function run(input, draft, mode)
 function run_explorer(query_vars)
 {
     //Wenn der Ordner nicht existiert, Fehler ausgeben
-    if(folder_exists(query_vars['3D_dir']+'\\') === false)
+    if(fs.existsSync(query_vars['3D_dir']+'\\') === false)
     {
         message('Der Ordner '+query_vars['3D']+' existiert nicht.');
         return false;
@@ -100,7 +100,7 @@ function run_explorer(query_vars)
     set_query('');
     message(' &Ouml;ffne den Ordner '+query_vars['3D']);
     //3D-Ordner öffnen
-    open_file(query_vars['3D_dir']);
+    ipcRenderer.send('openfile', query_vars['3D_dir']);
     return true;
 }
 
@@ -126,7 +126,7 @@ function run_index(query_vars, draft)
     //Debug:
     //message('prev: ' + next_files['prev'] + ', this: ' + next_files['this'] + ', next: ' + next_files['next'] + ', near: ' + next_files['near'] + ', ');
     //Datei öffnen
-    select_file(near.getAbsolutePath());
+    ipcRenderer.send('openfileinfolder', near.getAbsolutePath());
 
     //Fertig
     return true;
@@ -206,18 +206,6 @@ function parse_actions(c)
     if(a == 'I' || a == 'index')
     {
         return 'index';
-    }
-
-    // Schreibschutz setzen; since v1.0.4
-    if(a == 'S')
-    {
-        return 'read_only';
-    }
-
-    // Schreibschutz aufheben; since v1.0.4
-    if(a == 'F')
-    {
-        return 'read_write';
     }
 
     // Open
@@ -306,8 +294,8 @@ function build_file_name(input, draft, qv)
     //Noch ein letzter Versuch, die Zeichnung im 3D-Ordner zu finden
     //Nur auf Befehl "open_advanced" prüfen, ob ein 3D-Ordner existiert
     if (qv['action'] == 'open_advanced') {
-        if (folder_exists(qv['3D_dir']+'\\')) {
-            if (file_exists(qv['3D_dir'] + '\\' + name + '-R0' + '.' + type)) {
+        if (fs.existsSync(qv['3D_dir']+'\\')) {
+            if (fs.existsSync(qv['3D_dir'] + '\\' + name + '-R0' + '.' + type)) {
                 arr['filename'] = qv['3D'] + '\\' + name + '-R0' + '.' + type;
                 arr['revision'] = '0';
                 return arr;
@@ -341,7 +329,7 @@ function check_for_revisions(path, name, rev, ext)
         rev = rev_store[c];
         var check_file = path + name + '-R' + rev + '.' + ext;
 
-        if(file_exists(check_file))
+        if(fs.existsSync(check_file))
         {
             last_found = rev;
         }
@@ -351,31 +339,6 @@ function check_for_revisions(path, name, rev, ext)
     }
 
     return last_found;
-}
-
-//Öffnet eine Datei, der absolute Pfad wird benötigt
-function open_file(pfad)
-{
-    ipcRenderer.send('openfile', pfad);
-}
-
-//Öffnet den Explorer und selektiert die gewünschte Datei
-//since v1.0.2
-function select_file(pfad)
-{
-    ipcRenderer.send('openfileinfolder', pfad);
-}
-
-//prüft, ob eine Datei existiert
-function file_exists(filename)
-{
-    return fs.existsSync(filename);
-}
-
-//prüft, ob ein Verzeichnis existiert
-function folder_exists(foldername)
-{
-    return fs.existsSync(foldername);
 }
 
 // Constructor
