@@ -22,7 +22,7 @@ const LegacyKernel = require('../legacykernel.js');
 const StringInput = require('../stringinput.js');
 
 // Constructor
-function LegacyController(config, fs, ipcRenderer) {
+function ChmodController(config, fs, ipcRenderer) {
     this.config = config;
     this.fs = fs;
     this.ipcRenderer = ipcRenderer;
@@ -33,28 +33,24 @@ function LegacyController(config, fs, ipcRenderer) {
 }
 
 // class methods
-LegacyController.prototype.register = function(commander) {
+ChmodController.prototype.register = function(commander) {
     commander
-        .command('open [draft]')
-        .description('find and open a specific draft file')
-        .option('--in-folder', 'Open the folder that contains the draft')
-        .option('--in-3d-folder', 'Open the 3D folder of the draft')
-        .option('--search-in-3d-folder', 'Search also in 3D folder for the draft')
+        .command('chmod [draft]')
+        .description('change read-write permission of a specific draft file')
+        .option('--read-only', 'Set the draft to read-only')
+        .option('--read-write', 'Set the draft to read-write')
         .action((draft, command) => {
-            var mode = 'o';
+            var mode = 's';
 
-            if (command.inFolder) {
-                mode = 'i';
-            } else if (command.in3dFolder) {
-                mode = 'e';
-            } else if (command.searchIn3dFolder) {
-                mode = 'a';
+            if (command.readWrite) {
+                mode = 'f';
             }
+
             this.executeCommand(draft, command, commander.output, mode);
         });
 };
 
-LegacyController.prototype.executeCommand = function(draft, command, output, mode) {
+ChmodController.prototype.executeCommand = function(draft, command, output, mode) {
     if (! draft) {
         output.destroy('Warte auf Eingabe...');
         return;
@@ -81,4 +77,4 @@ LegacyController.prototype.executeCommand = function(draft, command, output, mod
 };
 
 // export the class
-module.exports = LegacyController;
+module.exports = ChmodController;
