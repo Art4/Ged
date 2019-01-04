@@ -17,11 +17,8 @@
  */
 'use strict';
 
-const FsUtils = require('./fs-utils.js');
-
 var ipcRenderer;
 var fs;
-var fsutils;
 var config = null;
 var cfg = new Array();
 
@@ -74,13 +71,6 @@ function run(input, draft, mode)
 
     query_vars['filename'] = results['filename'];
     query_vars['revision'] = results['revision'];
-
-    //Schreibschutz zur Datei setzen/aufheben
-    //since v1.0.4
-    if (query_vars['action'] == 'read_only' || query_vars['action'] == 'read_write') {
-        run_set_attributes(query_vars);
-        return true;
-    }
 
     /* Datei öffnen */
 
@@ -139,34 +129,6 @@ function run_index(query_vars, draft)
     select_file(near.getAbsolutePath());
 
     //Fertig
-    return true;
-}
-
-//Schreibschutz setzen/aufheben
-//since v1.0.4
-//Infos zu Bitwise-Operators:
-//https://developer.mozilla.org/en/JavaScript/Reference/Operators/Bitwise_Operators
-function run_set_attributes(query_vars)
-{
-    var file = query_vars['main_dir'] + query_vars['filename'];
-
-    //message(query_vars['filename'] + ' ist ' + file.Attributes);
-
-    //Schreibschutz aufheben
-    if(query_vars['action'] == 'read_write')
-    {
-        fsutils.setFileWriteProtected(file, false);
-        message(query_vars['filename'] + ' ist beschreibbar');
-    }
-    else
-    {
-        //Schreibschutz setzen
-        fsutils.setFileWriteProtected(file, true);
-        message(query_vars['filename'] + ' ist schreibgesch&uuml;tzt');
-    }
-
-    //Suchfeld leeren
-    set_query('');
     return true;
 }
 
@@ -262,12 +224,6 @@ function parse_actions(c)
     if(a == 'O' || a == 'OPEN' )
     {
         return 'open';
-    }
-
-    // Clean
-    if(a == 'C' || a == 'CLEAN' )
-    {
-        return 'clean';
     }
 
     //Default ist open
@@ -427,8 +383,6 @@ function Kernel(cnf, filesystem, ipc) {
     config = cnf;
     fs = filesystem;
     ipcRenderer = ipc;
-
-    fsutils = new FsUtils(fs);
 }
 
 Kernel.prototype.handleInput = function(input, output, draft, mode) {

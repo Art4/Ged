@@ -18,7 +18,7 @@
 'use strict';
 
 const Draftpool = require('../draftpool.js');
-const LegacyKernel = require('../legacykernel.js');
+const FsUtils = require('../fs-utils.js');
 const StringInput = require('../stringinput.js');
 
 // Constructor
@@ -28,8 +28,7 @@ function ChmodController(config, fs, ipcRenderer) {
     this.ipcRenderer = ipcRenderer;
 
     this.draftpool = new Draftpool(this.fs, this.config.get('base_dir'));
-
-    this.kernel = new LegacyKernel(this.config, this.fs, this.ipcRenderer);
+    this.fsutils = new FsUtils(this.fs);
 }
 
 // class methods
@@ -40,17 +39,11 @@ ChmodController.prototype.register = function(commander) {
         .option('--read-only', 'Set the draft to read-only')
         .option('--read-write', 'Set the draft to read-write')
         .action((draft, command) => {
-            var mode = 's';
-
-            if (command.readWrite) {
-                mode = 'f';
-            }
-
-            this.executeCommand(draft, command, commander.output, mode);
+            this.executeCommand(draft, command, commander.output);
         });
 };
 
-ChmodController.prototype.executeCommand = function(draft, command, output, mode) {
+ChmodController.prototype.executeCommand = function(draft, command, output) {
     if (! draft) {
         output.destroy('Warte auf Eingabe...');
         return;
@@ -67,8 +60,44 @@ ChmodController.prototype.executeCommand = function(draft, command, output, mode
 
     this.draftpool.findDraftByIdentifier(input.getIdentifier())
         .then((draft) => {
-            // Call LegacyKernel
-            this.kernel.handleInput(input, output, draft, mode);
+            // Schreibschutz zur Datei setzen/aufheben
+            // since v1.0.4
+
+            var writeProtected = true;
+            if (command.readOnly === true) {
+                writeProtected = true;
+            } else if(command.readWrite) {
+                writeProtected = false;
+            }
+
+            var file = null;
+            var rev = null;
+
+            draft.getFiles().forEach((f) => {
+                if (f.getExtension().toLowerCase() === 'dft') {
+                    if (rev === null && f.getRevision() === null) {
+                        file = f;
+                    } else if (rev !== null && f.getRevision() > rev) {
+                        file = f;
+                        rev = f.getRevision();
+                    }
+                }
+            });
+
+            if (file === null) {
+                // Open file in folder if no specific file was found
+                this.ipcRenderer.send('openfileinfolder', draft.getNearestFile().getAbsolutePath());
+                output.end('Index von ' + draft.getNearestFile().getName() + ' wird geöffnet');
+                return;
+            }
+
+            this.fsutils.setFileWriteProtected(file.getAbsolutePath(), writeProtected);
+
+            if (writeProtected) {
+                output.end(file.getName() + ' ist schreibgesch&uuml;tzt');
+            } else {
+                output.end(file.getName() + ' ist beschreibbar');
+            }
         })
         .catch((err) => {
             // Abort, if draft not found

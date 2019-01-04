@@ -18,8 +18,8 @@
 'use strict';
 
 const Draftpool = require('../draftpool.js');
-const StringInput = require('../stringinput.js');
 const FsUtils = require('../fs-utils.js');
+const StringInput = require('../stringinput.js');
 
 // Constructor
 function CleanController(config, fs, ipcRenderer) {
