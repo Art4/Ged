@@ -10,6 +10,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Der Code zum Cleanen und Schreibschützen einer Datei wurde aus dem veralteten Kernel in eigene Consolen-Module verschoben
 - Alle Bibliotheken wurden aktualisiert
 
 ## [2.0.0] - 2018-12-06
@@ -21,7 +22,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
-- Wenn die älteste Revision einer Zeichnung noch keinen -R0 Suffix hat, wurde für die Anzeige im Explrer nicht die letzte Datei selektiert
+- Wenn die älteste Revision einer Zeichnung noch keinen -R0 Suffix hat, wurde für die Anzeige im Explorer nicht die letzte Datei selektiert
 - Wenn die älteste Revision einer Zeichnung noch keinen -R0 Suffix hat, konnte der clean-Befehl nicht ausgeführt werden
 
 ## [2.0.0-beta.7] - 2018-10-23
