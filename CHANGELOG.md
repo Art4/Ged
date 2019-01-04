@@ -8,6 +8,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2.1.0] - 2019-01-04
+
 ### Changed
 
 - Der Code zum Cleanen und Schreibschützen einer Datei wurde aus dem veralteten Kernel in eigene Consolen-Module verschoben
@@ -222,7 +224,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Fehlermeldung, wenn der gesuchte 3D-Ordner nicht existiert
 
-[Unreleased]: https://github.com/Art4/Ged/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/Art4/Ged/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/Art4/Ged/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/Art4/Ged/compare/v2.0.0-beta.7...v2.0.0
 [2.0.0-beta.7]: https://github.com/Art4/Ged/compare/v2.0.0-beta.6...v2.0.0-beta.7
 [2.0.0-beta.6]: https://github.com/Art4/Ged/compare/v2.0.0-beta.5...v2.0.0-beta.6
