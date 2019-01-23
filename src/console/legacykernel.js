@@ -191,25 +191,25 @@ function parse_actions(c)
     var a = c.toUpperCase();
 
     // Explorer
-    if(a == 'E' || a == '3D' )
+    if(a == 'E')
     {
         return 'explorer';
     }
 
     // Open Advanced
-    if(a == 'A' || a == '+')
+    if(a == 'A')
     {
         return 'open_advanced';
     }
 
     // Index
-    if(a == 'I' || a == 'index')
+    if(a == 'I')
     {
         return 'index';
     }
 
     // Open
-    if(a == 'O' || a == 'OPEN' )
+    if(a == 'O')
     {
         return 'open';
     }
