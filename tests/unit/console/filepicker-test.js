@@ -17,6 +17,7 @@
  */
 
 const Draft = require('../../../src/console/draft.js');
+const File = require('../../../src/console/file.js');
 const Filepicker = require('../../../src/console/filepicker.js');
 const Path = require('path');
 
@@ -33,6 +34,23 @@ describe('The filepicker', function() {
 
             returnValue.then((val) => {
                 expect(val).toEqual([]);
+            });
+        });
+    });
+
+    describe('with draft with some files', () => {
+        var file = new File('path/name.ext');
+        var draft = new Draft('1', 'path', [file], file);
+
+        it('returns array with files on pickFromDraft()', () => {
+            var filepicker = new Filepicker();
+            var returnValue = filepicker.pickFromDraft(draft);
+
+            // check if return is a Promise
+            expect(returnValue instanceof Promise).toBe(true);
+
+            returnValue.then((val) => {
+                expect(val).toEqual([file]);
             });
         });
     });

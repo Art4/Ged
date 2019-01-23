@@ -25,7 +25,7 @@ function Filepicker() {}
 // class methods
 Filepicker.prototype.pickFromDraft = function(draft) {
     return new Promise((resolve, reject) => {
-        resolve([]);
+        resolve(draft.getFiles());
     });
 };
 
