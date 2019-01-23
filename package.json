@@ -1,6 +1,6 @@
 {
   "name": "Ged",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Ged is an app for easy draft finding",
   "repository": {
     "type": "git",
@@ -25,9 +25,9 @@
     "autoprefixer": "^8.6.5",
     "bootstrap": "^4.2.1",
     "css-loader": "^0.28.11",
-    "electron": "^3.0.13",
-    "electron-builder": "^20.38.4",
-    "eslint": "^5.11.1",
+    "electron": "^3.1.1",
+    "electron-builder": "^20.38.5",
+    "eslint": "^5.12.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.11",
     "jasmine": "^3.3.1",
