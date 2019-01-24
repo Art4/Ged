@@ -17,6 +17,15 @@
  */
 'use strict';
 
+var operators = [
+    'eq',
+    'neq',
+    'lt',
+    'lte',
+    'gt',
+    'gte',
+];
+
 // Constructor
 function Filter(operator, value) {
     this.operator = operator;
@@ -25,6 +34,10 @@ function Filter(operator, value) {
 
 // class methods
 Filter.prototype.test = function(value) {
+    if (this.operator === 'eq') {
+        return (value === this.value);
+    }
+
     if (this.operator === 'lt') {
         return (value < this.value);
     }

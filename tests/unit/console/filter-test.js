@@ -26,4 +26,30 @@ describe('The filter', function() {
             expect(filter.test(4)).toBe(true);
         });
     });
+
+    describe('with arguments on test()', () => {
+        var values = [
+            ['0',    'eq',  '0',    true],
+            ['0',    'eq',  '1',    false],
+            ['1',    'eq',  '0',    false],
+            ['1',    'eq',  '1',    true],
+            ['dft',  'eq',  'dft',  true],
+            ['pdf',  'eq',  'dft',  false],
+            ['',     'eq',  'dft',  false],
+            ['pdf',  'eq',  'pdf',  true],
+        ];
+
+        for (var i = 0; i < values.length; i++) {
+            describe('compares', () => {
+                var data = values[i];
+                var result = (data[3]) ? 'true' : 'false';
+
+                var filter = new Filter(data[1], data[2]);
+
+                it(`${data[0]} ${data[1]} ${data[2]} correct to "${result}"`, () => {
+                    expect(filter.test(data[0])).toBe(data[3]);
+                });
+            });
+        }
+    });
 });
