@@ -50,6 +50,18 @@ Filter.prototype.test = function(value) {
         return (value < this.value);
     }
 
+    if (this.operator === 'LTE') {
+        return (value <= this.value);
+    }
+
+    if (this.operator === 'GT') {
+        return (value > this.value);
+    }
+
+    if (this.operator === 'GTE') {
+        return (value >= this.value);
+    }
+
     return false;
 };
 

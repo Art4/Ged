@@ -27,14 +27,6 @@ describe('The filter', function() {
         });
     });
 
-    describe('with comparison lt 5', () => {
-        var filter = new Filter('lt', 5);
-
-        it('returns true on test(4)', () => {
-            expect(filter.test(4)).toBe(true);
-        });
-    });
-
     describe('with arguments on test()', () => {
         var values = [
             ['0',    'eq',  '0',    true],
@@ -53,6 +45,49 @@ describe('The filter', function() {
             ['pdf',  'neq', 'dft',  true],
             ['',     'neq', 'dft',  true],
             ['pdf',  'neq', 'pdf',  false],
+            ['0',    'lt',  '0',    false],
+            ['4',    'lt',  '5',    true],
+            ['1',    'lt',  '0',    false],
+            ['1',    'lt',  '1',    false],
+            ['1',    'lt',  '2',    true],
+            ['dft',  'lt',  'dft',  false],
+            ['dft',  'lt',  'pdf',  true],
+            ['pdf',  'lt',  'dft',  false],
+            ['pdf',  'lt',  'pdf',  false],
+            ['',     'lt',  'dft',  true],
+            ['0',    'lte', '0',    true],
+            ['4',    'lte', '5',    true],
+            ['1',    'lte', '0',    false],
+            ['1',    'lte', '1',    true],
+            ['1',    'lte', '2',    true],
+            ['dft',  'lte', 'dft',  true],
+            ['dft',  'lte', 'pdf',  true],
+            ['pdf',  'lte', 'dft',  false],
+            ['pdf',  'lte', 'pdf',  true],
+            ['',     'lte', 'dft',  true],
+            ['abc',  'lte', '',     false],
+            ['0',    'gt',  '0',    false],
+            ['4',    'gt',  '5',    false],
+            ['1',    'gt',  '0',    true],
+            ['1',    'gt',  '1',    false],
+            ['1',    'gt',  '2',    false],
+            ['dft',  'gt',  'dft',  false],
+            ['dft',  'gt',  'pdf',  false],
+            ['pdf',  'gt',  'dft',  true],
+            ['pdf',  'gt',  'pdf',  false],
+            ['',     'gt',  'dft',  false],
+            ['abc',  'gt',  '',     true],
+            ['0',    'gte', '0',    true],
+            ['4',    'gte', '5',    false],
+            ['1',    'gte', '0',    true],
+            ['1',    'gte', '1',    true],
+            ['1',    'gte', '2',    false],
+            ['dft',  'gte', 'dft',  true],
+            ['dft',  'gte', 'pdf',  false],
+            ['pdf',  'gte', 'dft',  true],
+            ['pdf',  'gte', 'pdf',  true],
+            ['',     'gte', 'dft',  false],
+            ['abc',  'gte', '',     true],
         ];
 
         for (var i = 0; i < values.length; i++) {
@@ -62,7 +97,7 @@ describe('The filter', function() {
 
                 var filter = new Filter(data[1], data[2]);
 
-                it(`${data[0]} ${data[1]} ${data[2]} correct to "${result}"`, () => {
+                it(`"${data[0]}" ${data[1]} "${data[2]}" correct to "${result}"`, () => {
                     expect(filter.test(data[0])).toBe(data[3]);
                 });
             });
