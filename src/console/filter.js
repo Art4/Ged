@@ -18,27 +18,35 @@
 'use strict';
 
 var operators = [
-    'eq',
-    'neq',
-    'lt',
-    'lte',
-    'gt',
-    'gte',
+    'EQ',
+    'NEQ',
+    'LT',
+    'LTE',
+    'GT',
+    'GTE',
 ];
 
 // Constructor
 function Filter(operator, value) {
-    this.operator = operator;
+    if (operators.indexOf(operator.toUpperCase()) < 0) {
+        throw `"${operator}" is an invalid operator`;
+    }
+
+    this.operator = operator.toUpperCase();
     this.value = value;
 }
 
 // class methods
 Filter.prototype.test = function(value) {
-    if (this.operator === 'eq') {
+    if (this.operator === 'EQ') {
         return (value === this.value);
     }
 
-    if (this.operator === 'lt') {
+    if (this.operator === 'NEQ') {
+        return (value !== this.value);
+    }
+
+    if (this.operator === 'LT') {
         return (value < this.value);
     }
 

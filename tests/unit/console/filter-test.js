@@ -19,6 +19,14 @@
 const Filter = require('../../../src/console/filter.js');
 
 describe('The filter', function() {
+    describe('with invalid operator', () => {
+        var operator = 'foo';
+
+        it('throws an error', () => {
+            expect(() => {new Filter(operator, 'bar')}).toThrow('"foo" is an invalid operator');
+        });
+    });
+
     describe('with comparison lt 5', () => {
         var filter = new Filter('lt', 5);
 
@@ -37,6 +45,14 @@ describe('The filter', function() {
             ['pdf',  'eq',  'dft',  false],
             ['',     'eq',  'dft',  false],
             ['pdf',  'eq',  'pdf',  true],
+            ['0',    'neq', '0',    false],
+            ['0',    'neq', '1',    true],
+            ['1',    'neq', '0',    true],
+            ['1',    'neq', '1',    false],
+            ['dft',  'neq', 'dft',  false],
+            ['pdf',  'neq', 'dft',  true],
+            ['',     'neq', 'dft',  true],
+            ['pdf',  'neq', 'pdf',  false],
         ];
 
         for (var i = 0; i < values.length; i++) {
