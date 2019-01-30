@@ -17,17 +17,62 @@
  */
 'use strict';
 
-const Draft = require('./draft.js');
+const Filter = require('./filter.js');
 
 // Constructor
-function Filepicker() {}
+function FilePicker() {
+    this.revFilter = [];
+    this.extFilter = [];
+}
+
+// static methods
+FilePicker.pickOneFromList = function(files, rev, ext) {
+    return new Promise((resolve, reject) => {
+        var fp = new FilePicker();
+        fp.addRevisionFilter(new Filter('eq', rev));
+        fp.addExtensionFilter(new Filter('eq', ext));
+
+        fp.pickFromList(files)
+            .then((results) => {
+                resolve(results.shift());
+            });
+    });
+};
 
 // class methods
-Filepicker.prototype.pickFromDraft = function(draft) {
+FilePicker.prototype.addRevisionFilter = function(filter) {
+    this.revFilter.push(filter);
+};
+
+FilePicker.prototype.addExtensionFilter = function(filter) {
+    this.extFilter.push(filter);
+};
+
+FilePicker.prototype.pickFromDraft = function(draft) {
+    return this.pickFromList(draft.getFiles());
+};
+
+FilePicker.prototype.pickFromList = function(files) {
     return new Promise((resolve, reject) => {
-        resolve(draft.getFiles());
+        var result = files.filter((element) => {
+            if (! this.revFilter.every((filter) => {
+                return filter.test(element.getRevision());
+            })) {
+                return false;
+            }
+
+            if (! this.extFilter.every((filter) => {
+                return filter.test(element.getExtension());
+            })) {
+                return false;
+            }
+
+            return true;
+        });
+
+        resolve(result);
     });
 };
 
 // export the class
-module.exports = Filepicker;
+module.exports = FilePicker;

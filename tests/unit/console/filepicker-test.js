@@ -18,7 +18,8 @@
 
 const Draft = require('../../../src/console/draft.js');
 const File = require('../../../src/console/file.js');
-const Filepicker = require('../../../src/console/filepicker.js');
+const FilePicker = require('../../../src/console/filepicker.js');
+const Filter = require('../../../src/console/filter.js');
 const Path = require('path');
 
 describe('The filepicker', function() {
@@ -26,8 +27,20 @@ describe('The filepicker', function() {
         var draft = new Draft('1', 'path', [], null);
 
         it('returns empty array on pickFromDraft()', () => {
-            var filepicker = new Filepicker();
+            var filepicker = new FilePicker();
             var returnValue = filepicker.pickFromDraft(draft);
+
+            // check if return is a Promise
+            expect(returnValue instanceof Promise).toBe(true);
+
+            returnValue.then((val) => {
+                expect(val).toEqual([]);
+            });
+        });
+
+        it('returns empty array on pickFromList()', () => {
+            var filepicker = new FilePicker();
+            var returnValue = filepicker.pickFromList(draft.getFiles());
 
             // check if return is a Promise
             expect(returnValue instanceof Promise).toBe(true);
@@ -38,19 +51,80 @@ describe('The filepicker', function() {
         });
     });
 
-    describe('with draft with some files', () => {
-        var file = new File('path/name.ext');
-        var draft = new Draft('1', 'path', [file], file);
-
+    describe('with draft and some files', () => {
         it('returns array with files on pickFromDraft()', () => {
-            var filepicker = new Filepicker();
+            var file1 = new File('path/32165.ext');
+            var draft = new Draft('1', 'path', [file1], file1);
+            var filepicker = new FilePicker();
             var returnValue = filepicker.pickFromDraft(draft);
 
             // check if return is a Promise
             expect(returnValue instanceof Promise).toBe(true);
 
             returnValue.then((val) => {
-                expect(val).toEqual([file]);
+                expect(val).toEqual([file1]);
+            });
+        });
+
+        it('returns array with files on pickFromList()', () => {
+            var file1 = new File('path/32165.ext');
+            var draft = new Draft('1', 'path', [file1], file1);
+            var filepicker = new FilePicker();
+            var returnValue = filepicker.pickFromList(draft.getFiles());
+
+            // check if return is a Promise
+            expect(returnValue instanceof Promise).toBe(true);
+
+            returnValue.then((val) => {
+                expect(val).toEqual([file1]);
+            });
+        });
+
+        it('returns array with files on pickFromList()', () => {
+            var file1 = new File('path/32165.ext');
+            var file2 = new File('path/34567-R1.ext');
+            var draft = new Draft('1', 'path', [file1, file2], file2);
+            var filepicker = new FilePicker();
+            filepicker.addRevisionFilter(new Filter('eq', '1'));
+            var returnValue = filepicker.pickFromList(draft.getFiles());
+
+            // check if return is a Promise
+            expect(returnValue instanceof Promise).toBe(true);
+
+            returnValue.then((val) => {
+                expect(val).toEqual([file2]);
+            });
+        });
+    });
+
+    describe('with filelist', () => {
+        var file1 = new File('path/12345.ext');
+        var file2 = new File('path/12345-R1.ext');
+
+        var files = [
+            file1,
+            file2,
+        ];
+
+        it('returns one file on pickOneFromList()', () => {
+            var returnValue = FilePicker.pickOneFromList(files, null, 'ext');
+
+            // check if return is a Promise
+            expect(returnValue instanceof Promise).toBe(true);
+
+            returnValue.then((val) => {
+                expect(val).toBe(file1);
+            });
+        });
+
+        it('returns one file on pickOneFromList()', () => {
+            var returnValue = FilePicker.pickOneFromList(files, '1', 'ext');
+
+            // check if return is a Promise
+            expect(returnValue instanceof Promise).toBe(true);
+
+            returnValue.then((val) => {
+                expect(val).toBe(file2);
             });
         });
     });
