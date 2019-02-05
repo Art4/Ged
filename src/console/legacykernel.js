@@ -22,6 +22,9 @@ var fs;
 var config = null;
 var cfg = new Array();
 
+const DraftProperties = require('./draftproperties');
+let getDraftProperties = new DraftProperties();
+
 /* Dir-Store definieren */
 //-----------------------------
 var rev_store = setup_rev_store();
@@ -29,106 +32,127 @@ var rev_store = setup_rev_store();
 var returnMessage = '';
 var returnQuery = '';
 
-//Hauptprozess
+// Hauptprozess
 function run(input, draft, mode)
 {
-    //Wenn keine Eingabe gemacht wurde, Fehler ausgeben
-    if(input.getQuery() == '')
-    {
-        message('Warte auf Eingabe...');
-        return false;
-    }
+    return new Promise((resolve, reject) => {
+        // Wenn keine Eingabe gemacht wurde, Fehler ausgeben
+        if (input.getQuery() == '')
+        {
+            reject('Warte auf Eingabe...');
+            return false;
+        }
 
-    //Suchstring analysieren
-    var query_vars = get_query_vars(input, draft, mode);
+        // Suchstring analysieren
+        var query_vars = get_query_vars(input, draft, mode);
 
-    //Wenn keine Endung gesetzt wurde, den Defaultwert verwenden
-    if (query_vars['file_type'] === null) {
-        query_vars['file_type'] = cfg['default_file_type'];
-    }
+        // Wenn keine Endung gesetzt wurde, den Defaultwert verwenden
+        if (query_vars['file_type'] === null) {
+            query_vars['file_type'] = cfg['default_file_type'];
+        }
 
-    //3D-Ordner öffnen
-    if (query_vars['action'] == 'explorer') {
-        run_explorer(query_vars, draft);
-        return true;
-    }
+        // 3D-Ordner öffnen
+        if (query_vars['action'] == 'explorer') {
+            run_explorer(query_vars, draft, resolve, reject);
+            return true;
+        }
 
-    //Index zur Datei öffnen
-    if (query_vars['action'] == 'index') {
-        run_index(query_vars, draft);
-        return true;
-    }
+        // Index zur Datei öffnen
+        if (query_vars['action'] == 'index') {
+            run_index(query_vars, draft, resolve, reject);
+            return true;
+        }
 
-    //Richtigen Dateinamen finden
-    var results = build_file_name(input, draft, query_vars);
+        // Richtigen Dateinamen finden
+        var results = build_file_name(input, draft, query_vars);
 
-    if (results['error'] === true) {
-        //Index öffnen, wenn die Datei nicht existiert
-        //since v1.1.0
-        run_index(query_vars, draft);
-        return true;
-    }
+        if (results['error'] === true) {
+            // Index öffnen, wenn die Datei nicht existiert
+            // since v1.1.0
+            run_index(query_vars, draft, resolve, reject);
+            return true;
+        }
 
-    query_vars['filename'] = results['filename'];
-    query_vars['revision'] = results['revision'];
+        query_vars['filename'] = results['filename'];
+        query_vars['revision'] = results['revision'];
 
-    /* Datei öffnen */
+        // Datei öffnen
+        let doOpenFile = (msg, filepath) => {
+            // Datei öffnen
+            ipcRenderer.send('openfile', filepath);
 
-    //Eingabefeld leeren
-    set_query('');
-    //Nachricht ausgeben
-    message(query_vars['filename'] + ' wird geöffnet');
-    //Datei öffnen
-    ipcRenderer.send('openfile', query_vars['main_dir'] + query_vars['filename']);
+            resolve(msg);
+        };
 
-    //Fertig
-    return true;
-}
+        // Prüfen, ob Draft richtiges Template hat
+        if (query_vars['file_type'] === 'dft' && draft.identifier >= 36251) {
+            getDraftProperties.fromFilePath(query_vars['main_dir'] + query_vars['filename'])
+                .then((data) => {
+                    if (data.has('System.Document.Template') && data.get('System.Document.Template').trim() !== 'BKM_2019.dft') {
+                        doOpenFile(query_vars['filename'] + ' <span class="text-danger fas fa-exclamation-triangle " title="Diese Zeichnung verwendet nicht die aktuellste Zeichnungsvorlage"></span> wird geöffnet', query_vars['main_dir'] + query_vars['filename']);
+                    } else {
+                        doOpenFile(query_vars['filename'] + ' wird geöffnet', query_vars['main_dir'] + query_vars['filename']);
+                    }
+                    return true;
+                })
+                .catch((err) => {
+                    doOpenFile(query_vars['filename'] + ' wird geöffnet', query_vars['main_dir'] + query_vars['filename']);
+                    return true;
+                });
+        } else {
+            doOpenFile(query_vars['filename'] + ' wird geöffnet', query_vars['main_dir'] + query_vars['filename']);
+            return true;
+        }
 
-//Sucht und öffnet den 3D-Ordner einer Zeichnung
-//since v1.0.3 (ausgelagert)
-function run_explorer(query_vars)
+    });
+};
+
+// Sucht und öffnet den 3D-Ordner einer Zeichnung
+// since v1.0.3 (ausgelagert)
+function run_explorer(query_vars, resolve, reject)
 {
-    //Wenn der Ordner nicht existiert, Fehler ausgeben
-    if(fs.existsSync(query_vars['3D_dir']+'\\') === false)
+    // Wenn der Ordner nicht existiert, Fehler ausgeben
+    if (fs.existsSync(query_vars['3D_dir']+'\\') === false)
     {
-        message('Der Ordner '+query_vars['3D']+' existiert nicht.');
+        set_query(query_vars['query']);
+
+        reject('Der Ordner '+query_vars['3D']+' existiert nicht.');
         return false;
     }
 
-    //Eingabefeld leeren
+    // Eingabefeld leeren
     set_query('');
-    message(' &Ouml;ffne den Ordner '+query_vars['3D']);
-    //3D-Ordner öffnen
+
+    // 3D-Ordner öffnen
     ipcRenderer.send('openfile', query_vars['3D_dir']);
+
+    resolve('&Ouml;ffne den Ordner '+query_vars['3D']);
     return true;
 }
 
 //Index zur Datei öffnen
 //since v1.0.2
 //ausgelagert since v1.0.3
-function run_index(query_vars, draft)
+function run_index(query_vars, draft, resolve, reject)
 {
     var near = draft.getNearestFile();
 
     if(near === null)
     {
         set_query(query_vars['query']);
-        message('Keine &auml;hnliche Datei gefunden...');
+
+        reject('Keine &auml;hnliche Datei gefunden...');
         return false;
     }
 
     //Eingabefeld leeren
     set_query('');
 
-    //Nachricht ausgeben
-    message('Index von ' + query_vars['filename'] + ' wird geöffnet');
-    //Debug:
-    //message('prev: ' + next_files['prev'] + ', this: ' + next_files['this'] + ', next: ' + next_files['next'] + ', near: ' + next_files['near'] + ', ');
     //Datei öffnen
     ipcRenderer.send('openfileinfolder', near.getAbsolutePath());
 
     //Fertig
+    resolve('Index von ' + query_vars['filename'] + ' wird geöffnet');
     return true;
 }
 
@@ -353,13 +377,19 @@ Kernel.prototype.handleInput = function(input, output, draft, mode) {
     cfg['base_dir'] = config.get('base_dir', 'H:\\Zeichnungen\\');
     cfg['default_file_type'] = config.get('default_file_type', 'pdf');
 
-    run(input, draft, mode);
+    run(input, draft, mode)
+        .then((msg) => {
+            if (returnQuery === '') {
+                output.end(msg);
+            } else {
+                output.destroy(msg);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            output.destroy(err);
+        });
 
-    if (returnQuery === '') {
-        output.end(returnMessage);
-    } else {
-        output.destroy(returnMessage);
-    }
 };
 
 // export the class

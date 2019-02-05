@@ -8,6 +8,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Beim Öffnen wird geprüft, ob Zeichnungen mit der Nummer 36251 oder größer mit der neusten Vorlage erstellt wurden. Wenn nicht, wird in Ged ein kleines Warndreieck angezeigt.
+
 ### Changed
 
 - Alle Bibliotheken wurden aktualisiert
