@@ -8,6 +8,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2.2.0] - 2019-02-05
+
 ### Added
 
 - Beim Öffnen wird geprüft, ob Zeichnungen mit der Nummer 36251 oder größer mit der neusten Vorlage erstellt wurden. Wenn nicht, wird in Ged ein kleines Warndreieck angezeigt.
@@ -232,7 +234,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Fehlermeldung, wenn der gesuchte 3D-Ordner nicht existiert
 
-[Unreleased]: https://github.com/Art4/Ged/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/Art4/Ged/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/Art4/Ged/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/Art4/Ged/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/Art4/Ged/compare/v2.0.0-beta.7...v2.0.0
 [2.0.0-beta.7]: https://github.com/Art4/Ged/compare/v2.0.0-beta.6...v2.0.0-beta.7
