@@ -77,33 +77,26 @@ function run(input, draft, mode)
         query_vars['revision'] = results['revision'];
 
         // Datei öffnen
-        let doOpenFile = (msg, filepath) => {
-            // Datei öffnen
-            ipcRenderer.send('openfile', filepath);
+        ipcRenderer.send('openfile', query_vars['main_dir'] + query_vars['filename']);
 
-            resolve(msg);
-        };
-
-        // Prüfen, ob Draft richtiges Template hat
-        if (query_vars['file_type'] === 'dft' && draft.identifier >= 36251) {
-            getDraftProperties.fromFilePath(query_vars['main_dir'] + query_vars['filename'])
-                .then((data) => {
-                    if (data.has('System.Document.Template') && data.get('System.Document.Template').trim() !== 'BKM_2019.dft') {
-                        doOpenFile(query_vars['filename'] + ' <span class="text-danger fas fa-exclamation-triangle " title="Diese Zeichnung verwendet nicht die aktuellste Zeichnungsvorlage"></span> wird geöffnet', query_vars['main_dir'] + query_vars['filename']);
-                    } else {
-                        doOpenFile(query_vars['filename'] + ' wird geöffnet', query_vars['main_dir'] + query_vars['filename']);
-                    }
-                    return true;
-                })
-                .catch((err) => {
-                    doOpenFile(query_vars['filename'] + ' wird geöffnet', query_vars['main_dir'] + query_vars['filename']);
-                    return true;
-                });
-        } else {
-            doOpenFile(query_vars['filename'] + ' wird geöffnet', query_vars['main_dir'] + query_vars['filename']);
+        // Rückmeldung generieren
+        if (query_vars['file_type'] !== 'dft' || draft.identifier < 36251) {
+            resolve(query_vars['filename'] + ' wird geöffnet');
             return true;
         }
 
+        // Prüfen, ob Draft richtiges Template hat
+        getDraftProperties.fromFilePath(query_vars['main_dir'] + query_vars['filename'])
+            .then((data) => {
+                if (data.has('System.Document.Template') && data.get('System.Document.Template').trim() !== 'BKM_2019.dft') {
+                    resolve(query_vars['filename'] + ' <span class="text-danger fas fa-exclamation-triangle " title="Diese Zeichnung verwendet nicht die aktuellste Zeichnungsvorlage"></span> wird geöffnet');
+                } else {
+                    resolve(query_vars['filename'] + ' wird geöffnet');
+                }
+            })
+            .catch((err) => {
+                resolve(query_vars['filename'] + ' wird geöffnet');
+            });
     });
 };
 

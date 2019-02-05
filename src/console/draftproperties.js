@@ -63,8 +63,8 @@ DraftProperties.prototype.fromFilePath = function(path) {
         child.stdout.on('data', (data) => {
             resolve(parsePropExeResult(`filename: ${data}`));
         });
-
     });
+
     return this.files;
 };
 
