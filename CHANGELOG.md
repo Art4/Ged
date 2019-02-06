@@ -8,6 +8,12 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2.2.1] - 2019-02-06
+
+### Fixed
+
+- Es wurde eine falsche Meldung beim Öffnen eines 3D-Ordners korrigiert
+
 ## [2.2.0] - 2019-02-05
 
 ### Added
@@ -234,7 +240,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Fehlermeldung, wenn der gesuchte 3D-Ordner nicht existiert
 
-[Unreleased]: https://github.com/Art4/Ged/compare/v2.2.0...HEAD
+[Unreleased]: https://github.com/Art4/Ged/compare/v2.2.1...HEAD
+[2.2.1]: https://github.com/Art4/Ged/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/Art4/Ged/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/Art4/Ged/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/Art4/Ged/compare/v2.0.0-beta.7...v2.0.0
