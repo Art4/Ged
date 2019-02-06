@@ -53,7 +53,7 @@ function run(input, draft, mode)
 
         // 3D-Ordner öffnen
         if (query_vars['action'] == 'explorer') {
-            run_explorer(query_vars, draft, resolve, reject);
+            run_explorer(query_vars, resolve, reject);
             return true;
         }
 

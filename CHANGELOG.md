@@ -8,6 +8,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Es wurde eine falsche Meldung beim Öffnen eines 3D-Ordners korrigiert
+
 ## [2.2.0] - 2019-02-05
 
 ### Added
