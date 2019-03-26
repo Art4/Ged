@@ -8,6 +8,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2.3.0] - 2019-03-26
+
 ### Changed
 
 - Alle Bibliotheken wurden aktualisiert
@@ -232,7 +234,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - Mit `12345 i` öffnet sich der Explorer und scrollt an die Stelle, an der die Zeichnung abliegt
-- In den Optionen gibt es einen Link zur Changlog-Datei
+- In den Optionen gibt es einen Link zur Changelog-Datei
 - OpenDrafts unterliegt der [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/de/)
 
 ## [1.0.1] - 2011-06-22
@@ -240,7 +242,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - Mit `12345 +` oder `12345 a` wird auch im 3D-Ordner nach einer Zeichnung gesucht
-- OpenDrafts liegt jetzt eine Changlog-Datei bei
+- OpenDrafts liegt jetzt eine Changelog-Datei bei
 
 ## [1.0.0] - 2011-06-20
 
@@ -248,7 +250,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Fehlermeldung, wenn der gesuchte 3D-Ordner nicht existiert
 
-[Unreleased]: https://github.com/Art4/Ged/compare/v2.2.1...HEAD
+[Unreleased]: https://github.com/Art4/Ged/compare/v2.3.0...HEAD
+[2.3.0]: https://github.com/Art4/Ged/compare/v2.2.1...v2.3.0
 [2.2.1]: https://github.com/Art4/Ged/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/Art4/Ged/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/Art4/Ged/compare/v2.0.0...v2.1.0
