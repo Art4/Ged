@@ -71,18 +71,35 @@ ChmodController.prototype.executeCommand = function(draft, command, output) {
             }
 
             var file = null;
-            var rev = null;
+            var rev = input.getRevision();
 
-            draft.getFiles().forEach((f) => {
-                if (f.getExtension().toLowerCase() === 'dft') {
-                    if (rev === null && f.getRevision() === null) {
-                        file = f;
-                    } else if (rev !== null && f.getRevision() > rev) {
-                        file = f;
-                        rev = f.getRevision();
+            // First try to search for specified revision
+            if (rev !== null) {
+                draft.getFiles().forEach((f) => {
+                    if (f.getExtension().toLowerCase() === 'dft') {
+                        if (rev === f.getRevision()) {
+                            file = f;
+                        }
                     }
-                }
-            });
+                });
+            }
+
+            // second try: iterate through all files
+            if (file === null) {
+                draft.getFiles().forEach((f) => {
+                    if (f.getExtension().toLowerCase() === 'dft') {
+                        if (rev === null && f.getRevision() === null) {
+                            file = f;
+                        } else if (rev === null && f.getRevision() >= 0) {
+                            file = f;
+                            rev = f.getRevision();
+                        } else if (rev !== null && f.getRevision() > rev) {
+                            file = f;
+                            rev = f.getRevision();
+                        }
+                    }
+                });
+            }
 
             if (file === null) {
                 // Open file in folder if no specific file was found

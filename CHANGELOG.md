@@ -12,6 +12,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Alle Bibliotheken wurden aktualisiert
 
+### Fixed
+
+- Beim Setzen/Aufheben des Schreibschutzes einer Zeichnung wird eine angegebene Revision wieder berücksichtigt
+
 ## [2.2.1] - 2019-02-06
 
 ### Fixed
