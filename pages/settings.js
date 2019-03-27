@@ -24,6 +24,7 @@ const draftPathInput = document.getElementById('formDraftPathInput');
 const defaultFileTypeInput = document.getElementById('formDefaultFileTypeInput');
 const alwaysForegroundInput = document.getElementById('formAlwaysForegroundInput');
 const autolaunchInput = document.getElementById('formAutolaunchInput');
+const skipTaskbarInput = document.getElementById('formSkipTaskbarInput');
 const opacityInput = document.getElementById('formOpacityInput');
 const saveButton = document.getElementById('formSaveButton');
 const abortButton = document.getElementById('formAbortButton');
@@ -33,6 +34,7 @@ const abortButton = document.getElementById('formAbortButton');
     defaultFileTypeInput.value = config.get('default_file_type', 'pdf');
     alwaysForegroundInput.checked = config.get('always_foreground', true);
     autolaunchInput.checked = config.get('autolaunch', true);
+    skipTaskbarInput.checked = config.get('skip_taskbar', true) ? false : true;
     opacityInput.value = config.get('opacity', 1);
 
     // Register universal events
@@ -44,6 +46,7 @@ saveButton.addEventListener('click', (event) => {
     config.set('default_file_type', defaultFileTypeInput.value);
     config.set('always_foreground', alwaysForegroundInput.checked);
     config.set('autolaunch', autolaunchInput.checked);
+    config.set('skip_taskbar', !skipTaskbarInput.checked);
     config.set('opacity', parseFloat(opacityInput.value));
 
     Utils.closeSettingsPage();

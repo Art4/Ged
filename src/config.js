@@ -49,6 +49,7 @@ function init() {
             opacity: 1,
             displayX: null,
             displayY: null,
+            skip_taskbar: true,
         };
     }
 
@@ -91,6 +92,14 @@ function migrateConfigIfNeeded() {
 
         // Update app_version
         store.set('app_version', '2.0.0-beta.5');
+    }
+
+    // Migrate to 2.4.0
+    if (compareVersions(store.get('app_version', ''), '2.4.0') === -1) {
+        store.set('skip_taskbar', true);
+
+        // Update app_version
+        store.set('app_version', '2.4.0');
     }
 
     store.set('app_version', Utils.getAppVersion());
