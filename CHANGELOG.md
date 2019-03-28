@@ -12,6 +12,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Einstellung ergänzt, um Ged optional in der Taskleiste anzeigen zu lassen
 
+### Changed
+
+- Ged startet nur noch in einer Instanz; ein erneutes Starten holt die laufende Instanz in den Vordergrund
+
 ## [2.3.0] - 2019-03-26
 
 ### Changed
