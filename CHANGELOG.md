@@ -16,6 +16,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Ged startet nur noch in einer Instanz; ein erneutes Starten holt die laufende Instanz in den Vordergrund
 
+### Fixed
+
+- Benachrichtigungen zeigen das Ged-Icon an
+
 ## [2.3.0] - 2019-03-26
 
 ### Changed

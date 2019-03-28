@@ -82,7 +82,7 @@ app.on('ready', function createMainWindow () {
         fullscreenable: false,
         skipTaskbar: config.get('skip_taskbar', true),
         focusable: true, // Must be true, or input fields are no longer focusable
-        icon: nativeImage.createFromPath('./pages/assets/img/icon-256.png'),
+        icon: nativeImage.createFromPath(`${app.getAppPath()}/pages/assets/img/icon-256.png`),
         acceptFirstMouse: true,
         backgroundColor: '#007bff',
         opacity: config.get('opacity', 1)
@@ -155,7 +155,7 @@ app.on('ready', function createMainWindow () {
             frame: true,
             skipTaskbar: false,
             backgroundColor: '#ffffff',
-            icon: nativeImage.createFromPath('./pages/assets/img/icon-256.png'),
+            icon: nativeImage.createFromPath(`${app.getAppPath()}/pages/assets/img/icon-256.png`),
         });
 
         // settingsWindow.webContents.openDevTools({mode: 'detach'})
@@ -213,7 +213,7 @@ app.on('ready', function createMainWindow () {
         new Notification({
             title: 'Neues Update ist verfügbar',
             body: `Ged Version ${info.version} wurde heruntergeladen und wird jetzt automatisch installiert.`,
-            icon: './pages/assets/img/icon-256.png'
+            icon: `${app.getAppPath()}/pages/assets/img/icon-256.png`
         }).show();
 
         setTimeout(() => {
