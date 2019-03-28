@@ -65,7 +65,7 @@ app.on('ready', function createMainWindow () {
         alwaysOnTop: config.get('always_foreground', true),
         fullscreenable: false,
         skipTaskbar: config.get('skip_taskbar', true),
-        focusable: config.get('skip_taskbar', true) ? false : true,
+        focusable: true, // Must be true, or input fields are no longer focusable
         icon: nativeImage.createFromPath('./pages/assets/img/icon-256.png'),
         acceptFirstMouse: true,
         backgroundColor: '#007bff',
@@ -162,7 +162,6 @@ app.on('ready', function createMainWindow () {
             mainWindow.setAlwaysOnTop(config.get('always_foreground', true));
             mainWindow.setOpacity(config.get('opacity', 1));
             mainWindow.setSkipTaskbar(config.get('skip_taskbar', true));
-            mainWindow.setFocusable(!config.get('skip_taskbar', true));
 
             // setup Autolaunch
             app.setLoginItemSettings({
