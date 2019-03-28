@@ -8,6 +8,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2.4.0] - 2019-03-28
+
 ### Added
 
 - Einstellung ergänzt, um Ged optional in der Taskleiste anzeigen zu lassen
@@ -263,7 +265,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Fehlermeldung, wenn der gesuchte 3D-Ordner nicht existiert
 
-[Unreleased]: https://github.com/Art4/Ged/compare/v2.3.0...HEAD
+[Unreleased]: https://github.com/Art4/Ged/compare/v2.4.0...HEAD
+[2.4.0]: https://github.com/Art4/Ged/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/Art4/Ged/compare/v2.2.1...v2.3.0
 [2.2.1]: https://github.com/Art4/Ged/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/Art4/Ged/compare/v2.1.0...v2.2.0
