@@ -8,9 +8,14 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-### Changed
+## [2.5.0] - 2019-06-13
+
+### Added
 
 - In Textfeldern kann mit Rechtsklick ein Kontextmenü zum `Einfügen`, `Kopieren`, `Ausschneiden` und `Alle auswählen` von Text geöffnet werden
+
+### Changed
+
 - Alle Bibliotheken wurden aktualisiert
 
 ## [2.4.0] - 2019-03-28
@@ -270,7 +275,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Fehlermeldung, wenn der gesuchte 3D-Ordner nicht existiert
 
-[Unreleased]: https://github.com/Art4/Ged/compare/v2.4.0...HEAD
+[Unreleased]: https://github.com/Art4/Ged/compare/v2.5.0...HEAD
+[2.5.0]: https://github.com/Art4/Ged/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/Art4/Ged/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/Art4/Ged/compare/v2.2.1...v2.3.0
 [2.2.1]: https://github.com/Art4/Ged/compare/v2.2.0...v2.2.1
