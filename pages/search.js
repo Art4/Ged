@@ -20,6 +20,7 @@ const Utils = require('../src/window-utils.js');
 const Config = require('../src/config.js');
 const { Application, Output } = require('../src/console');
 const SearchInput = require('../src/searchinput.js');
+const Menus = require('../src/contextmenu.js');
 const EventEmitter = require('events');
 const config = new Config();
 const { ipcRenderer } = require('electron');
@@ -35,6 +36,9 @@ const app = Application.create(config, fs, ipcRenderer);
 
 class Search extends EventEmitter {}
 const search = new Search();
+
+// Allow context menu on input and textarea fields
+Menus.allowOnInputs(document.body);
 
 // Register search events
 search.on('search.output', (message) => {

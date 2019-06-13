@@ -18,6 +18,7 @@
 
 const Utils = require('../src/window-utils.js');
 const Config = require('../src/config.js');
+const Menus = require('../src/contextmenu.js');
 const config = new Config();
 
 const draftPathInput = document.getElementById('formDraftPathInput');
@@ -28,6 +29,9 @@ const skipTaskbarInput = document.getElementById('formSkipTaskbarInput');
 const opacityInput = document.getElementById('formOpacityInput');
 const saveButton = document.getElementById('formSaveButton');
 const abortButton = document.getElementById('formAbortButton');
+
+// Allow context menu on input and textarea fields
+Menus.allowOnInputs(document.body);
 
 (function() {
     draftPathInput.value = config.get('base_dir', '');

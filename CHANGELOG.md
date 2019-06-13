@@ -10,6 +10,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- In Textfeldern kann mit Rechtsklick ein Kontextmenü zum `Einfügen`, `Kopieren`, `Ausschneiden` und `Alle auswählen` von Text geöffnet werden
 - Alle Bibliotheken wurden aktualisiert
 
 ## [2.4.0] - 2019-03-28
