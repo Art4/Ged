@@ -23,7 +23,7 @@ Ged erwartet eine Eingabe in dieser Form:
 <Zeichnungsnummer>[-r<Revision>][.<Endung>] [<Befehl>]
 ```
 
-Um die Eingabe abzusenden, kann die `Enter`-Taste gedrückt werden oder auf die Lupe rechts neben dem Eingabefeld geklickt werden.
+Um die Eingabe abzusenden, kann die `Enter`-Taste gedrückt werden.
 
 ### Zeichnungsnummer
 
