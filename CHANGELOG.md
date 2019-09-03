@@ -8,6 +8,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2.6.0] - 2019-09-03
+
 ### Added
 
 - Ged kann einfacher verschoben werden, indem man am Bereich links vom Menübutton zieht
@@ -291,7 +293,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Fehlermeldung, wenn der gesuchte 3D-Ordner nicht existiert
 
-[Unreleased]: https://github.com/Art4/Ged/compare/v2.5.0...HEAD
+[Unreleased]: https://github.com/Art4/Ged/compare/v2.6.0...HEAD
+[2.6.0]: https://github.com/Art4/Ged/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/Art4/Ged/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/Art4/Ged/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/Art4/Ged/compare/v2.2.1...v2.3.0
