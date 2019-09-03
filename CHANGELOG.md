@@ -8,9 +8,20 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Ged kann einfacher verschoben werden, indem man am Bereich links vom Menübutton zieht
+- In das Eingabefeld kann sofort etwas eingetippt werden, wenn Ged den Fokus bekommt
+
 ### Changed
 
+- Ged wird nur transparent, wenn Ged nicht im Fokus liegt und die Maus darüber gefahren wird
+- Ged wird nicht mehr transparent, wenn es im Fokus liegt und die Maus nicht mehr über Ged liegt
 - Alle Bibliotheken wurden aktualisiert
+
+### Removed
+
+- Die Ged-Version wird nicht mehr unter dem aufgeklappten Menü angezeigt (die Versionsnummer findet sich weiterhin in den Einstellungen)
 
 ## [2.5.0] - 2019-06-13
 

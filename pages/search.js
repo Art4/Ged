@@ -31,6 +31,8 @@ const outputElement = document.getElementById('outputField');
 const searchWin = document.getElementById('search__wrapper');
 const closeButton = document.getElementById('close-button');
 const settingsButton = document.getElementById('settings-button');
+const menuButton = document.getElementById('menu-button');
+const menubox = document.getElementById('menubox');
 
 const app = Application.create(config, fs, ipcRenderer);
 
@@ -69,6 +71,9 @@ search.on('search.start', (event) => {
 Utils.registerEventlistener();
 
 inputField.addEventListener('keyup', (event) => {
+    if (menubox.classList.contains('show')) {
+        menuButton.click();
+    }
     if (event.keyCode === 13) {
         search.emit('search.start', event);
     }
@@ -83,20 +88,26 @@ settingsButton.addEventListener('click', (event) => {
 });
 
 searchWin.addEventListener('mouseover', (event) => {
-    Utils.changeWindowOpacity(1);
+    if (! ipcRenderer.sendSync('windowisfocused')) {
+        Utils.changeWindowOpacity(ipcRenderer.sendSync('getopacity'), 1, function(opacity) {
+            ipcRenderer.send('changeopacity', opacity);
+        });
+    }
 });
 
 searchWin.addEventListener('mouseleave', (event) => {
-    // wait 100ms to avoid racecondition with mouseover event
-    setTimeout(function() {
-        Utils.changeWindowOpacity(config.get('opacity', 1));
-    }, 100);
+    if (! ipcRenderer.sendSync('windowisfocused')) {
+        // wait 100ms to avoid racecondition with mouseover event
+        setTimeout(function() {
+            Utils.changeWindowOpacity(ipcRenderer.sendSync('getopacity'), config.get('opacity', 1), function(opacity) {
+                ipcRenderer.send('changeopacity', opacity);
+            });
+        }, 100);
+    }
 });
 
 // Effects
 (function () {
-    var menuButton = document.getElementById('menu-button');
-    var menubox = document.getElementById('menubox');
     var rotated = true;
 
     // Let the menu icon rotate on click
@@ -126,5 +137,10 @@ searchWin.addEventListener('mouseleave', (event) => {
         if (menubox.classList.contains('show')) {
             menuButton.click();
         }
-    })
+    });
+
+    // focus search field
+    ipcRenderer.on('windowgetfocused', (e) => {
+        inputField.focus();
+    });
 })();

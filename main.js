@@ -18,9 +18,10 @@
 // const {app, BrowserWindow} = require('electron')
 const electron = require('electron');
 const {app, BrowserWindow, ipcMain, shell, nativeImage, Notification} = electron;
+const Utils = require('./src/window-utils.js');
 const Config = require('./src/config.js');
-const autoUpdater = require('electron-updater').autoUpdater;
 const config = new Config();
+const autoUpdater = require('electron-updater').autoUpdater;
 const isDevEnv = ('ELECTRON_IS_DEV' in process.env);
 const gotInstanceLock = app.requestSingleInstanceLock();
 
@@ -130,6 +131,28 @@ app.on('ready', function createMainWindow () {
             config.set('displayX', lastWindowPosition.x);
             config.set('displayY', lastWindowPosition.y);
         }, 250);
+    });
+
+    // Focus search field on focus window
+    mainWindow.on('focus', () => {
+        Utils.changeWindowOpacity(mainWindow.getOpacity(), 1, function(opacity) {
+            mainWindow.setOpacity(opacity);
+        });
+        mainWindow.webContents.send('windowgetfocused');
+    });
+
+    // Focus search field on focus window
+    mainWindow.on('blur', () => {
+        // wait 100ms to avoid racecondition with mouseover event
+        setTimeout(function() {
+            Utils.changeWindowOpacity(mainWindow.getOpacity(), config.get('opacity', 1), function(opacity) {
+                mainWindow.setOpacity(opacity);
+            });
+        }, 100);
+    });
+
+    ipcMain.on('windowisfocused', function (e) {
+        e.returnValue = mainWindow.isFocused();
     });
 
     ipcMain.on('getopacity', function (e) {

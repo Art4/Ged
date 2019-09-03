@@ -21,8 +21,8 @@ const packageData = require('../package.json');
 
 function Utils() {}
 
-Utils.changeWindowOpacity = function(endOpacity) {
-    var startOpacity = ipcRenderer.sendSync('getopacity');
+Utils.changeWindowOpacity = function(startOpacity, endOpacity, changeOpacityCallback) {
+    // var startOpacity = ipcRenderer.sendSync('getopacity');
 
     var diffOpacity = endOpacity - startOpacity;
     var increaseOpacity = (diffOpacity > 0);
@@ -30,7 +30,7 @@ Utils.changeWindowOpacity = function(endOpacity) {
 
     function changeOpacity(currentOpacity, endOpacity, currentStep, steps) {
         if (currentStep >= steps) {
-            ipcRenderer.send('changeopacity', endOpacity);
+            changeOpacityCallback(endOpacity);
             return;
         }
 
@@ -42,7 +42,7 @@ Utils.changeWindowOpacity = function(endOpacity) {
             currentOpacity = currentOpacity - 0.1;
         }
         setTimeout(function() {
-            ipcRenderer.send('changeopacity', currentOpacity);
+            changeOpacityCallback(currentOpacity);
             changeOpacity(currentOpacity, endOpacity, currentStep, steps);
         }, 25);
     }
