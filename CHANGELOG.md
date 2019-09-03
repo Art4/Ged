@@ -17,6 +17,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Ged wird nur transparent, wenn Ged nicht im Fokus liegt und die Maus darüber gefahren wird
 - Ged wird nicht mehr transparent, wenn es im Fokus liegt und die Maus nicht mehr über Ged liegt
+- Update von Electron v3.1.13 auf v4.2.10
 - Alle Bibliotheken wurden aktualisiert
 
 ### Removed
