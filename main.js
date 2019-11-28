@@ -86,7 +86,10 @@ app.on('ready', function createMainWindow () {
         icon: nativeImage.createFromPath(`${app.getAppPath()}/pages/assets/img/icon-256.png`),
         acceptFirstMouse: true,
         backgroundColor: '#007bff',
-        opacity: config.get('opacity', 1)
+        opacity: config.get('opacity', 1),
+        webPreferences: {
+            nodeIntegration: true
+        },
     });
 
     // and load the index.html of the app.
@@ -179,6 +182,9 @@ app.on('ready', function createMainWindow () {
             skipTaskbar: false,
             backgroundColor: '#ffffff',
             icon: nativeImage.createFromPath(`${app.getAppPath()}/pages/assets/img/icon-256.png`),
+            webPreferences: {
+                nodeIntegration: true
+            },
         });
 
         // settingsWindow.webContents.openDevTools({mode: 'detach'})
