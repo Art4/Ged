@@ -8,6 +8,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- Alle Bibliotheken wurden aktualisiert
+
 ## [2.6.0] - 2019-09-03
 
 ### Added
