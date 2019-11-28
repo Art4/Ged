@@ -180,6 +180,7 @@ app.on('ready', function createMainWindow () {
             modal: true,
             frame: true,
             skipTaskbar: false,
+            autoHideMenuBar: true,
             backgroundColor: '#ffffff',
             icon: nativeImage.createFromPath(`${app.getAppPath()}/pages/assets/img/icon-256.png`),
             webPreferences: {
