@@ -16,11 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 var path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-const ExtractCss = new ExtractTextPlugin({
-    filename: "[name].css"
-});
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: {
@@ -34,11 +30,18 @@ module.exports = {
         rules: [
             {
                 test: /\.s?css$/,
-                use: ExtractCss.extract({
-                    fallback: 'style-loader',
-                    use: [{
-                        loader: 'css-loader'
-                    }, {
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            // you can specify a publicPath here
+                            // by default it use publicPath in webpackOptions.output
+                            // publicPath: './'
+                            hmr: process.env.NODE_ENV === 'development',
+                        }
+                    },
+                    'css-loader',
+                    {
                         loader: 'postcss-loader', // Run post css actions
                         options: {
                             plugins: function () { // post css plugins, can be exported to postcss.config.js
@@ -48,10 +51,9 @@ module.exports = {
                                 ];
                             }
                         }
-                    }, {
-                        loader: 'sass-loader'
-                    }],
-                }),
+                    },
+                    'sass-loader'
+                ],
             }, {
                 test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
                 loader: 'url-loader?limit=10000&mimetype=application/font-woff'
@@ -68,6 +70,12 @@ module.exports = {
         ]
     },
     plugins: [
-        ExtractCss,
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // all options are optional
+            filename: '[name].css',
+            chunkFilename: '[id].css',
+            ignoreOrder: false, // Enable to remove warnings about conflicting order
+        }),
     ],
 };
