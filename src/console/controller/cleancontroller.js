@@ -76,14 +76,12 @@ CleanController.prototype.executeCommand = function(draft, command, output) {
 // since v1.0.5
 CleanController.prototype.cleanPreviousRevisionOfDraft = function(draft, input, output)
 {
-    // Zeichnungspfad bestimmen
-    var main_dir = draft.get3DFolderPath().slice(0, -8);
+    var nearest_file = draft.getNearestFile();
+    var ignore_files = [];
+    var writeprotect_files = [];
+    var remove_files = [];
 
-    var file = draft.getNearestFile();
-    var prev_revision_file = null;
-    var prev_revision_pdffile = null;
-
-    var revision = file.getRevision();
+    var revision = nearest_file.getRevision();
 
     if(input.getRevision() !== null)
     {
@@ -91,36 +89,62 @@ CleanController.prototype.cleanPreviousRevisionOfDraft = function(draft, input, 
     }
 
     // Vorherige Revision nehmen
+    // FIXME Support für Buchstaben-Revisionen fehlt noch
     var prev_revision = (revision - 1).toString();
 
-    draft.getFiles().forEach((f) => {
+    // Files filtern, deren Revision der prev_revision entspricht
+    const files = draft.getFiles().filter((f) => {
         if (f.getRevision() === revision && f.getExtension().toLowerCase() === 'dft') {
-            file = f;
+            nearest_file = f;
         }
-        else if (f.getRevision() === prev_revision && f.getExtension().toLowerCase() === 'dft') {
-            prev_revision_file = f;
+        return (f.getRevision() === prev_revision)
+    });
+
+    files.forEach((f) => {
+        if (f.getExtension().toLowerCase() === 'dft') {
+            writeprotect_files.push(f);
         }
-        else if (f.getRevision() === prev_revision && f.getExtension().toLowerCase() === 'pdf') {
-            prev_revision_pdffile = f;
+        else if (f.getExtension().toLowerCase() === 'dft') {
+            ignore_files.push(f);
+        }
+        else if (f.getExtension().toLowerCase() === 'tif') {
+            ignore_files.push(f);
+        }
+        else if (f.getExtension().toLowerCase() === 'tiff') {
+            ignore_files.push(f);
+        }
+        else {
+            remove_files.push(f);
         }
     });
 
-    if (prev_revision_file !== null) {
+    // DWG nicht löschen, wenn passende dft nicht existiert
+    if (writeprotect_files.length === 0) {
+        remove_files.forEach((f, i, o) => {
+            if (f.getExtension().toLowerCase() === 'dwg') {
+                writeprotect_files.push(f);
+                o.splice(i, 1);
+            }
+        });
+    }
+
+    // Schreibschutz setzen
+    writeprotect_files.forEach((f) => {
         // Schreibschutz setzen
         // Bugfix since v1.0.6
-        this.fsutils.setFileWriteProtected(prev_revision_file.getAbsolutePath(), true);
-    }
+        this.fsutils.setFileWriteProtected(f.getAbsolutePath(), true);
+    });
 
-    if (prev_revision_pdffile !== null) {
+    // Dateien nach Rückfrage löschen
+    remove_files.forEach((f) => {
         // Sicherheits-Abfrage, bevor eine Datei gelöscht wird
-        if(confirm('Datei ' + prev_revision_pdffile.getName() + ' wird entfernt?') === true)
+        if(confirm('Datei ' + f.getName() + ' wird entfernt?') === true)
         {
-            // PDF-Datei löschen
-            this.fs.unlinkSync(prev_revision_pdffile.getAbsolutePath());
+            this.fs.unlinkSync(f.getAbsolutePath());
         }
-    }
+    });
 
-    output.end(file.getName() + ' bereinigt');
+    output.end(nearest_file.getName() + ' bereinigt');
 }
 
 // export the class

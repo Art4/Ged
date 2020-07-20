@@ -174,7 +174,7 @@ Hebt den Schreibschutz bei der gefundenen Datei und gibt die Meldung `<Zeichnung
 
 ### `c` - Dateien bereinigen
 
-Setzt bei der vorherige Revision der gesuchten Zeichnung die DFT-Datei auf Schreibschutz und löscht die dazugehörige PDF-Datei. Vor dem Löschen der PDF erscheint ein Warnhinweis mit dem zu löschenden Dateinamen, der erst vom Anwender bestätigt werden muss. Bricht der Anwender das Löschen ab, wird nur der Schreibschutz bei der DFT-Datei gesetzt.
+Setzt bei der vorherige Revision der gesuchten Zeichnung die DFT-Datei auf Schreibschutz und löscht andere Dateiformate der selben Revision. Vor dem Löschen jeder Datei erscheint ein Warnhinweis mit dem zu löschenden Dateinamen, der erst vom Anwender bestätigt werden muss. Bricht der Anwender das Löschen ab, wird nur der Schreibschutz bei der DFT-Datei gesetzt.
 
 #### Beispiel
 
@@ -184,6 +184,7 @@ Angenommen, es existieren die folgenden Dateien:
 - 12345-R0.pdf
 - 12345-R1.dft
 - 12345-R1.pdf
+- 12345-R1.stp
 - 12345-R2.dft
 
 Der Aufruf von
@@ -192,7 +193,7 @@ Der Aufruf von
 12345 c
 ```
 
-löscht nach Rückfrage die Datei `12345-R1.pdf` und aktiviert bei der Datei `12345-R1.dft` den Schreibschutz. Die vorhergehenden Revisionen werden nicht verändert. Die Dateien sehen jetzt so aus:
+löscht nach Rückfrage die Dateien `12345-R1.pdf` und `12345-R1.stp` und aktiviert bei der Datei `12345-R1.dft` den Schreibschutz. Die vorhergehenden Revisionen werden nicht verändert. Die Dateien sehen jetzt so aus:
 
 - 12345-R0.dft
 - 12345-R0.pdf
