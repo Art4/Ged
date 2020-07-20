@@ -90,6 +90,8 @@ describe('The draftpool', function() {
             ['10500-R0.pdf', '10500-R0.dft', 1],
             ['10500-R1.dft', '10500-R0.dft', 1],
             ['10500-R1.dft', '10500.dft', 1],
+            ['10500_BG.stp', '10500-R1.dft', -1],
+            ['10500-R2.dft', '10500_BG.stp', 1],
         );
 
         for (var i = 0; i < values.length; i++) {

@@ -177,6 +177,7 @@ Draftpool.prototype.optimizeFileList = function (filelist, identifier, pick) {
  * sort files for Windows
  *
  * JS sorts the 6th symbol `.` (U+002E) after `-` (U+002D)
+ * JS sorts the 6th symbol `_` (U+00F5) after `.` (U+002E)
  *
  * @param string a
  * @param string b
@@ -205,6 +206,14 @@ Draftpool.prototype.compareFilesForWindows = function (a, b) {
     }
 
     if (a.slice(5,6) == '.' && b.slice(5,6) == '-') {
+        return -1;
+    }
+
+    if (a.slice(5,6) == '-' && b.slice(5,6) == '_') {
+        return 1;
+    }
+
+    if (a.slice(5,6) == '_' && b.slice(5,6) == '-') {
         return -1;
     }
 
