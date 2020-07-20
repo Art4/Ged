@@ -24,16 +24,27 @@ function StringInput(query) {
     this.revision = null;
     this.type = null;
 
-    var regex = /^(\d+)(-R[0-9a-z]{1})?(\.[a-z]{1,3})?/i;
+    // Format 12345[-R0][.dft]
+    var regex = /^(\d{5})(-R[0-9a-z]{1})?(\.[a-z]{1,3})?$/i;
     var results = regex.exec(this.query);
 
-    if (results && results[1].length === 5) {
-        // Prevent inputs like '12345i'
-        if (this.query.slice(5,6) === '-' || this.query.slice(5,6) === '.' || this.query.slice(5,6) === '') {
-            this.identifier = results[1];
-            this.revision = (results[2]) ? results[2].slice(2) : null;
-            this.type = (results[3]) ? results[3].slice(1) : null;
-        }
+    if (results) {
+        this.identifier = results[1];
+        this.revision = (results[2]) ? results[2].slice(2) : null;
+        this.type = (results[3]) ? results[3].slice(1) : null;
+
+        return;
+    }
+
+    // Format 12345[/0][/3][.dft]
+    var regex = /^(\d{5})(\/[0-9a-z]{1})?(\/[0-9a-z]{1})?(\.[a-z]{1,3})?$/i;
+    var results = regex.exec(this.query);
+
+    if (results) {
+        this.identifier = results[1];
+        this.revision = (results[2]) ? results[2].slice(1) : null;
+        // results[3] Blattformat wird ignoriert
+        this.type = (results[4]) ? results[4].slice(1) : null;
     }
 }
 

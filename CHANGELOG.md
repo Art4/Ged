@@ -8,6 +8,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Neues Eingabeformat für Zeichnungen `12345[/0][/3][.dft]` eingeführt
+
 ### Changed
 
 - Upgrade von Electron v4.2.12 auf v6.1.12

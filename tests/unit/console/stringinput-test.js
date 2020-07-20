@@ -24,6 +24,11 @@ describe('The StringInput', function() {
             ['12345', '12345', null, null],
             ['12345-R0', '12345', '0', null],
             ['12345-r0.pdf', '12345', '0', 'pdf'],
+            ['12345/1', '12345', '1', null],
+            ['12345/2/0', '12345', '2', null],
+            ['12345/3.pdf', '12345', '3', 'pdf'],
+            ['12345/4/9.pdf', '12345', '4', 'pdf'],
+            ['12345/B/9.pdf', '12345', 'B', 'pdf'],
             // test invalid inputs
             ['12345i', null, null, null],
             ['112345-R0.pdf', null, null, null],
