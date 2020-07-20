@@ -17,11 +17,20 @@ Der Quellcode ist auf [Github](https://github.com/Art4/Ged) zu finden und unterl
 
 ## Anwendung
 
-Ged erwartet eine Eingabe in dieser Form:
+**Neu ab Version 2.7.0**: Die Zeichnungsnummer kann auch im gebräuchlicheren Format mit Schrägstrichen angegeben werden:
 
 ```
-<Zeichnungsnummer>[-r<Revision>][.<Endung>] [<Befehl>]
+<Zeichnungsnummer>[/<Revision>[/<Format>]][.<Endung>] [<Befehl>]
 ```
+
+Das Blattformat wird hierbei immer ignoriert und kann auch weggelassen werden.
+
+> Aus Kompatibilitätsgründen versteht Ged auch weiterhin die ursprüngliche Eingabe in dieser Form:
+>
+> ```
+> <Zeichnungsnummer>[-r<Revision>][.<Endung>] [<Befehl>]
+> ```
+
 
 Um die Eingabe abzusenden, kann die `Enter`-Taste gedrückt werden.
 
@@ -39,11 +48,13 @@ Die Angabe eine Zeichnungsnummer ist immer erforderlich und muss eine 5-stellige
 
 Ged versucht immer die letzte Revision einer Zeichnung zu finden. Mit der Angabe der Revision kann nach einer expliziten Revision gesucht werden.
 
-Die Revision ist eine einstellige Zahl zwischen `0` und `9` oder ein Großbuchstabe von `A` bis `Z`. Die Angabe der Revision erfolgt nach der Zeichnungsnummer und wird mit `-r` abgetrennt.
+Die Revision ist eine einstellige Zahl zwischen `0` und `9` oder ein Großbuchstabe von `A` bis `Z`. Die Angabe der Revision erfolgt nach der Zeichnungsnummer und wird mit `/` (oder auch `-r`) abgetrennt.
 
 #### Beispiele
 
 ```
+12345/1
+12345/B
 12345-r1
 12345-rB
 ```
@@ -66,7 +77,7 @@ Soll zusätzlich zur Dateiendung eine bestimmte Revision gesucht werden, so muss
 #### Beispiele
 
 ```
-12345-r1.pdf
+12345/1.pdf
 12345-r0.tiff
 ```
 
@@ -88,8 +99,8 @@ Sollen zusätzlich noch die Dateiendung und/oder Revision bestimmt werden, müss
 
 ```
 12345.pdf o
-12345-r1 o
-12345-r1.pdf o
+12345/1 o
+12345/1.pdf o
 ```
 
 ## Befehle
@@ -191,7 +202,7 @@ löscht nach Rückfrage die Datei `12345-R1.pdf` und aktiviert bei der Datei `12
 Sollen jetzt auch die Dateien der Revision 0 bereinigt werden, muss der Befehl mit der Revision 1 aufgerufen werden.
 
 ```
-12345-r1 c
+12345/1 c
 ```
 
 Die Dateien sehen dann so aus:
