@@ -10,8 +10,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-- Update von Electron v4.2.12 auf v6.1.5
-- Update von Webpack v3.12.0 auf v4.41.2
+- Upgrade von Electron v4.2.12 auf v6.1.12
+- Upgrade von Webpack v3.12.0 auf v4.43.0
 - Alle Bibliotheken wurden aktualisiert
 
 ## [2.6.0] - 2019-09-03
