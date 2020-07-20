@@ -8,6 +8,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2.7.0] - 2020-07-20
+
 ### Added
 
 - Neues Eingabeformat für Zeichnungen `12345[/0][/3][.dft]` eingeführt
@@ -308,7 +310,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Fehlermeldung, wenn der gesuchte 3D-Ordner nicht existiert
 
-[Unreleased]: https://github.com/Art4/Ged/compare/v2.6.0...HEAD
+[Unreleased]: https://github.com/Art4/Ged/compare/v2.7.0...HEAD
+[2.7.0]: https://github.com/Art4/Ged/compare/v2.6.0...v2.7.0
 [2.6.0]: https://github.com/Art4/Ged/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/Art4/Ged/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/Art4/Ged/compare/v2.3.0...v2.4.0
