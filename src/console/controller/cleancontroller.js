@@ -76,6 +76,12 @@ CleanController.prototype.executeCommand = function(draft, command, output) {
 // since v1.0.5
 CleanController.prototype.cleanPreviousRevisionOfDraft = function(draft, input, output)
 {
+    // Abbrechen, wenn keine Dateien gefunden wurden
+    if (draft.getFiles().length === 0) {
+        output.destroy('Keine Dateien zu ' + input.getIdentifier() + ' gefunden');
+        return;
+    }
+
     var nearest_file = draft.getNearestFile();
     var ignore_files = [];
     var writeprotect_files = [];
