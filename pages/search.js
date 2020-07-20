@@ -70,6 +70,20 @@ search.on('search.start', (event) => {
 // Register universal events
 Utils.registerEventlistener();
 
+// Prevent middleclick on links of they will be open in a browser window
+document.addEventListener('auxclick', (event) => {
+    console.log(event);
+    if (event.target.localName === 'a') {
+        event.preventDefault();
+        return
+    }
+    var parent = event.target.parentElement;
+    if (parent.localName === 'a') {
+        event.preventDefault();
+        return
+    }
+}, false);
+
 inputField.addEventListener('keyup', (event) => {
     if (menubox.classList.contains('show')) {
         menuButton.click();

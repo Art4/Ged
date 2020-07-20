@@ -33,6 +33,20 @@ const abortButton = document.getElementById('formAbortButton');
 // Allow context menu on input and textarea fields
 Menus.allowOnInputs(document.body);
 
+// Prevent middleclick on links of they will be open in a browser window
+document.addEventListener('auxclick', (event) => {
+    console.log(event);
+    if (event.target.localName === 'a') {
+        event.preventDefault();
+        return
+    }
+    var parent = event.target.parentElement;
+    if (parent.localName === 'a') {
+        event.preventDefault();
+        return
+    }
+}, false);
+
 (function() {
     draftPathInput.value = config.get('base_dir', '');
     defaultFileTypeInput.value = config.get('default_file_type', 'pdf');

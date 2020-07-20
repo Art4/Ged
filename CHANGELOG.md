@@ -14,6 +14,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - Upgrade von Webpack v3.12.0 auf v4.43.0
 - Alle Bibliotheken wurden aktualisiert
 
+### Fixed
+
+- Mittleklick auf Buttons öffnet nicht mehr eine Browserinstanz
+
 ## [2.6.0] - 2019-09-03
 
 ### Added
