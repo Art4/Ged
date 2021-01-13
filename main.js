@@ -29,8 +29,6 @@ const gotInstanceLock = app.requestSingleInstanceLock();
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-app.allowRendererProcessReuse = true;
-
 // Quit app in favor of the first instance
 if (!gotInstanceLock) {
     app.quit();
@@ -222,7 +220,7 @@ app.on('ready', function createMainWindow () {
     });
 
     ipcMain.on('openfile', function (e, path) {
-        shell.openItem(path);
+        shell.openPath(path);
     });
 
     ipcMain.on('openfileinfolder', function (e, path) {

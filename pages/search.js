@@ -72,7 +72,6 @@ Utils.registerEventlistener();
 
 // Prevent middleclick on links of they will be open in a browser window
 document.addEventListener('auxclick', (event) => {
-    console.log(event);
     if (event.target.localName === 'a') {
         event.preventDefault();
         return
