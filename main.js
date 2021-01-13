@@ -88,6 +88,7 @@ app.on('ready', function createMainWindow () {
         backgroundColor: '#007bff',
         opacity: config.get('opacity', 1),
         webPreferences: {
+            enableRemoteModule: true,
             nodeIntegration: true
         },
     });
