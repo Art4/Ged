@@ -79,8 +79,15 @@ search.on('search.start', (event) => {
     app.run(input, buffer);
 });
 
-// Register universal events
-Utils.registerEventlistener();
+// open links in external browser
+var externalButtons = document.getElementsByClassName('open-external');
+
+for (var i = 0; i < externalButtons.length; i++) {
+    externalButtons[i].addEventListener('click', function(e) {
+        e.preventDefault();
+        ipcRenderer.send('openexternalpage', this.href);
+    }, false);
+}
 
 // Prevent middleclick on links of they will be open in a browser window
 document.addEventListener('auxclick', (event) => {
@@ -105,30 +112,19 @@ inputField.addEventListener('keyup', (event) => {
 });
 
 closeButton.addEventListener('click', (event) => {
-    Utils.closeWindow();
+    ipcRenderer.send('closeapp');
 });
 
 settingsButton.addEventListener('click', (event) => {
-    Utils.openSettingsPage();
+    ipcRenderer.send('opensettingspage');
 });
 
 searchWin.addEventListener('mouseover', (event) => {
-    if (! ipcRenderer.sendSync('windowisfocused')) {
-        Utils.changeWindowOpacity(ipcRenderer.sendSync('getopacity'), 1, function(opacity) {
-            ipcRenderer.send('changeopacity', opacity);
-        });
-    }
+    ipcRenderer.send('setopacity');
 });
 
 searchWin.addEventListener('mouseleave', (event) => {
-    if (! ipcRenderer.sendSync('windowisfocused')) {
-        // wait 100ms to avoid racecondition with mouseover event
-        setTimeout(function() {
-            Utils.changeWindowOpacity(ipcRenderer.sendSync('getopacity'), config.get('opacity', 1), function(opacity) {
-                ipcRenderer.send('changeopacity', opacity);
-            });
-        }, 100);
-    }
+    ipcRenderer.send('removeopacity');
 });
 
 // Effects

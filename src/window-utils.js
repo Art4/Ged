@@ -54,39 +54,4 @@ Utils.getAppVersion = function() {
     return packageData.version;
 };
 
-Utils.closeWindow = function() {
-    ipcRenderer.send('closeapp');
-};
-
-Utils.openExternalPage = function(url) {
-    ipcRenderer.send('openexternalpage', url);
-};
-
-Utils.openSettingsPage = function() {
-    ipcRenderer.send('opensettingspage');
-};
-
-Utils.closeSettingsPage = function() {
-    ipcRenderer.send('closesettingspage');
-};
-
-Utils.registerEventlistener = function() {
-    // Set app version
-    var elements = document.getElementsByClassName('app-version');
-
-    for (const element of elements) {
-        element.innerHTML = Utils.getAppVersion();
-    }
-
-    // open links in external browser
-    var externalButtons = document.getElementsByClassName('open-external');
-
-    for (var i = 0; i < externalButtons.length; i++) {
-        externalButtons[i].addEventListener('click', function(e) {
-            e.preventDefault();
-            Utils.openExternalPage(this.href);
-        }, false);
-    }
-};
-
 module.exports = Utils;

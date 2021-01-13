@@ -174,8 +174,23 @@ app.on('ready', function createMainWindow () {
         e.returnValue = mainWindow.getOpacity();
     });
 
-    ipcMain.on('changeopacity', function (e, o) {
-        mainWindow.setOpacity(o);
+    ipcMain.on('setopacity', function (e) {
+        if (! mainWindow.isFocused()) {
+            Utils.changeWindowOpacity(mainWindow.getOpacity(), config.get('opacity', 1), function(opacity) {
+                mainWindow.setOpacity(opacity);
+            });
+        }
+    });
+
+    ipcMain.on('removeopacity', function (e) {
+        if (! mainWindow.isFocused()) {
+            // wait 100ms to avoid racecondition with mouseover event
+            setTimeout(function() {
+                Utils.changeWindowOpacity(mainWindow.getOpacity(), 1, function(opacity) {
+                    mainWindow.setOpacity(opacity);
+                });
+            }, 100);
+        }
     });
 
     ipcMain.on('closeapp', function (e) {
@@ -196,6 +211,7 @@ app.on('ready', function createMainWindow () {
             backgroundColor: '#ffffff',
             icon: nativeImage.createFromPath(`${app.getAppPath()}/pages/assets/img/icon-256.png`),
             webPreferences: {
+                enableRemoteModule: true,
                 nodeIntegration: true
             },
         });
@@ -213,6 +229,11 @@ app.on('ready', function createMainWindow () {
         });
 
         settingsWindow.loadFile('pages/settings.html');
+
+        // Open the DevTools if in dev environment
+        if (isDevEnv) {
+            // settingsWindow.webContents.openDevTools({mode: 'detach'});
+        }
     });
 
     ipcMain.on('closesettingspage', function (e) {
