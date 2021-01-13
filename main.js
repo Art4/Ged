@@ -99,6 +99,7 @@ app.on('ready', function createMainWindow () {
         backgroundColor: '#007bff',
         opacity: config.get('opacity', 1),
         webPreferences: {
+            contextIsolation: false,
             enableRemoteModule: true,
             nodeIntegration: true
         },
@@ -211,6 +212,7 @@ app.on('ready', function createMainWindow () {
             backgroundColor: '#ffffff',
             icon: nativeImage.createFromPath(`${app.getAppPath()}/pages/assets/img/icon-256.png`),
             webPreferences: {
+                contextIsolation: false,
                 enableRemoteModule: true,
                 nodeIntegration: true
             },
@@ -232,7 +234,7 @@ app.on('ready', function createMainWindow () {
 
         // Open the DevTools if in dev environment
         if (isDevEnv) {
-            // settingsWindow.webContents.openDevTools({mode: 'detach'});
+            settingsWindow.webContents.openDevTools({mode: 'detach'});
         }
     });
 
