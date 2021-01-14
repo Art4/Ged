@@ -18,7 +18,7 @@
 'use strict';
 
 const Store = require('electron-store');
-const Utils = require('./window-utils.js');
+const packageData = require('../package.json');
 const compareVersions = require('compare-versions');
 
 var store = null;
@@ -40,7 +40,7 @@ function init() {
     if (store.size === 0) {
         store.store = {
             config_version: configVersion,
-            app_version: Utils.getAppVersion(),
+            app_version: packageData.version,
             installed_at: new Date().toISOString(),
             base_dir: 'H:\\Zeichnungen\\',
             default_file_type: 'pdf',
@@ -60,7 +60,7 @@ function init() {
  * migrate old config if needed
  */
 function migrateConfigIfNeeded() {
-    if (store.get('app_version', '') === Utils.getAppVersion()) {
+    if (store.get('app_version', '') === packageData.version) {
         return;
     }
 
@@ -102,7 +102,7 @@ function migrateConfigIfNeeded() {
         store.set('app_version', '2.4.0');
     }
 
-    store.set('app_version', Utils.getAppVersion());
+    store.set('app_version', packageData.version);
 }
 
 /**
