@@ -17,13 +17,24 @@
  */
 // const {app, BrowserWindow} = require('electron')
 const electron = require('electron');
-const {app, BrowserWindow, ipcMain, shell, nativeImage, Notification} = electron;
+const {app, BrowserWindow, ipcMain, Menu, MenuItem, nativeImage, Notification, shell} = electron;
 const Utils = require('./src/window-utils.js');
 const Config = require('./src/config.js');
 const config = new Config();
 const autoUpdater = require('electron-updater').autoUpdater;
 const isDevEnv = ('ELECTRON_IS_DEV' in process.env);
 const gotInstanceLock = app.requestSingleInstanceLock();
+
+const contextMenu = new Menu();
+// contextMenu.append(new MenuItem({label: 'Rückgängig machen', role: 'undo'}));
+// contextMenu.append(new MenuItem({label: 'Wiederherstellen', role: 'redo'}));
+// contextMenu.append(new MenuItem({type: 'separator'}));
+contextMenu.append(new MenuItem({label: 'Einfügen', role: 'paste'}));
+contextMenu.append(new MenuItem({label: 'Kopieren', role: 'copy'}));
+contextMenu.append(new MenuItem({label: 'Ausschneiden', role: 'cut'}));
+// contextMenu.append(new MenuItem({label: 'Löschen', role: 'delete'}));
+contextMenu.append(new MenuItem({type: 'separator'}));
+contextMenu.append(new MenuItem({label: 'Alle auswählen', role: 'selectall'}));
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -88,6 +99,8 @@ app.on('ready', function createMainWindow () {
         backgroundColor: '#007bff',
         opacity: config.get('opacity', 1),
         webPreferences: {
+            contextIsolation: false,
+            enableRemoteModule: true,
             nodeIntegration: true
         },
     });
@@ -162,8 +175,23 @@ app.on('ready', function createMainWindow () {
         e.returnValue = mainWindow.getOpacity();
     });
 
-    ipcMain.on('changeopacity', function (e, o) {
-        mainWindow.setOpacity(o);
+    ipcMain.on('setopacity', function (e) {
+        if (! mainWindow.isFocused()) {
+            Utils.changeWindowOpacity(mainWindow.getOpacity(), config.get('opacity', 1), function(opacity) {
+                mainWindow.setOpacity(opacity);
+            });
+        }
+    });
+
+    ipcMain.on('removeopacity', function (e) {
+        if (! mainWindow.isFocused()) {
+            // wait 100ms to avoid racecondition with mouseover event
+            setTimeout(function() {
+                Utils.changeWindowOpacity(mainWindow.getOpacity(), 1, function(opacity) {
+                    mainWindow.setOpacity(opacity);
+                });
+            }, 100);
+        }
     });
 
     ipcMain.on('closeapp', function (e) {
@@ -184,6 +212,8 @@ app.on('ready', function createMainWindow () {
             backgroundColor: '#ffffff',
             icon: nativeImage.createFromPath(`${app.getAppPath()}/pages/assets/img/icon-256.png`),
             webPreferences: {
+                contextIsolation: false,
+                enableRemoteModule: true,
                 nodeIntegration: true
             },
         });
@@ -201,6 +231,11 @@ app.on('ready', function createMainWindow () {
         });
 
         settingsWindow.loadFile('pages/settings.html');
+
+        // Open the DevTools if in dev environment
+        if (isDevEnv) {
+            settingsWindow.webContents.openDevTools({mode: 'detach'});
+        }
     });
 
     ipcMain.on('closesettingspage', function (e) {
@@ -220,7 +255,7 @@ app.on('ready', function createMainWindow () {
     });
 
     ipcMain.on('openfile', function (e, path) {
-        shell.openItem(path);
+        shell.openPath(path);
     });
 
     ipcMain.on('openfileinfolder', function (e, path) {
@@ -229,6 +264,10 @@ app.on('ready', function createMainWindow () {
 
     ipcMain.on('openexternalpage', function (e, url) {
         shell.openExternal(url);
+    });
+
+    ipcMain.on('showcontextmenu', function (e) {
+        contextMenu.popup();
     });
 
     // Ignore errors in autoUpdater

@@ -8,6 +8,11 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- Upgrade von Electron v7.3.2 auf v11.2.0
+- Alle Bibliotheken wurden aktualisiert
+
 ## [2.7.0] - 2020-07-20
 
 ### Added

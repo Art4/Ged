@@ -16,10 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Utils = require('../src/window-utils.js');
+const { ipcRenderer } = require('electron');
 const Config = require('../src/config.js');
-const Menus = require('../src/contextmenu.js');
 const config = new Config();
+const packageData = require('../package.json');
 
 const draftPathInput = document.getElementById('formDraftPathInput');
 const defaultFileTypeInput = document.getElementById('formDefaultFileTypeInput');
@@ -31,11 +31,23 @@ const saveButton = document.getElementById('formSaveButton');
 const abortButton = document.getElementById('formAbortButton');
 
 // Allow context menu on input and textarea fields
-Menus.allowOnInputs(document.body);
+document.body.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let node = e.target;
+
+    while (node) {
+        if (node.nodeName.match(/^(input|textarea)$/i) || node.isContentEditable) {
+            ipcRenderer.send('showcontextmenu');
+            break;
+        }
+        node = node.parentNode;
+    }
+});
 
 // Prevent middleclick on links of they will be open in a browser window
 document.addEventListener('auxclick', (event) => {
-    console.log(event);
     if (event.target.localName === 'a') {
         event.preventDefault();
         return
@@ -55,8 +67,22 @@ document.addEventListener('auxclick', (event) => {
     skipTaskbarInput.checked = config.get('skip_taskbar', true) ? false : true;
     opacityInput.value = config.get('opacity', 1);
 
-    // Register universal events
-    Utils.registerEventlistener();
+    // Set app version
+    var elements = document.getElementsByClassName('app-version');
+
+    for (const element of elements) {
+        element.innerHTML = packageData.version;;
+    }
+
+    // open links in external browser
+    var externalButtons = document.getElementsByClassName('open-external');
+
+    for (var i = 0; i < externalButtons.length; i++) {
+        externalButtons[i].addEventListener('click', function(e) {
+            e.preventDefault();
+            ipcRenderer.send('openexternalpage', this.href);
+        }, false);
+    }
 })();
 
 saveButton.addEventListener('click', (event) => {
@@ -67,9 +93,9 @@ saveButton.addEventListener('click', (event) => {
     config.set('skip_taskbar', !skipTaskbarInput.checked);
     config.set('opacity', parseFloat(opacityInput.value));
 
-    Utils.closeSettingsPage();
+    ipcRenderer.send('closesettingspage');
 });
 
 abortButton.addEventListener('click', (event) => {
-    Utils.closeSettingsPage();
+    ipcRenderer.send('closesettingspage');
 });

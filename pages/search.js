@@ -20,7 +20,6 @@ const Utils = require('../src/window-utils.js');
 const Config = require('../src/config.js');
 const { Application, Output } = require('../src/console');
 const SearchInput = require('../src/searchinput.js');
-const Menus = require('../src/contextmenu.js');
 const EventEmitter = require('events');
 const config = new Config();
 const { ipcRenderer } = require('electron');
@@ -40,7 +39,20 @@ class Search extends EventEmitter {}
 const search = new Search();
 
 // Allow context menu on input and textarea fields
-Menus.allowOnInputs(document.body);
+document.body.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let node = e.target;
+
+    while (node) {
+        if (node.nodeName.match(/^(input|textarea)$/i) || node.isContentEditable) {
+            ipcRenderer.send('showcontextmenu');
+            break;
+        }
+        node = node.parentNode;
+    }
+});
 
 // Register search events
 search.on('search.output', (message) => {
@@ -67,12 +79,18 @@ search.on('search.start', (event) => {
     app.run(input, buffer);
 });
 
-// Register universal events
-Utils.registerEventlistener();
+// open links in external browser
+var externalButtons = document.getElementsByClassName('open-external');
+
+for (var i = 0; i < externalButtons.length; i++) {
+    externalButtons[i].addEventListener('click', function(e) {
+        e.preventDefault();
+        ipcRenderer.send('openexternalpage', this.href);
+    }, false);
+}
 
 // Prevent middleclick on links of they will be open in a browser window
 document.addEventListener('auxclick', (event) => {
-    console.log(event);
     if (event.target.localName === 'a') {
         event.preventDefault();
         return
@@ -94,30 +112,19 @@ inputField.addEventListener('keyup', (event) => {
 });
 
 closeButton.addEventListener('click', (event) => {
-    Utils.closeWindow();
+    ipcRenderer.send('closeapp');
 });
 
 settingsButton.addEventListener('click', (event) => {
-    Utils.openSettingsPage();
+    ipcRenderer.send('opensettingspage');
 });
 
 searchWin.addEventListener('mouseover', (event) => {
-    if (! ipcRenderer.sendSync('windowisfocused')) {
-        Utils.changeWindowOpacity(ipcRenderer.sendSync('getopacity'), 1, function(opacity) {
-            ipcRenderer.send('changeopacity', opacity);
-        });
-    }
+    ipcRenderer.send('setopacity');
 });
 
 searchWin.addEventListener('mouseleave', (event) => {
-    if (! ipcRenderer.sendSync('windowisfocused')) {
-        // wait 100ms to avoid racecondition with mouseover event
-        setTimeout(function() {
-            Utils.changeWindowOpacity(ipcRenderer.sendSync('getopacity'), config.get('opacity', 1), function(opacity) {
-                ipcRenderer.send('changeopacity', opacity);
-            });
-        }, 100);
-    }
+    ipcRenderer.send('removeopacity');
 });
 
 // Effects
