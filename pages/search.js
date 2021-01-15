@@ -120,11 +120,11 @@ settingsButton.addEventListener('click', (event) => {
 });
 
 searchWin.addEventListener('mouseover', (event) => {
-    ipcRenderer.send('setopacity');
+    ipcRenderer.send('removeopacity');
 });
 
 searchWin.addEventListener('mouseleave', (event) => {
-    ipcRenderer.send('removeopacity');
+    ipcRenderer.send('setopacity');
 });
 
 // Effects
