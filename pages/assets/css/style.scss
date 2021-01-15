@@ -49,6 +49,8 @@
 
 .is-draggable {
     -webkit-app-region: drag;
+    cursor: grab;
+    cursor: -webkit-grab;
 }
 
 #menu-button-icon {
