@@ -13,6 +13,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - Upgrade von Electron v7.3.2 auf v11.2.0
 - Alle Bibliotheken wurden aktualisiert
 
+### Removed
+
+- Der Verschieben-Button im aufklappbaren Menü wurden entfernt. Ged kann nur noch mithilfe des Bereichs links vom Menübutton verschoben werden.
+
 ## [2.7.0] - 2020-07-20
 
 ### Added
