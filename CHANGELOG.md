@@ -8,6 +8,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased](https://github.com/Art4/Ged/compare/v2.8.0...HEAD)
 
+### Changed
+
+- Alle Bibliotheken wurden aktualisiert
+
 ## [2.8.0 - 2021-01-15](https://github.com/Art4/Ged/compare/v2.7.0...v2.8.0)
 
 ### Changed
