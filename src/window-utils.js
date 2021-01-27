@@ -17,7 +17,7 @@
  */
 
 const electron = require('electron');
-const {app, BrowserWindow, ipcMain, ipcRenderer, Menu, MenuItem, nativeImage, shell} = electron;
+const {app, BrowserWindow, ipcMain, Menu, MenuItem, nativeImage, shell} = electron;
 const Config = require('./config.js');
 const config = new Config();
 const packageData = require('../package.json');
@@ -252,8 +252,6 @@ Utils.createWindows = function(isDevEnv) {
 };
 
 Utils.changeWindowOpacity = function(startOpacity, endOpacity, changeOpacityCallback) {
-    // var startOpacity = ipcRenderer.sendSync('getopacity');
-
     var diffOpacity = endOpacity - startOpacity;
     var increaseOpacity = (diffOpacity > 0);
     var steps = Math.abs(Math.floor(diffOpacity/0.1));

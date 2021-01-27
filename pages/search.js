@@ -164,4 +164,16 @@ searchWin.addEventListener('mouseleave', (event) => {
     ipcRenderer.on('windowgetfocused', (e) => {
         inputField.focus();
     });
+
+    // Show closing dialog
+    setTimeout(() => {
+        ipcRenderer.send('isGedEol');
+
+        ipcRenderer.on('gedIsEol', (e) => {
+            if(confirm('Die Weiterentwicklung von Ged wurde eingestellt. Es wird empfohlen, Ged nicht mehr zu nutzen.\r\n\r\nSoll Ged jetzt beendet werden?') === true)
+            {
+                ipcRenderer.send('closeapp');
+            }
+        });
+    }, 10000);
 })();

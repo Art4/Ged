@@ -17,7 +17,7 @@
  */
 
 const electron = require('electron');
-const {app, Notification} = electron;
+const {app, ipcMain, Notification} = electron;
 const Utils = require('./src/window-utils.js');
 const autoUpdater = require('electron-updater').autoUpdater;
 const isDevEnv = ('ELECTRON_IS_DEV' in process.env);
@@ -25,6 +25,7 @@ const isDevEnv = ('ELECTRON_IS_DEV' in process.env);
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let isGedEol = true;
 
 // Quit app in favor of the first instance
 if (!app.requestSingleInstanceLock()) {
@@ -68,9 +69,21 @@ app.on('ready', function createMainWindow () {
         }, 5000);
     });
 
+    ipcMain.on('isGedEol', function (e) {
+        if (isGedEol === true) {
+            e.reply('gedIsEol');
+        }
+    });
+
     // Check for updates
     setTimeout(() => {
-        autoUpdater.checkForUpdates();
+        autoUpdater.checkForUpdates().then(info => {
+            console.log(info);
+            // Wenn Updateserver erreichbar ist, wird Ged noch maintained
+            isGedEol = false;
+        }).catch(err => {
+            console.log(err);
+        });
     }, 2000);
 });
 
