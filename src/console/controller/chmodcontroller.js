@@ -38,12 +38,12 @@ ChmodController.prototype.register = function(commander) {
         .description('change read-write permission of a specific draft file')
         .option('--read-only', 'Set the draft to read-only')
         .option('--read-write', 'Set the draft to read-write')
-        .action((draft, command) => {
-            this.executeCommand(draft, command, commander.output);
+        .action((draft, options, command) => {
+            this.executeCommand(draft, options, commander.output);
         });
 };
 
-ChmodController.prototype.executeCommand = function(draft, command, output) {
+ChmodController.prototype.executeCommand = function(draft, options, output) {
     if (! draft) {
         output.destroy('Warte auf Eingabe...');
         return;
@@ -64,9 +64,9 @@ ChmodController.prototype.executeCommand = function(draft, command, output) {
             // since v1.0.4
 
             var writeProtected = true;
-            if (command.readOnly === true) {
+            if (options.readOnly === true) {
                 writeProtected = true;
-            } else if(command.readWrite) {
+            } else if(options.readWrite) {
                 writeProtected = false;
             }
 

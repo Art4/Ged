@@ -40,21 +40,21 @@ LegacyController.prototype.register = function(commander) {
         .option('--in-folder', 'Open the folder that contains the draft')
         .option('--in-3d-folder', 'Open the 3D folder of the draft')
         .option('--search-in-3d-folder', 'Search also in 3D folder for the draft')
-        .action((draft, command) => {
+        .action((draft, options, command) => {
             var mode = 'o';
 
-            if (command.inFolder) {
+            if (options.inFolder) {
                 mode = 'i';
-            } else if (command.in3dFolder) {
+            } else if (options.in3dFolder) {
                 mode = 'e';
-            } else if (command.searchIn3dFolder) {
+            } else if (options.searchIn3dFolder) {
                 mode = 'a';
             }
-            this.executeCommand(draft, command, commander.output, mode);
+            this.executeCommand(draft, options, commander.output, mode);
         });
 };
 
-LegacyController.prototype.executeCommand = function(draft, command, output, mode) {
+LegacyController.prototype.executeCommand = function(draft, options, output, mode) {
     if (! draft) {
         output.destroy('Warte auf Eingabe...');
         return;
