@@ -41,7 +41,7 @@
     "webpack-cli": "^4.8.0"
   },
   "dependencies": {
-    "commander": "^2.20.3",
+    "commander": "^6.2.1",
     "compare-versions": "^3.6.0",
     "electron-store": "^8.0.0",
     "electron-updater": "^4.3.9"
