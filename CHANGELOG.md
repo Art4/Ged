@@ -10,6 +10,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Upgrade Webpack von v4.46.0 auf v5.51.1
 - Alle Bibliotheken wurden aktualisiert
 
 ## [2.8.0 - 2021-01-15](https://github.com/Art4/Ged/compare/v2.7.0...v2.8.0)

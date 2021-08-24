@@ -37,18 +37,19 @@ module.exports = {
                             // you can specify a publicPath here
                             // by default it use publicPath in webpackOptions.output
                             // publicPath: './'
-                            hmr: process.env.NODE_ENV === 'development',
                         }
                     },
                     'css-loader',
                     {
                         loader: 'postcss-loader', // Run post css actions
                         options: {
-                            plugins: function () { // post css plugins, can be exported to postcss.config.js
-                                return [
-                                    require('precss'),
-                                    require('autoprefixer')
-                                ];
+                            postcssOptions:{
+                                plugins: function () { // post css plugins, can be exported to postcss.config.js
+                                    return [
+                                        require('precss'),
+                                        require('autoprefixer')
+                                    ];
+                                }
                             }
                         }
                     },
@@ -56,16 +57,16 @@ module.exports = {
                 ],
             }, {
                 test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+                type: 'asset/inline',
             }, {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'url-loader?limit=10000&mimetype=application/octet-stream'
+                type: 'asset/inline',
             }, {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'file-loader'
+                type: 'asset/inline',
             }, {
                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'url-loader?limit=10000&mimetype=image/svg+xml'
+                type: 'asset/inline',
             },
         ]
     },
