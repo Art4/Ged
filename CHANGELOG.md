@@ -6,7 +6,9 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased](https://github.com/Art4/Ged/compare/v2.8.0...HEAD)
+## [Unreleased](https://github.com/Art4/Ged/compare/v2.9.0...HEAD)
+
+## [2.9.0 - 2021-08-25](https://github.com/Art4/Ged/compare/v2.8.0...v2.9.0)
 
 ### Added
 
