@@ -119,7 +119,7 @@ function run_explorer(query_vars, resolve, reject)
     // 3D-Ordner öffnen
     ipcRenderer.send('openfile', query_vars['3D_dir']);
 
-    resolve('&Ouml;ffne den Ordner '+query_vars['3D']);
+    resolve('Öffne den Ordner '+query_vars['3D']);
     return true;
 }
 
@@ -134,7 +134,7 @@ function run_index(query_vars, draft, resolve, reject)
     {
         set_query(query_vars['query']);
 
-        reject('Keine &auml;hnliche Datei gefunden...');
+        reject('Keine ähnliche Datei gefunden...');
         return false;
     }
 

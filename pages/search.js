@@ -55,23 +55,31 @@ document.body.addEventListener('contextmenu', (e) => {
 });
 
 // Register search events
+search.on('search.input', (message) => {
+    inputField.value = message;
+});
+
 search.on('search.output', (message) => {
     outputElement.innerHTML = message;
 });
 
-search.on('search.start', (event) => {
-    var input = new SearchInput(event.target.value);
+search.on('search.start', (rawSearchString) => {
+    var input = new SearchInput(rawSearchString);
     var buffer = new Output();
 
     buffer.on('data', (data) => {
+        console.log('data');
+        console.log(data);
         search.emit('search.output', data);
     });
     buffer.on('error', (error) => {
+        console.log('error');
+        console.log(error);
         search.emit('search.output', error);
     });
     buffer.on('ended', () => {
         // Input field leeren
-        event.target.value = '';
+        search.emit('search.input', '');
     });
 
     buffer.emit('data', '<span class="fas fa-spinner fa-spin"></span>');
@@ -107,7 +115,10 @@ inputField.addEventListener('keyup', (event) => {
         menuButton.click();
     }
     if (event.keyCode === 13) {
-        search.emit('search.start', event);
+        search.emit('search.start', event.target.value);
+    } else if (event.target.value.length === 5) {
+        console.log('here');
+        search.emit('search.start', event.target.value+' l');
     }
 });
 

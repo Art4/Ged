@@ -20,6 +20,7 @@
 const LegacyController = require('./controller/legacycontroller.js');
 const ChmodController = require('./controller/chmodcontroller.js');
 const CleanController = require('./controller/cleancontroller.js');
+const ListController = require('./controller/listcontroller.js');
 const VersionController = require('./controller/versioncontroller.js');
 const { Command } = require('commander');
 
@@ -74,6 +75,7 @@ Application.create = function(config, fs, ipcRenderer) {
     app.addController(new LegacyController(config, fs, ipcRenderer));
     app.addController(new ChmodController(config, fs, ipcRenderer));
     app.addController(new CleanController(config, fs, ipcRenderer));
+    app.addController(new ListController(config, fs, ipcRenderer));
 
     return app;
 };
