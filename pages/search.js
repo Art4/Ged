@@ -87,6 +87,8 @@ search.on('search.start', (input) => {
         search.emit('search.output', data);
     });
     buffer.on('error', (error) => {
+        inputField.classList.remove('is-valid');
+        inputField.classList.add('is-invalid');
         search.emit('search.output', error);
     });
     buffer.on('ended', () => {

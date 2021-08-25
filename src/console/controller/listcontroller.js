@@ -60,7 +60,6 @@ ListController.prototype.executeCommand = function(draft, options, output) {
         })
         .catch((err) => {
             // Abort, if draft not found
-            console.log(err);
             output.destroy(input.getIdentifier() + ' wurde nicht gefunden');
         });
 };
@@ -75,7 +74,7 @@ ListController.prototype.listSearchMatchesOfDraft = function(draft, input, outpu
     }
 
     // Nichts anzeigen
-    output.end(' ');
+    output.end('');
 }
 
 // export the class
