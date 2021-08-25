@@ -10,7 +10,9 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Das Einstellungsfester wurde optisch überarbeitet
 - Upgrade Electron von v11.4.12 auf v13.2.2
+- Upgrade Bootstrap von v4.6.0 auf v5.1.0
 - Upgrade Webpack von v4.46.0 auf v5.51.1
 - Alle Bibliotheken wurden aktualisiert
 
