@@ -8,9 +8,14 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased](https://github.com/Art4/Ged/compare/v2.8.0...HEAD)
 
+### Added
+
+- Schon während etwas im Suchfeld eingegeben wird, wird im Hintergrund eine Validierung durchgeführt, um schon vor dem Absenden auf eine fehlerhafte Eingabe hinzuweisen
+
 ### Changed
 
 - Das Einstellungsfester wurde optisch überarbeitet
+- Das Hauptfenster wurde etwas verschönert
 - Upgrade Electron von v11.4.12 auf v13.2.2
 - Upgrade Bootstrap von v4.6.0 auf v5.1.0
 - Upgrade Webpack von v4.46.0 auf v5.51.1

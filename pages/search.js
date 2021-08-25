@@ -18,7 +18,7 @@
 
 const Utils = require('../src/window-utils.js');
 const Config = require('../src/config.js');
-const { Application, Output } = require('../src/console');
+const { Application, Input, Output } = require('../src/console');
 const SearchInput = require('../src/searchinput.js');
 const EventEmitter = require('events');
 const config = new Config();
@@ -55,12 +55,32 @@ document.body.addEventListener('contextmenu', (e) => {
 });
 
 // Register search events
+search.on('search.input', (message) => {
+    inputField.value = message;
+    inputField.classList.remove('is-valid');
+    inputField.classList.remove('is-invalid');
+});
+
 search.on('search.output', (message) => {
     outputElement.innerHTML = message;
 });
 
-search.on('search.start', (event) => {
-    var input = new SearchInput(event.target.value);
+search.on('search.quickvalidation', (input) => {
+    var buffer = new Output();
+
+    buffer.on('data', (data) => {
+        inputField.classList.remove('is-invalid');
+        inputField.classList.add('is-valid');
+    });
+    buffer.on('error', (error) => {
+        inputField.classList.remove('is-valid');
+        inputField.classList.add('is-invalid');
+    });
+
+    app.run(input, buffer);
+});
+
+search.on('search.start', (input) => {
     var buffer = new Output();
 
     buffer.on('data', (data) => {
@@ -71,7 +91,7 @@ search.on('search.start', (event) => {
     });
     buffer.on('ended', () => {
         // Input field leeren
-        event.target.value = '';
+        search.emit('search.input', '');
     });
 
     buffer.emit('data', '<span class="fas fa-spinner fa-spin"></span>');
@@ -107,7 +127,12 @@ inputField.addEventListener('keyup', (event) => {
         menuButton.click();
     }
     if (event.keyCode === 13) {
-        search.emit('search.start', event);
+        search.emit('search.start', new SearchInput(event.target.value));
+    } else if (event.target.value.length === 5) {
+        search.emit('search.quickvalidation', new Input(['list', event.target.value]));
+    } else if (event.target.value.length < 5) {
+        inputField.classList.remove('is-valid');
+        inputField.classList.remove('is-invalid');
     }
 });
 
