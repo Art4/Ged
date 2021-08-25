@@ -45,8 +45,6 @@ describe('The SearchInput', function() {
             ['12345 S', ['node', 'ged', 'chmod', '12345', '--read-only']],
             ['12345 f', ['node', 'ged', 'chmod', '12345', '--read-write']],
             ['12345 F', ['node', 'ged', 'chmod', '12345', '--read-write']],
-            ['12345 l', ['node', 'ged', 'list', '12345']],
-            ['12345 L', ['node', 'ged', 'list', '12345']],
             // test invalid inputs
             ['112345-R0.pdf o', ['node', 'ged', 'open', '112345-R0.pdf']],
             ['1234-R0.pdf o', ['node', 'ged', 'open', '1234-R0.pdf']],

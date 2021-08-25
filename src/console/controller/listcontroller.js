@@ -70,14 +70,12 @@ ListController.prototype.listSearchMatchesOfDraft = function(draft, input, outpu
 {
     // Abbrechen, wenn keine Dateien gefunden wurden
     if (draft.getFiles().length === 0) {
-        output.destroy('Keine Dateien zu ' + input.getIdentifier() + ' gefunden');
+        output.end('Keine Dateien zu ' + input.getIdentifier() + ' gefunden');
         return;
     }
 
-    console.log(draft);
-
     // Nichts anzeigen
-    output.destroy(' ');
+    output.end(' ');
 }
 
 // export the class

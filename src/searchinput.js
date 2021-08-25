@@ -53,9 +53,6 @@ function analyseQuery(query) {
     case 'c':
         return ['clean', raw[0], '--only-previous-revision'];
         break;
-    case 'l':
-        return ['list', raw[0]];
-        break;
     default:
         return [raw[1], raw[0]];
         break;
