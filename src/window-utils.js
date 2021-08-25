@@ -63,7 +63,8 @@ Utils.createWindows = function(isDevEnv) {
         focusable: true, // Must be true, or input fields are no longer focusable
         icon: nativeImage.createFromPath(`${app.getAppPath()}/pages/assets/img/icon-256.png`),
         acceptFirstMouse: true,
-        backgroundColor: '#007bff',
+        backgroundColor: '#00007bff',
+        transparent: true,
         opacity: config.get('opacity', 1),
         webPreferences: {
             contextIsolation: false,
