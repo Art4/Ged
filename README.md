@@ -5,9 +5,9 @@
 ![Icon](pages/assets/img/icon-256.png)
 
 [![Latest Version](https://img.shields.io/github/release/Art4/Ged.svg)](https://github.com/Art4/Ged/releases)
-[![Software License](pages/assets/img/license-GPL3-brightgreen.png)](LICENSE)
-[![Source Code](pages/assets/img/source-Art4_Ged-blue.png)](https://github.com/Art4/Ged)
-[![Build Status](https://travis-ci.org/Art4/Ged.svg?branch=master)](https://travis-ci.org/Art4/Ged)
+[![Software License](pages/assets/img/Lizenz-GNU-GPL-v3.svg)](LICENSE)
+[![Source Code](pages/assets/img/GitHub-Art4_Ged.svg)](https://github.com/Art4/Ged)
+[![Build Status](https://github.com/Art4/Ged/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Art4/Ged/actions)
 
 Ged ist ein Gadget für Windows, das Zeichnugen schnell öffnen lassen kann und weitere Funktionen zur Verwaltung von Zeichnungen bereitstellt.
 
