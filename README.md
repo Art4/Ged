@@ -13,14 +13,14 @@ Ged ist ein Gadget für Windows, das Zeichnugen schnell öffnen lassen kann und 
 
 Die Änderungen des Projekts können im [Changelog](CHANGELOG.md) nachverfolgt werden.
 
-Der Quellcode ist auf [Github](https://github.com/Art4/Ged) zu finden und unterliegt der [GPL3](LICENSE). Alles Notwendige für das Deployment ist unter [Ged-Deployment](https://github.com/Art4/Ged-Deployment) zu finden.
+Der Quellcode ist auf [Github](https://github.com/Art4/Ged) zu finden und unterliegt der [GPL3](LICENSE).
 
 ## Anwendung
 
 **Neu ab Version 2.7.0**: Die Zeichnungsnummer kann auch im gebräuchlicheren Format mit Schrägstrichen angegeben werden:
 
 ```
-<Zeichnungsnummer>[/<Revision>[/<Format>]][.<Endung>] [<Befehl>]
+<Zeichnungsnummer>[/<Revision>[/<Format>]][.<Endung>] [<Aktion>]
 ```
 
 Das Blattformat wird hierbei immer ignoriert und kann auch weggelassen werden.
@@ -28,7 +28,7 @@ Das Blattformat wird hierbei immer ignoriert und kann auch weggelassen werden.
 > Aus Kompatibilitätsgründen versteht Ged auch weiterhin die ursprüngliche Eingabe in dieser Form:
 >
 > ```
-> <Zeichnungsnummer>[-r<Revision>][.<Endung>] [<Befehl>]
+> <Zeichnungsnummer>[-r<Revision>][.<Endung>] [<Aktion>]
 > ```
 
 
@@ -81,11 +81,13 @@ Soll zusätzlich zur Dateiendung eine bestimmte Revision gesucht werden, so muss
 12345-r0.tiff
 ```
 
-### Befehl
+### Aktion
 
-Mit einem Befehl kann bestimmt werden, welche Aktion mit der Zeichnung ausgeführt werden soll. Wird kein Befehl angegeben, wird der Standardbefehl `o` (für 'open') angenommen.
+Mit einer Aktion kann bestimmt werden, wie mit einer gefundenen Zeichnung verfahren wird. Wird keine Aktion angegeben, wird die Standardaktion `o` (für 'open') angenommen.
 
-Der Befehl ist eine Zeichenkette von meist einem Zeichen. Er wird mit einem ` ` (Leerzeichen) getrennt nach der Angabe der Zeichnungsnummer angegeben. Eine Liste möglicher Befehle ist weiter unten zu finden.
+**Neu ab Version 2.10.0**: Die Standardaktion kann in den Einstellungen geändert werden. Zur Auswahl stehen `Datei direkt öffnen (falls möglich)` (entspricht Aktion `o`) oder `Datei im Windows Explorer anzeigen` (entspricht Aktion `i`).
+
+Die Aktion ist eine Zeichenkette von meist einem Zeichen. Sie wird mit einem ` ` (Leerzeichen) getrennt nach der Angabe der Zeichnungsnummer angegeben. Eine Liste möglicher Aktionen ist weiter unten zu finden.
 
 #### Beispiel
 
@@ -103,13 +105,13 @@ Sollen zusätzlich noch die Dateiendung und/oder Revision bestimmt werden, müss
 12345/1.pdf o
 ```
 
-## Befehle
+## Aktionen
 
 ### `o` - open
 
 Sucht nach der neusten Revison einer Zeichnung und öffnet diese. Wenn die Datei nicht gefunden wurde, wird der Explorer an der Stelle geöffnet, an der die eingegebene Zeichnungsnummer erwartet wird und selektiert die am besten passenste Datei.
 
-Der Befehl open ist der Standard. Wird kein Befehl angegeben, wird die gefundene Zeichnung automatisch geöffnet.
+Die Aktion `open` ist der Standard. Wird keine Aktion angegeben, wird die gefundene Zeichnung automatisch geöffnet.
 
 #### Beispiel
 
@@ -118,11 +120,11 @@ Der Befehl open ist der Standard. Wird kein Befehl angegeben, wird die gefundene
 12345
 ```
 
-Wird zweimal nacheinander versucht, eine Zeichnung zu öffnen, die es nicht gibt, wird er Explorer geöffnet, damit sich der Anwender eine Übersicht über die verfügbaren Zeichnungen erhält. Siehe auch den Befehl `i`.
+Wurde zu einer Zeichnungsnummer keine passende Datei gefunden, dann wird der Windows Explorer geöffnet, damit der Anwender eine Übersicht über die verfügbaren Zeichnungen erhält. Siehe auch die Aktion `i`.
 
 ### `e` oder `3d` - 3D-Ordner öffnen
 
-Dieser Befehl öffnet den 3D-Ordner einer Zeichnung. Wenn der Ordner nicht existiert, wird die Meldung `Der Ordner <Zeichnungsnummer>_3D existiert nicht` ausgegeben.
+Diese Aktion öffnet den 3D-Ordner einer Zeichnung. Wenn der Ordner nicht existiert, wird die Meldung `Der Ordner <Zeichnungsnummer>_3D existiert nicht` ausgegeben.
 
 #### Beispiel
 
@@ -133,7 +135,7 @@ Dieser Befehl öffnet den 3D-Ordner einer Zeichnung. Wenn der Ordner nicht exist
 
 ### `i` - index
 
-Dieser Befehl öffnet den Windows Explorer an der Stelle, an der die eingegebene Zeichnungsnummer erwartet wird und selektiert die am besten passenste Datei. So kann man sich einen schnellen Überblick über die vorhandenen Dateien im Zeichnungs-Archiv verschaffen.
+Diese Aktion öffnet den Windows Explorer an der Stelle, an der die eingegebene Zeichnungsnummer erwartet wird und selektiert die am besten passenste Datei. So kann man sich einen schnellen Überblick über die vorhandenen Dateien im Zeichnungs-Archiv verschaffen.
 
 #### Beispiel
 
@@ -200,7 +202,7 @@ löscht nach Rückfrage die Dateien `12345-R1.pdf` und `12345-R1.stp` und aktivi
 - 12345-R1.dft (schreibgeschützt)
 - 12345-R2.dft
 
-Sollen jetzt auch die Dateien der Revision 0 bereinigt werden, muss der Befehl mit der Revision 1 aufgerufen werden.
+Sollen jetzt auch die Dateien der Revision 0 bereinigt werden, muss die Aktion mit der Revision 1 aufgerufen werden.
 
 ```
 12345/1 c
@@ -220,7 +222,7 @@ Die folgenden Informationen beziehen sich auf die Entwicklung von Electron.
 
 ### Anforderungen
 
-- node.js
+- node.js 14
 - npm
 
 ### Installation
