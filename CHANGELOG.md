@@ -16,6 +16,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Upgrade Electron von v13.5.1 auf v15.1.1
 - Alle Bibliotheken wurden aktualisiert
+- Die Tests werden automatisiert durch Github Actions](https://github.com/Art4/Ged/actions) statt travis-ci.org ausgeführt
 
 ## [2.9.0 - 2021-08-25](https://github.com/Art4/Ged/compare/v2.8.0...v2.9.0)
 
