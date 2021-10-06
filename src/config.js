@@ -50,6 +50,7 @@ function init() {
             displayX: null,
             displayY: null,
             skip_taskbar: true,
+            default_action: 'open',
         };
     }
 

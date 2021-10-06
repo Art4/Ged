@@ -129,11 +129,7 @@ inputField.addEventListener('keyup', (event) => {
         menuButton.click();
     }
     if (event.keyCode === 13) {
-        if (config.get('default_action') === 'show-in-folder') {
-            search.emit('search.start', new Input(['open', event.target.value, '--in-folder']));
-        } else {
-            search.emit('search.start', new SearchInput(event.target.value));
-        }
+        search.emit('search.start', new SearchInput(event.target.value, config.get('default_action')));
     } else if (event.target.value.length === 5) {
         search.emit('search.quickvalidation', new Input(['list', event.target.value]));
     } else if (event.target.value.length < 5) {
