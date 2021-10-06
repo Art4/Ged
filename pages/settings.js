@@ -23,6 +23,7 @@ const packageData = require('../package.json');
 
 const draftPathInput = document.getElementById('formDraftPathInput');
 const defaultFileTypeInput = document.getElementById('formDefaultFileTypeInput');
+const defaultActionInput = document.getElementById('formDefaultActionInput');
 const alwaysForegroundInput = document.getElementById('formAlwaysForegroundInput');
 const autolaunchInput = document.getElementById('formAutolaunchInput');
 const skipTaskbarInput = document.getElementById('formSkipTaskbarInput');
@@ -62,6 +63,7 @@ document.addEventListener('auxclick', (event) => {
 (function() {
     draftPathInput.value = config.get('base_dir', '');
     defaultFileTypeInput.value = config.get('default_file_type', 'pdf');
+    defaultActionInput.value = config.get('default_action', 'open');
     alwaysForegroundInput.checked = config.get('always_foreground', true);
     autolaunchInput.checked = config.get('autolaunch', true);
     skipTaskbarInput.checked = config.get('skip_taskbar', true) ? false : true;
@@ -88,6 +90,7 @@ document.addEventListener('auxclick', (event) => {
 saveButton.addEventListener('click', (event) => {
     config.set('base_dir', draftPathInput.value);
     config.set('default_file_type', defaultFileTypeInput.value);
+    config.set('default_action', defaultActionInput.value);
     config.set('always_foreground', alwaysForegroundInput.checked);
     config.set('autolaunch', autolaunchInput.checked);
     config.set('skip_taskbar', !skipTaskbarInput.checked);

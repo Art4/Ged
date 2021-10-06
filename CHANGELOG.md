@@ -8,6 +8,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased](https://github.com/Art4/Ged/compare/v2.9.0...HEAD)
 
+### Added
+
+- Neue Einstellung, die die Standardaktion nach Eingabe einer Zeichnungsnummer von `Datei öffnen` zu `Datei in Windows Explorer anzeigen` ändern kann.
+
 ### Changed
 
 - Upgrade Electron von v13.5.1 auf v15.1.1
@@ -146,7 +150,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - Wenn die älteste Revision einer Zeichnung noch keinen -R0 Suffix hat, wurde für die Anzeige im Explorer nicht die letzte Datei selektiert
-- Wenn die älteste Revision einer Zeichnung noch keinen -R0 Suffix hat, konnte der clean-Befehl nicht ausgeführt werden
+- Wenn die älteste Revision einer Zeichnung noch keinen -R0 Suffix hat, konnte die clean-Aktion nicht ausgeführt werden
 
 ## [2.0.0-beta.7] - 2018-10-23
 
@@ -160,7 +164,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-- Befehle in der Eingabemaske können auch groß geschrieben werden, z.B. `12345 3D` statt `12345 3d`
+- Aktionen in der Eingabemaske können auch groß geschrieben werden, z.B. `12345 3D` statt `12345 3d`
 
 ### Changed
 
@@ -311,7 +315,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Mit `12345 s` wird der Schreibschutz einer Datei gesetzt
 - Mit `12345 f` wird der Schreibschutz einer Datei aufgehoben
-- In den Optionen gibt es eine schnelle Übersicht über die möglichen Befehle
+- In den Optionen gibt es eine schnelle Übersicht über die möglichen Aktionen
 - Beim Starten von OpenDrafts wird geprüft und angezeigt, wenn ein Update bereitsteht
 
 ### Changed

@@ -68,4 +68,35 @@ describe('The SearchInput', function() {
             });
         }
     });
+
+    describe('with valuemap', () => {
+        var values = [
+            ['12345', null, ['node', 'ged', 'open', '12345']],
+            ['12345', '', ['node', 'ged', 'open', '12345']],
+            ['12345', 'open', ['node', 'ged', 'open', '12345']],
+            ['12345', 'show-in-folder', ['node', 'ged', 'open', '12345', '--in-folder']],
+            ['12345 o', 'show-in-folder', ['node', 'ged', 'open', '12345']],
+            ['12345 O', 'show-in-folder', ['node', 'ged', 'open', '12345']],
+            ['12345 i', 'open', ['node', 'ged', 'open', '12345', '--in-folder']],
+            ['12345 I', 'open', ['node', 'ged', 'open', '12345', '--in-folder']],
+            ['', '', ['node', 'ged', 'open']],
+        ];
+
+        for (var i = 0; i < values.length; i++) {
+            describe('get data and default action through the constructor', () => {
+                var query = values[i][0];
+                var default_action = values[i][1];
+                var argv = values[i][2];
+                var searchinput = new SearchInput(query, default_action);
+
+                it('and getQuery() returns the original query', () => {
+                    expect(searchinput.getQuery()).toBe(query);
+                });
+
+                it('and getArgv() returns an array with correct arguments', () => {
+                    expect(searchinput.getArgv()).toEqual(argv);
+                });
+            });
+        }
+    });
 });

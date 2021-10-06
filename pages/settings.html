@@ -36,11 +36,6 @@
     <h3><span class="fas fa-sliders-h"></span> Einstellungen</h3>
     <form>
     <div class="row">
-        <div class="col-12">
-            <p class="text-muted">
-                <span class="fas fa-question-circle"></span> Hier kann das Verhalten und Aussehen von Ged angepasst werden.
-            </p>
-        </div>
         <div class="col-12 mb-3">
             <label for="formDefaultFileTypeInput">
                 <!-- <span class="fas fa-file"></span> --><span class="h6">Bevorzugte Software</span>
@@ -54,11 +49,20 @@
                 Falls vorhanden, wird Ged beim Öffnen einer Zeichnung immer das bevorzugte Format wählen.
             </div>
         </div>
+        <div class="col-12 mb-3">
+            <label for="formDefaultActionInput">
+                <!-- <span class="fas fa-file"></span> --><span class="h6">Nach Absenden einer Zeichnungsnummer wird die Datei…</span>
+            </label>
+            <select id="formDefaultActionInput" class="form-control">
+                <option value="open" selected>direkt geöffnet (falls möglich).</option>
+                <option value="show-in-folder">im Windows Explorer angezeigt.</option>
+            </select>
+        </div>
         <div class="col-12">
             <div class="form-check form-switch mb-3">
                 <input class="form-check-input" type="checkbox" id="formAlwaysForegroundInput">
                 <label class="form-check-label" for="formAlwaysForegroundInput">
-                    <!-- <span class="fas fa-window-restore"></span> --><span class="h6">Immer im Vordergrund halten</span>
+                    <!-- <span class="fas fa-window-restore"></span> --><span class="h6">Immer im Vordergrund zeigen</span>
                 </label>
                 <div class="form-text">Ged wird nicht durch andere Anwendungs-Fenster überdeckt werden.</div>
             </div>

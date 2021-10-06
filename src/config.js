@@ -50,6 +50,7 @@ function init() {
             displayX: null,
             displayY: null,
             skip_taskbar: true,
+            default_action: 'open',
         };
     }
 
@@ -100,6 +101,14 @@ function migrateConfigIfNeeded() {
 
         // Update app_version
         store.set('app_version', '2.4.0');
+    }
+
+    // Migrate to 2.10.0
+    if (compareVersions(store.get('app_version', ''), '2.10.0') === -1) {
+        store.set('default_action', 'open');
+
+        // Update app_version
+        store.set('app_version', '2.10.0');
     }
 
     store.set('app_version', packageData.version);
