@@ -8,6 +8,15 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased](https://github.com/Art4/Ged/compare/v2.10.0...HEAD)
 
+### Changed
+
+- Update Electron von v15.1.1 auf v15.1.2
+- Alle Bibliotheken wurden aktualisiert
+
+### Fixed
+
+- Mit dem Update von Electron wurde gefixt, dass Ged nicht mehr verschoben werden konnte
+
 ## [2.10.0 - 2021-10-08](https://github.com/Art4/Ged/compare/v2.9.0...v2.10.0)
 
 ### Added
