@@ -11,7 +11,7 @@
     "build": "electron-builder",
     "cs": "eslint --fix src/ tests/",
     "compile": "tsc",
-    "deploy": "webpack -p --config webpack.config.js && electron-builder",
+    "deploy": "webpack --mode=production --config webpack.config.js && electron-builder",
     "pack": "electron-builder --dir",
     "publish": "webpack --mode=production --config webpack.config.js && electron-builder -p always",
     "start": "env ELECTRON_IS_DEV=1 electron .",
