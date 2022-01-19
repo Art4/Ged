@@ -120,6 +120,14 @@ describe('The application with valuemap', () => {
             '10344-R1.dft wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10344-R1.dft'.replace(/\//g, Path.sep),
         ],
         [
+            'open 10346-RZ', 'dft',
+            'Index von 10346 wird geöffnet', '', 'openfileinfolder: /base_dir/Z.Nr.10000-10499/10346-R0.pdf'.replace(/\//g, Path.sep),
+        ],
+        [
+            'open 10346-R?', 'dft',
+            '', 'Ungültige Zeichnungsnummer', '',
+        ],
+        [
             'open 10347', 'dft',
             '10347-R0.dft wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10347-R0.dft'.replace(/\//g, Path.sep),
         ],
