@@ -8,9 +8,13 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased](https://github.com/Art4/Ged/compare/v2.10.1...HEAD)
 
+### Added
+
+- Einführung von TypeScript zur Verbesserung der Type-Sicherheit
+
 ### Changed
 
-- Das Ermitteln der passendsten Zeichnungsrevision zu einer Zeichnung wurde beschleunigt 
+- Das Ermitteln der passendsten Zeichnungsrevision zu einer Zeichnung wurde beschleunigt
 - Upgrade Electron von v15.1.2 auf v16.0.7
 - Alle Bibliotheken wurden aktualisiert
 
