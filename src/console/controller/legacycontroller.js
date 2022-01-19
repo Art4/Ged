@@ -21,6 +21,11 @@ const Draftpool = require('../draftpool.js');
 const LegacyKernel = require('../legacykernel.js');
 const StringInput = require('../stringinput.js');
 
+const revisionStore = new Array(
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+    'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+);
+
 // Constructor
 function LegacyController(config, fs, ipcRenderer) {
     this.config = config;
@@ -71,13 +76,54 @@ LegacyController.prototype.executeCommand = function(draft, options, output, mod
 
     this.draftpool.findDraftByIdentifier(input.getIdentifier())
         .then((draft) => {
+            var revision = this.getOrGuessRevision(input, draft);
+
             // Call LegacyKernel
-            this.kernel.handleInput(input, output, draft, mode);
+            this.kernel.handleInput(input, output, draft, mode, revision);
         })
         .catch((err) => {
             // Abort, if draft not found
             output.destroy(input.getIdentifier() + ' wurde nicht gefunden');
         });
+};
+
+LegacyController.prototype.getOrGuessRevision = function(input, draft) {
+    let guessedRevision = input.getRevision();
+
+    if (guessedRevision !== null) {
+        return guessedRevision;
+    }
+
+    let fileType = input.getType();
+
+    if (fileType === null) {
+        fileType = this.config.get('default_file_type', 'pdf');
+    }
+
+    let biggestRevisionIndex = 0;
+    let foundRevisionIndex = 0;
+
+    draft.getFiles().forEach((f) => {
+        if (f.getRevision() === null) {
+            return;
+        }
+
+        if (f.getExtension().toLowerCase() !== fileType) {
+            return;
+        }
+
+        foundRevisionIndex = revisionStore.findIndex((element) => element === f.getRevision());
+
+        if (foundRevisionIndex === -1) {
+            return;
+        }
+
+        if (foundRevisionIndex > biggestRevisionIndex) {
+            biggestRevisionIndex = foundRevisionIndex;
+        }
+    });
+
+    return revisionStore[biggestRevisionIndex];
 };
 
 // export the class
