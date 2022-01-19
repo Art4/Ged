@@ -21,16 +21,74 @@ const Store = require('electron-store');
 const packageData = require('../package.json');
 const compareVersions = require('compare-versions');
 
-var store = null;
+/** @type {Store} */
+var store = new Store({
+    name: 'config_0',
+});;
 
 /**
- * create electron-store with defaults
+ * migrate old config if needed
+ *
+ * @param {Config} config
  */
-function init() {
-    if (store !== null) {
+function migrateConfigIfNeeded(config) {
+    if (config.get('app_version', '') === packageData.version) {
         return;
     }
 
+    // Migrate 2.0.0-alpha.2
+    if (compareVersions(config.get('app_version', '').toString(), '2.0.0-alpha.2') === -1) {
+        // Delete dir_store_end
+        config.delete('dir_store_end');
+
+        // Update app_version
+        config.set('app_version', '2.0.0-alpha.2');
+    }
+
+    // Migrate to 2.0.0-beta.3
+    if (compareVersions(config.get('app_version', '').toString(), '2.0.0-beta.3') === -1) {
+        // Delete max_revisions
+        config.delete('max_revisions');
+
+        // Set date of release v2.0.0-beta.1 as installDate
+        var installDate = new Date('2018-07-13T12:00:00+0200');
+        config.set('installed_at', installDate.toISOString());
+
+        // Update app_version
+        config.set('app_version', '2.0.0-beta.3');
+    }
+
+    // Migrate to 2.0.0-beta.5
+    if (compareVersions(config.get('app_version', '').toString(), '2.0.0-beta.5') === -1) {
+        config.set('autolaunch', false);
+
+        // Update app_version
+        config.set('app_version', '2.0.0-beta.5');
+    }
+
+    // Migrate to 2.4.0
+    if (compareVersions(config.get('app_version', '').toString(), '2.4.0') === -1) {
+        config.set('skip_taskbar', true);
+
+        // Update app_version
+        config.set('app_version', '2.4.0');
+    }
+
+    // Migrate to 2.10.0
+    if (compareVersions(config.get('app_version', '').toString(), '2.10.0') === -1) {
+        config.set('default_action', 'open');
+
+        // Update app_version
+        config.set('app_version', '2.10.0');
+    }
+
+    config.set('app_version', packageData.version);
+}
+
+/**
+ * Constructor
+ */
+function Config() {
     var configVersion = 1;
 
     store = new Store({
@@ -54,85 +112,43 @@ function init() {
         };
     }
 
-    migrateConfigIfNeeded();
+    migrateConfigIfNeeded(this);
 }
-
-/**
- * migrate old config if needed
- */
-function migrateConfigIfNeeded() {
-    if (store.get('app_version', '') === packageData.version) {
-        return;
-    }
-
-    // Migrate 2.0.0-alpha.2
-    if (compareVersions(store.get('app_version', ''), '2.0.0-alpha.2') === -1) {
-        // Delete dir_store_end
-        store.delete('dir_store_end');
-
-        // Update app_version
-        store.set('app_version', '2.0.0-alpha.2');
-    }
-
-    // Migrate to 2.0.0-beta.3
-    if (compareVersions(store.get('app_version', ''), '2.0.0-beta.3') === -1) {
-        // Delete max_revisions
-        store.delete('max_revisions');
-
-        // Set date of release v2.0.0-beta.1 as installDate
-        var installDate = new Date('2018-07-13T12:00:00+0200');
-        store.set('installed_at', installDate.toISOString());
-
-        // Update app_version
-        store.set('app_version', '2.0.0-beta.3');
-    }
-
-    // Migrate to 2.0.0-beta.5
-    if (compareVersions(store.get('app_version', ''), '2.0.0-beta.5') === -1) {
-        store.set('autolaunch', false);
-
-        // Update app_version
-        store.set('app_version', '2.0.0-beta.5');
-    }
-
-    // Migrate to 2.4.0
-    if (compareVersions(store.get('app_version', ''), '2.4.0') === -1) {
-        store.set('skip_taskbar', true);
-
-        // Update app_version
-        store.set('app_version', '2.4.0');
-    }
-
-    // Migrate to 2.10.0
-    if (compareVersions(store.get('app_version', ''), '2.10.0') === -1) {
-        store.set('default_action', 'open');
-
-        // Update app_version
-        store.set('app_version', '2.10.0');
-    }
-
-    store.set('app_version', packageData.version);
-}
-
-/**
- * Constructor
- */
-function Config() {}
 
 /**
  * get a value by key
+ *
+ * @param {string} key
+ * @param {any} def
+ * @return {string|boolean|number}
  */
 Config.prototype.get = function(key, def) {
-    init();
-    return store.get(key, def);
+    var value = store.get(key, def);
+
+    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+        return value;
+    }
+
+    return false;
 };
 
 /**
  * set a value by key
+ *
+ * @param {string} key
+ * @param {any} value
  */
 Config.prototype.set = function(key, value) {
-    init();
     store.set(key, value);
+};
+
+/**
+ * delete a value by key
+ *
+ * @param {string} key
+ */
+Config.prototype.delete = function(key) {
+    store.delete(key);
 };
 
 // export the class
