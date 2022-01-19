@@ -24,7 +24,7 @@ const compareVersions = require('compare-versions');
 /** @type {Store} */
 var store = new Store({
     name: 'config_0',
-});;
+});
 
 /**
  * migrate old config if needed
@@ -119,7 +119,7 @@ function Config() {
  * get a value by key
  *
  * @param {string} key
- * @param {any} def
+ * @param {string|boolean|number} def
  * @return {string|boolean|number}
  */
 Config.prototype.get = function(key, def) {
@@ -129,7 +129,7 @@ Config.prototype.get = function(key, def) {
         return value;
     }
 
-    return false;
+    return def;
 };
 
 /**
