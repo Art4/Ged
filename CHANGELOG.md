@@ -8,6 +8,8 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased](https://github.com/Art4/Ged/compare/v2.10.1...HEAD)
 
+## [2.11.0 - 2022-01-19](https://github.com/Art4/Ged/compare/v2.10.1...v2.11.0)
+
 ### Added
 
 - Einführung von TypeScript zur Verbesserung der Type-Sicherheit
