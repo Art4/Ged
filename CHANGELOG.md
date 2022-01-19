@@ -10,6 +10,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Upgrade Electron von v15.1.2 auf v16.0.7
 - Alle Bibliotheken wurden aktualisiert
 
 ## [2.10.1 - 2021-10-11](https://github.com/Art4/Ged/compare/v2.10.0...v2.10.1)
