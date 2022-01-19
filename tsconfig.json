@@ -1,6 +1,7 @@
 {
   "files": [
-    "src/config.js"
+    "src/config.js",
+    "src/console/input.js"
   ],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
