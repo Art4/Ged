@@ -10,6 +10,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Das Ermitteln der passendsten Zeichnungsrevision zu einer Zeichnung wurde beschleunigt 
 - Upgrade Electron von v15.1.2 auf v16.0.7
 - Alle Bibliotheken wurden aktualisiert
 
