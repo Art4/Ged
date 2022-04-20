@@ -8,6 +8,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Schönere Icons durch Upgrade auf Fontawesome v6
 - Upgrade Electron von v16.0.7 auf v18.0.4
 - Alle Bibliotheken wurden aktualisiert
 

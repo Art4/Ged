@@ -85,7 +85,7 @@ function run(input, draft, mode, revision)
         getDraftProperties.fromFilePath(query_vars['main_dir'] + query_vars['filename'])
             .then((data) => {
                 if (data.has('System.Document.Template') && data.get('System.Document.Template').trim() !== 'BKM_2019.dft') {
-                    resolve(query_vars['filename'] + ' <span class="text-danger fas fa-exclamation-triangle " title="Diese Zeichnung verwendet nicht die aktuellste Zeichnungsvorlage"></span> wird geöffnet');
+                    resolve(query_vars['filename'] + ' <span class="text-danger fa-solid fa-triangle-exclamation" title="Diese Zeichnung verwendet nicht die aktuellste Zeichnungsvorlage"></span> wird geöffnet');
                 } else {
                     resolve(query_vars['filename'] + ' wird geöffnet');
                 }

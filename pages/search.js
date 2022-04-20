@@ -96,7 +96,7 @@ search.on('search.start', (input) => {
         search.emit('search.input', '');
     });
 
-    buffer.emit('data', '<span class="fas fa-spinner fa-spin"></span>');
+    buffer.emit('data', '<span class="fa-solid fa-spinner fa-spin"></span>');
 
     app.run(input, buffer);
 });
