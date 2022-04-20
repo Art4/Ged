@@ -16,42 +16,83 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const electron = require('electron');
-const {app, BrowserWindow, ipcMain, ipcRenderer, Menu, MenuItem, nativeImage, shell} = electron;
+const {app, BrowserWindow, ipcMain, ipcRenderer, Menu, MenuItem, nativeImage, screen, shell} = require('electron');
 const Config = require('./config.js');
 const config = new Config();
 const packageData = require('../package.json');
 
-function Utils() {}
+let appBounds = {};
 
-Utils.createWindows = function(isDevEnv) {
-    var mainWindow;
+let calcCoor = function(screenSize, windowSize) {
+    return Math.floor(screenSize / 2) - Math.floor(windowSize / 2);
+};
+
+function initAppBounds() {
     var width = 150;
     var height = 120;
 
     var xCustom = config.get('displayX', null);
     var yCustom = config.get('displayY', null);
 
-    var calcCoor = function(screenSize, windowSize) {
-        return Math.floor(screenSize / 2) - Math.floor(windowSize / 2);
-    };
-
     if (xCustom === null) {
-        xCustom = calcCoor(electron.screen.getPrimaryDisplay().workAreaSize.width, width);
+        xCustom = calcCoor(screen.getPrimaryDisplay().workAreaSize.width, width);
         config.set('displayX', xCustom);
     }
 
     if (yCustom === null) {
-        yCustom = calcCoor(electron.screen.getPrimaryDisplay().workAreaSize.height, height);
+        yCustom = calcCoor(screen.getPrimaryDisplay().workAreaSize.height, height);
         config.set('displayY', yCustom);
     }
 
+    appBounds = {
+        createdAt: Date.now(),
+        width: 150,
+        height: 120,
+        x: xCustom,
+        y: yCustom
+    };
+
+    letAppBeVisibleOnDisplay();
+}
+
+function isBoundsWithinBounds(boundsA, boundsB) {
+    return (
+        boundsA.x >= boundsB.x
+        && boundsA.y >= boundsB.y
+        && boundsA.x + boundsA.width <= boundsB.x + boundsB.width
+        && boundsA.y + boundsA.height <= boundsB.y + boundsB.height
+    );
+}
+
+function letAppBeVisibleOnDisplay() {
+    const isVisible = screen.getAllDisplays().some(display => {
+        return isBoundsWithinBounds(appBounds, display.bounds);
+    });
+
+    if (! isVisible) {
+        appBounds = {
+            createdAt: Date.now(),
+            width: 150,
+            height: 120,
+            x: calcCoor(screen.getPrimaryDisplay().workAreaSize.width, 150),
+            y: calcCoor(screen.getPrimaryDisplay().workAreaSize.height, 120),
+        };
+    }
+}
+
+function Utils() {}
+
+Utils.createWindows = function(isDevEnv) {
+    var mainWindow;
+
+    initAppBounds();
+
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: width,
-        height: height,
-        x: xCustom,
-        y: yCustom,
+        width: appBounds.width,
+        height: appBounds.height,
+        x: appBounds.x,
+        y: appBounds.y,
         resizable: false,
         frame: false,
         movable: true,
@@ -90,20 +131,24 @@ Utils.createWindows = function(isDevEnv) {
     });
 
     var lastWindowPosition = {
-        createdAt: Date.now(),
-        x: xCustom,
-        y: yCustom,
+        createdAt: appBounds.createdAt,
+        x: appBounds.x,
+        y: appBounds.y,
+        height: appBounds.height,
+        width: appBounds.width,
     };
 
     // Save new position if the window is moved.
     mainWindow.on('move', () => {
-        var position = mainWindow.getPosition();
+        var windowBounds = mainWindow.getBounds();
         var createdAt = Date.now();
 
         lastWindowPosition = {
             createdAt: createdAt,
-            x: position[0],
-            y: position[1],
+            x: windowBounds.x,
+            y: windowBounds.y,
+            height: appBounds.height,
+            width: appBounds.width,
         };
 
         // Only save after 250ms, if position hasn't changed
@@ -112,8 +157,13 @@ Utils.createWindows = function(isDevEnv) {
                 return;
             }
 
-            config.set('displayX', lastWindowPosition.x);
-            config.set('displayY', lastWindowPosition.y);
+            appBounds.x = lastWindowPosition.x;
+            appBounds.y = lastWindowPosition.y;
+
+            letAppBeVisibleOnDisplay();
+
+            config.set('displayX', appBounds.x);
+            config.set('displayY', appBounds.y);
         }, 250);
     });
 
