@@ -1,5 +1,3 @@
-<!-- @@@title:Changelog@@@ -->
-
 # Changelog
 
 Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokumentiert.
@@ -7,6 +5,10 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased](https://github.com/Art4/Ged/compare/v2.10.1...HEAD)
+
+### Changed
+
+- Alle Bibliotheken wurden aktualisiert
 
 ## [2.11.0 - 2022-01-19](https://github.com/Art4/Ged/compare/v2.10.1...v2.11.0)
 
