@@ -4,10 +4,11 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased](https://github.com/Art4/Ged/compare/v2.10.1...HEAD)
+## [Unreleased](https://github.com/Art4/Ged/compare/v2.11.0...HEAD)
 
 ### Changed
 
+- Upgrade Electron von v16.0.7 auf v18.0.4
 - Alle Bibliotheken wurden aktualisiert
 
 ## [2.11.0 - 2022-01-19](https://github.com/Art4/Ged/compare/v2.10.1...v2.11.0)
