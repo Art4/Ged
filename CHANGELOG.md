@@ -12,6 +12,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - Upgrade Electron von v16.0.7 auf v18.0.4
 - Alle Bibliotheken wurden aktualisiert
 
+### Fixed
+
+- Wenn sich Ged beim Starten außerhalb des sichtbaren Bereichs des Displays befindet, wird es automatisch wieder in den sichtbaren Bereich verschoben
+
 ## [2.11.0 - 2022-01-19](https://github.com/Art4/Ged/compare/v2.10.1...v2.11.0)
 
 ### Added
