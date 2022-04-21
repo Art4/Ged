@@ -28,11 +28,11 @@ let calcCoor = function(screenSize, windowSize) {
 };
 
 function initAppBounds() {
-    var width = 150;
-    var height = 120;
+    let width = 150;
+    let height = 120;
 
-    var xCustom = config.get('displayX', null);
-    var yCustom = config.get('displayY', null);
+    let xCustom = config.get('displayX', null);
+    let yCustom = config.get('displayY', null);
 
     if (xCustom === null) {
         xCustom = calcCoor(screen.getPrimaryDisplay().workAreaSize.width, width);
@@ -46,13 +46,25 @@ function initAppBounds() {
 
     appBounds = {
         createdAt: Date.now(),
-        width: 150,
-        height: 120,
+        width: width,
+        height: height,
         x: xCustom,
         y: yCustom
     };
 
-    letAppBeVisibleOnDisplay();
+    const isVisible = screen.getAllDisplays().some(display => {
+        return isBoundsWithinBounds(appBounds, display.bounds);
+    });
+
+    if (! isVisible) {
+        appBounds = {
+            createdAt: Date.now(),
+            width: width,
+            height: height,
+            x: calcCoor(screen.getPrimaryDisplay().workAreaSize.width, width),
+            y: calcCoor(screen.getPrimaryDisplay().workAreaSize.height, height),
+        };
+    }
 }
 
 function isBoundsWithinBounds(boundsA, boundsB) {
@@ -64,26 +76,10 @@ function isBoundsWithinBounds(boundsA, boundsB) {
     );
 }
 
-function letAppBeVisibleOnDisplay() {
-    const isVisible = screen.getAllDisplays().some(display => {
-        return isBoundsWithinBounds(appBounds, display.bounds);
-    });
-
-    if (! isVisible) {
-        appBounds = {
-            createdAt: Date.now(),
-            width: 150,
-            height: 120,
-            x: calcCoor(screen.getPrimaryDisplay().workAreaSize.width, 150),
-            y: calcCoor(screen.getPrimaryDisplay().workAreaSize.height, 120),
-        };
-    }
-}
-
 function Utils() {}
 
 Utils.createWindows = function(isDevEnv) {
-    var mainWindow;
+    let mainWindow;
 
     initAppBounds();
 
@@ -130,37 +126,20 @@ Utils.createWindows = function(isDevEnv) {
         mainWindow = null
     });
 
-    var lastWindowPosition = {
-        createdAt: appBounds.createdAt,
-        x: appBounds.x,
-        y: appBounds.y,
-        height: appBounds.height,
-        width: appBounds.width,
-    };
-
     // Save new position if the window is moved.
     mainWindow.on('move', () => {
-        var windowBounds = mainWindow.getBounds();
-        var createdAt = Date.now();
-
-        lastWindowPosition = {
-            createdAt: createdAt,
-            x: windowBounds.x,
-            y: windowBounds.y,
-            height: appBounds.height,
-            width: appBounds.width,
-        };
+        let windowBounds = mainWindow.getBounds();
+        let lastChangeOfBounds = Date.now();
+        appBounds.createdAt = lastChangeOfBounds;
 
         // Only save after 250ms, if position hasn't changed
         setTimeout(function() {
-            if (lastWindowPosition.createdAt > createdAt) {
+            if (appBounds.createdAt > lastChangeOfBounds) {
                 return;
             }
 
-            appBounds.x = lastWindowPosition.x;
-            appBounds.y = lastWindowPosition.y;
-
-            letAppBeVisibleOnDisplay();
+            appBounds.x = windowBounds.x;
+            appBounds.y = windowBounds.y;
 
             config.set('displayX', appBounds.x);
             config.set('displayY', appBounds.y);
