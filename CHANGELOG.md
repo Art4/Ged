@@ -8,6 +8,7 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Upgrade Electron von v18.0.4 auf v22.0.1
 - Alle Bibliotheken wurden aktualisiert
 
 ## [2.12.0 - 2022-04-21](https://github.com/Art4/Ged/compare/v2.11.0...v2.12.0)
