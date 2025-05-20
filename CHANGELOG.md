@@ -6,6 +6,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased](https://github.com/Art4/Ged/compare/v2.13.0...HEAD)
 
+### Changed
+
+- Alle Bibliotheken wurden aktualisiert
+
 ## [2.13.0 - 2023-01-11](https://github.com/Art4/Ged/compare/v2.12.0...v2.13.0)
 
 ### Changed
