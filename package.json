@@ -1,6 +1,6 @@
 {
   "name": "ged",
-  "version": "2.13.0",
+  "version": "2.14.0-dev",
   "description": "Ged is an app for easy draft finding",
   "repository": {
     "type": "git",
