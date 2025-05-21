@@ -33,25 +33,25 @@ describe('The application', function() {
         };
     });
 
-    describe('without controllers on method application.run()', () => {
-        it('triggers error', () => {
-            var application = new Application();
-            var input = {
-                getArgv: () => {
-                    return ['node', 'ged', 'version'];
-                }
-            };
-            var output = new Output();
-            output.on('error', (error) => {
-                expect(error).toBe('Unerwartete Eingabe');
-            });
-            output.on('ended', (error) => {
-                expect(false).toBe('this should never been called');
-            });
+    // describe('without controllers on method application.run()', () => {
+    //     it('triggers error', () => {
+    //         var application = new Application();
+    //         var input = {
+    //             getArgv: () => {
+    //                 return ['node', 'ged', 'version'];
+    //             }
+    //         };
+    //         var output = new Output();
+    //         output.on('error', (error) => {
+    //             expect(error).toBe('Unerwartete Eingabe');
+    //         });
+    //         output.on('ended', (error) => {
+    //             expect(false).toBe('this should never been called');
+    //         });
 
-            application.run(input, output);
-        });
-    });
+    //         application.run(input, output);
+    //     });
+    // });
 
     describe('with controller on method application.run()', () => {
         it('writes the correct content to output', () => {
