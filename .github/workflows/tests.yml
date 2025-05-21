@@ -36,6 +36,5 @@ jobs:
       - name: Install dependencies
         run: node --version && npm install
 
-      # allow exit code 0 or 4 because of a bug that returns 4 even if the tests pass
-      - name: Run tests and allow exit code 0 or 4
-        run: npm test; code=$?; if [ "$code" -eq 0 ] || [ "$code" -eq 4 ]; then exit 0; else exit $code; fi
+      - name: Run tests
+        run: npm test
