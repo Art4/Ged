@@ -34,11 +34,11 @@ Application.prototype.setupCommander = function() {
     // Commander kann nicht mehrfach verwendet werden, sondern muss immer wieder
     // neu geladen werden, siehe https://github.com/tj/commander.js/pull/499
     this.program = new Command();
-    this.program
-        .version('unknown', '-OV, --original-version');
 
     this.program
-        .command('*')
+        .command('error', { isDefault: true })
+        .allowUnknownOption(true)
+        .allowExcessArguments(true)
         .description('catch-all for errors')
         .action(() => {
             this.program.output.destroy('Unerwartete Eingabe');
