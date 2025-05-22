@@ -23,9 +23,14 @@ const CleanController = require('./controller/cleancontroller.js');
 const ListController = require('./controller/listcontroller.js');
 const VersionController = require('./controller/versioncontroller.js');
 const { Command } = require('commander');
+const Logger = require('electron-log');
 
 // Constructor
 function Application() {
+    this.logger = Logger.scope('Ged');
+
+    this.logger.info('App started');
+
     this.controllers = [];
 }
 

@@ -21,6 +21,7 @@ const {app, Notification} = electron;
 const Utils = require('./src/window-utils.js');
 const autoUpdater = require('electron-updater').autoUpdater;
 const isDevEnv = ('ELECTRON_IS_DEV' in process.env);
+const Logger = require('electron-log');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -45,18 +46,24 @@ app.on('second-instance', (event, commandLine, workingDirectory) => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function createMainWindow () {
+    Logger.initialize();
+
+    const updateLogger = Logger.scope('AutoUpdater');
+
+    Logger.info('Ged started');
+
     // Create windows for search and settings
     mainWindow = Utils.createWindows(isDevEnv);
 
     // Ignore errors in autoUpdater
     autoUpdater.on('error', (err) => {
         // #TODO Log autoUpdater errors
-        console.log(err);
+        updateLogger.error(err);
     });
 
     // Restart after update downloaded
     autoUpdater.on('update-downloaded', (info) => {
-        console.log(info);
+        updateLogger.info(info);
         new Notification({
             title: 'Neues Update ist verfügbar',
             body: `Ged Version ${info.version} wurde heruntergeladen und wird jetzt automatisch installiert.`,
@@ -68,14 +75,22 @@ app.on('ready', function createMainWindow () {
         }, 5000);
     });
 
+    autoUpdater.on('update-not-available', (info) => {
+        updateLogger.info('no update available');
+        updateLogger.info(info);
+    });
+
     // Check for updates
     setTimeout(() => {
+        updateLogger.info('check for updates');
         autoUpdater.checkForUpdates();
     }, 2000);
 });
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
+    Logger.info('Ged closed');
+
     // On macOS it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
