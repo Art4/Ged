@@ -63,18 +63,18 @@ const fs = Volume.fromJSON(
 
 describe('The application with valuemap', () => {
     var values = [
-        // [
-        //     'foobar', 'pdf',
-        //     '', 'Unerwartete Eingabe', '',
-        // ],
+        [
+            'foobar', 'pdf',
+            'Unerwartete Eingabe', '', '',
+        ],
         [
             'version', 'pdf',
             '0.0.1', '', '',
         ],
-        // [
-        //     'open', 'pdf',
-        //     '', 'Warte auf Eingabe...', '',
-        // ],
+        [
+            'open', 'pdf',
+            '', 'Warte auf Eingabe...', '',
+        ],
         [
             'open 10338', 'pdf',
             'Index von 10338 wird geöffnet', '', 'openfileinfolder: /base_dir/Z.Nr.10000-10499/10338.tif'.replace(/\//g, Path.sep),
@@ -123,10 +123,10 @@ describe('The application with valuemap', () => {
             'open 10346-RZ', 'dft',
             'Index von 10346 wird geöffnet', '', 'openfileinfolder: /base_dir/Z.Nr.10000-10499/10346-R0.pdf'.replace(/\//g, Path.sep),
         ],
-        // [
-        //     'open 10346-R?', 'dft',
-        //     '', 'Ungültige Zeichnungsnummer', '',
-        // ],
+        [
+            'open 10346-R?', 'dft',
+            '', 'Ungültige Zeichnungsnummer', '',
+        ],
         [
             'open 10347', 'dft',
             '10347-R0.dft wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10347-R0.dft'.replace(/\//g, Path.sep),
@@ -183,12 +183,8 @@ describe('The application with valuemap', () => {
                 output.on('ended', () => {
                     checkExpectations();
                 });
-                output.on('error', () => {
-                    checkExpectations();
-                });
 
-                var app = Application.create(config, fs, ipcRenderer);
-                app.run(new Input(stdin), output);
+                Application.create(config, fs, ipcRenderer).run(new Input(stdin), output);
             });
         });
     }
