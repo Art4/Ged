@@ -65,7 +65,7 @@ describe('The application with valuemap', () => {
     var values = [
         [
             'foobar', 'pdf',
-            '', 'Unerwartete Eingabe', '',
+            'Unerwartete Eingabe', '', '',
         ],
         [
             'version', 'pdf',
@@ -183,12 +183,8 @@ describe('The application with valuemap', () => {
                 output.on('ended', () => {
                     checkExpectations();
                 });
-                output.on('error', () => {
-                    checkExpectations();
-                });
 
-                var app = Application.create(config, fs, ipcRenderer);
-                app.run(new Input(stdin), output);
+                Application.create(config, fs, ipcRenderer).run(new Input(stdin), output);
             });
         });
     }

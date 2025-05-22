@@ -213,9 +213,12 @@ Utils.createWindows = function(isDevEnv) {
                 enableRemoteModule: true,
                 nodeIntegration: true
             },
+            show: false,
         });
 
         // settingsWindow.webContents.openDevTools({mode: 'detach'})
+
+        settingsWindow.center();
 
         settingsWindow.once('ready-to-show', () => {
             settingsWindow.show();

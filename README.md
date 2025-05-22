@@ -222,7 +222,7 @@ Die folgenden Informationen beziehen sich auf die Entwicklung von Electron.
 
 ### Anforderungen
 
-- node.js 16
+- node.js 20
 - npm
 
 ### Installation
