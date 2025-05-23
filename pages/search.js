@@ -169,11 +169,11 @@ inputField.addEventListener('keyup', (event) => {
     }
 
     // quick validation
-    if (event.target.value.length < 5) {
+    if (inputField.value.length < 5) {
         inputField.classList.remove('is-valid');
         inputField.classList.remove('is-invalid');
-    } else if (event.target.value.length === 5) {
-        search.emit('search.quickvalidation', new Input(['list', event.target.value]));
+    } else if (inputField.value.length === 5) {
+        search.emit('search.quickvalidation', new Input(['list', inputField.value]));
     }
 });
 
