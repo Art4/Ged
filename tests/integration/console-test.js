@@ -20,6 +20,10 @@ const { Application, Input, Output } = require('../../src/console');
 const EventEmitter = require('events');
 const { Volume } = require('memfs');
 const Path = require('path');
+const Logger = require('electron-log');
+
+Logger.transports.file.level = false;
+Logger.transports.console.level = false;
 
 const fs = Volume.fromJSON(
     {
@@ -65,7 +69,7 @@ describe('The application with valuemap', () => {
     var values = [
         [
             'foobar', 'pdf',
-            '', 'Unerwartete Eingabe', '',
+            'Unerwartete Eingabe', '', '',
         ],
         [
             'version', 'pdf',
@@ -100,12 +104,32 @@ describe('The application with valuemap', () => {
             '10341.dft wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10341.dft'.replace(/\//g, Path.sep),
         ],
         [
+            'open 10341-R0', 'dft',
+            '10341.dft wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10341.dft'.replace(/\//g, Path.sep),
+        ],
+        [
             'open 10343 --in-folder', 'dft',
             'Index von 10343 wird geöffnet', '', 'openfileinfolder: /base_dir/Z.Nr.10000-10499/10343-R1.pdf'.replace(/\//g, Path.sep),
         ],
         [
             'open 10344', 'dft',
             '10344-R2.dft wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10344-R2.dft'.replace(/\//g, Path.sep),
+        ],
+        [
+            'open 10344/1', 'dft',
+            '10344-R1.dft wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10344-R1.dft'.replace(/\//g, Path.sep),
+        ],
+        [
+            'open 10344-R1', 'dft',
+            '10344-R1.dft wird geöffnet', '', 'openfile: /base_dir/Z.Nr.10000-10499/10344-R1.dft'.replace(/\//g, Path.sep),
+        ],
+        [
+            'open 10346-RZ', 'dft',
+            'Index von 10346 wird geöffnet', '', 'openfileinfolder: /base_dir/Z.Nr.10000-10499/10346-R0.pdf'.replace(/\//g, Path.sep),
+        ],
+        [
+            'open 10346-R?', 'dft',
+            '', 'Ungültige Zeichnungsnummer', '',
         ],
         [
             'open 10347', 'dft',
@@ -163,12 +187,8 @@ describe('The application with valuemap', () => {
                 output.on('ended', () => {
                     checkExpectations();
                 });
-                output.on('error', () => {
-                    checkExpectations();
-                });
 
-                var app = Application.create(config, fs, ipcRenderer);
-                app.run(new Input(stdin), output);
+                Application.create(config, fs, ipcRenderer, Logger).run(new Input(stdin), output);
             });
         });
     }

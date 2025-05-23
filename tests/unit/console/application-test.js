@@ -18,6 +18,10 @@
 
 const { Application, Output } = require('../../../src/console');
 const VersionController = require('../../../src/console/controller/versioncontroller.js');
+const Logger = require('electron-log');
+
+Logger.transports.file.level = false;
+Logger.transports.console.level = false;
 
 describe('The application', function() {
     var config;
@@ -35,29 +39,29 @@ describe('The application', function() {
 
     describe('without controllers on method application.run()', () => {
         it('triggers error', () => {
-            var application = new Application();
             var input = {
                 getArgv: () => {
                     return ['node', 'ged', 'version'];
                 }
             };
+
             var output = new Output();
-            output.on('error', (error) => {
-                expect(error).toBe('Unerwartete Eingabe');
+            output.on('error', (err) => {
+                expect(false).toBe('error should never been called');
             });
-            output.on('ended', (error) => {
-                expect(false).toBe('this should never been called');
+            output.on('finish', (msg) => {
+                expect(false).toBe('finisch should never been called');
+            });
+            output.on('data', (msg) => {
+                expect(msg).toBe('Unerwartete Eingabe');
             });
 
-            application.run(input, output);
+            new Application(Logger).run(input, output);
         });
     });
 
     describe('with controller on method application.run()', () => {
         it('writes the correct content to output', () => {
-            var application = new Application();
-            application.addController(new VersionController(config));
-
             var input = {
                 getArgv: () => {
                     return ['node', 'ged', 'version'];
@@ -74,13 +78,16 @@ describe('The application', function() {
                 expect(true).toBe(true);
             });
 
+            const application = new Application(Logger);
+            application.addController(new VersionController(config));
+
             application.run(input, output);
         });
     });
 
     describe('on static method Application.create()', () => {
         it('returns Application instance', () => {
-            var application = Application.create(config, {}, {});
+            var application = Application.create(config, {}, {}, Logger);
 
             expect(application).toEqual(jasmine.any(Application));
         });

@@ -16,14 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Utils = require('../src/window-utils.js');
 const Config = require('../src/config.js');
-const { Application, Output } = require('../src/console');
+const { Application, Input, Output } = require('../src/console');
 const SearchInput = require('../src/searchinput.js');
 const EventEmitter = require('events');
 const config = new Config();
 const { ipcRenderer } = require('electron');
 const fs = require('fs');
+const Logger = require('electron-log');
 
 const inputField = document.getElementById('inputField');
 const outputElement = document.getElementById('outputField');
@@ -33,10 +33,11 @@ const settingsButton = document.getElementById('settings-button');
 const menuButton = document.getElementById('menu-button');
 const menubox = document.getElementById('menubox');
 
-const app = Application.create(config, fs, ipcRenderer);
+const app = Application.create(config, fs, ipcRenderer, Logger);
 
 class Search extends EventEmitter {}
 const search = new Search();
+const searchLogger = Logger.scope('Search');
 
 // Allow context menu on input and textarea fields
 document.body.addEventListener('contextmenu', (e) => {
@@ -55,26 +56,52 @@ document.body.addEventListener('contextmenu', (e) => {
 });
 
 // Register search events
+search.on('search.input', (message) => {
+    inputField.value = message;
+    inputField.classList.remove('is-valid');
+    inputField.classList.remove('is-invalid');
+});
+
 search.on('search.output', (message) => {
     outputElement.innerHTML = message;
 });
 
-search.on('search.start', (event) => {
-    var input = new SearchInput(event.target.value);
+search.on('search.quickvalidation', (input) => {
     var buffer = new Output();
 
     buffer.on('data', (data) => {
+        inputField.classList.remove('is-invalid');
+        inputField.classList.add('is-valid');
+    });
+    buffer.on('error', (error) => {
+        inputField.classList.remove('is-valid');
+        inputField.classList.add('is-invalid');
+    });
+
+    app.run(input, buffer);
+});
+
+search.on('search.start', (input) => {
+    var buffer = new Output();
+
+    buffer.on('data', (data) => {
+        searchLogger.info('output:', data);
         search.emit('search.output', data);
     });
     buffer.on('error', (error) => {
+        inputField.classList.remove('is-valid');
+        inputField.classList.add('is-invalid');
+        searchLogger.info('error output:', error);
         search.emit('search.output', error);
     });
     buffer.on('ended', () => {
         // Input field leeren
-        event.target.value = '';
+        search.emit('search.input', '');
     });
 
-    buffer.emit('data', '<span class="fas fa-spinner fa-spin"></span>');
+    buffer.emit('data', '<span class="fa-solid fa-spinner fa-spin"></span>');
+
+    searchLogger.info('started:', input.getQuery());
 
     app.run(input, buffer);
 });
@@ -107,7 +134,12 @@ inputField.addEventListener('keyup', (event) => {
         menuButton.click();
     }
     if (event.keyCode === 13) {
-        search.emit('search.start', event);
+        search.emit('search.start', new SearchInput(event.target.value, config.get('default_action')));
+    } else if (event.target.value.length === 5) {
+        search.emit('search.quickvalidation', new Input(['list', event.target.value]));
+    } else if (event.target.value.length < 5) {
+        inputField.classList.remove('is-valid');
+        inputField.classList.remove('is-invalid');
     }
 });
 

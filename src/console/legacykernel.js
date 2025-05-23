@@ -25,15 +25,11 @@ var cfg = new Array();
 const DraftProperties = require('./draftproperties');
 let getDraftProperties = new DraftProperties();
 
-/* Dir-Store definieren */
-//-----------------------------
-var rev_store = setup_rev_store();
-
 var returnMessage = '';
 var returnQuery = '';
 
 // Hauptprozess
-function run(input, draft, mode)
+function run(input, draft, mode, revision)
 {
     return new Promise((resolve, reject) => {
         // Wenn keine Eingabe gemacht wurde, Fehler ausgeben
@@ -44,7 +40,7 @@ function run(input, draft, mode)
         }
 
         // Suchstring analysieren
-        var query_vars = get_query_vars(input, draft, mode);
+        var query_vars = get_query_vars(input, draft, mode, revision);
 
         // Wenn keine Endung gesetzt wurde, den Defaultwert verwenden
         if (query_vars['file_type'] === null) {
@@ -89,7 +85,7 @@ function run(input, draft, mode)
         getDraftProperties.fromFilePath(query_vars['main_dir'] + query_vars['filename'])
             .then((data) => {
                 if (data.has('System.Document.Template') && data.get('System.Document.Template').trim() !== 'BKM_2019.dft') {
-                    resolve(query_vars['filename'] + ' <span class="text-danger fas fa-exclamation-triangle " title="Diese Zeichnung verwendet nicht die aktuellste Zeichnungsvorlage"></span> wird geöffnet');
+                    resolve(query_vars['filename'] + ' <span class="text-danger fa-solid fa-triangle-exclamation" title="Diese Zeichnung verwendet nicht die aktuellste Zeichnungsvorlage"></span> wird geöffnet');
                 } else {
                     resolve(query_vars['filename'] + ' wird geöffnet');
                 }
@@ -119,7 +115,7 @@ function run_explorer(query_vars, resolve, reject)
     // 3D-Ordner öffnen
     ipcRenderer.send('openfile', query_vars['3D_dir']);
 
-    resolve('&Ouml;ffne den Ordner '+query_vars['3D']);
+    resolve('Öffne den Ordner '+query_vars['3D']);
     return true;
 }
 
@@ -134,7 +130,7 @@ function run_index(query_vars, draft, resolve, reject)
     {
         set_query(query_vars['query']);
 
-        reject('Keine &auml;hnliche Datei gefunden...');
+        reject('Keine ähnliche Datei gefunden...');
         return false;
     }
 
@@ -147,11 +143,6 @@ function run_index(query_vars, draft, resolve, reject)
     //Fertig
     resolve('Index von ' + query_vars['filename'] + ' wird geöffnet');
     return true;
-}
-
-function setup_rev_store()
-{
-    return new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 }
 
 //Setzt den übergebenen String in das Suchfeld
@@ -169,7 +160,7 @@ function message(v)
 }
 
 //analysiert den Suchstring und gibt alle notwendigen Information zurück.
-function get_query_vars(input, draft, mode)
+function get_query_vars(input, draft, mode, revision)
 {
     var arr = new Array();
     arr['query'] = input.getQuery();
@@ -181,7 +172,7 @@ function get_query_vars(input, draft, mode)
     arr['file_type'] = input.getType();
 
     /* Revisionen abfangen */
-    arr['revision'] = input.getRevision();
+    arr['revision'] = revision;
 
     // Jetzt müsste nur noch der Dateiname übrig sein
     arr['filename'] = input.getIdentifier();
@@ -263,48 +254,23 @@ function build_file_name(input, draft, qv)
     };
 
     //Wenn explizit eine Revision angegeben wurde, dann nach dieser suchen
-    if (rev !== null) {
-        file = search_for(files, rev, type);
-
-        if (file) {
-            arr['filename'] = name + '-R' + rev + '.' + file.getExtension();
-            arr['revision'] = rev;
-            return arr;
-        }
-
-        //Wenn nichts gefunden wurde, aber Rev = 0 ist, auf Datei ohne Rev prüfen
-        if (rev == 0) {
-            file = search_for(files, null, type);
-
-            if (file) {
-                arr['filename'] = name + '.' + file.getExtension();
-                arr['revision'] = false;
-                return arr;
-            }
-        }
-
-        //Wenn wieder nichts gefunden wurde, Fehler ausgeben
-        arr['error'] = true;
-        arr['error_message'] = name + '-R' + rev + '.' + type + ' nicht gefunden';
-        return arr;
-    }
-
-    //Wenn keine Rev angegeben, gehts hier weiter
-    //Neuste Revision suchen
-    var have_rev = check_for_revisions(path, name, 0, type);
-    if (have_rev !== false) {
-        arr['filename'] = name + '-R' + have_rev + '.' + type;
-        arr['revision'] = have_rev;
-        return arr;
-    }
-
-    //Letzter Versuch, die Datei zu finden
-    file = search_for(files, null, type);
+    file = search_for(files, rev, type);
 
     if (file) {
-        arr['filename'] = name + '.' + file.getExtension();
-        arr['revision'] = false;
+        arr['filename'] = name + '-R' + rev + '.' + file.getExtension();
+        arr['revision'] = rev;
         return arr;
+    }
+
+    //Wenn nichts gefunden wurde, aber Rev = 0 ist, auf Datei ohne Rev prüfen
+    if (rev == 0) {
+        file = search_for(files, null, type);
+
+        if (file) {
+            arr['filename'] = name + '.' + file.getExtension();
+            arr['revision'] = false;
+            return arr;
+        }
     }
 
     //since 1.0.1
@@ -328,36 +294,6 @@ function build_file_name(input, draft, qv)
     return arr;
 }
 
-//Prüft, ob es von einer Zeichnung neuere Revisionen gibt und gibt die Nummer zurück
-//Wenn es keine neuere gibt, wird false zurück gegeben
-function check_for_revisions(path, name, rev, ext)
-{
-    var last_found = false;
-    if(rev == '')
-    {
-        rev = rev_store[0];
-    }
-
-    var c = 0;
-
-    // Höchte Revision, nach der gesucht wird, ist 25
-    while(c <= 25)
-    {
-        rev = rev_store[c];
-        var check_file = path + name + '-R' + rev + '.' + ext;
-
-        if(fs.existsSync(check_file))
-        {
-            last_found = rev;
-        }
-
-        rev = rev + 1;
-        c = c + 1;
-    }
-
-    return last_found;
-}
-
 // Constructor
 function Kernel(cnf, filesystem, ipc) {
     config = cnf;
@@ -365,12 +301,12 @@ function Kernel(cnf, filesystem, ipc) {
     ipcRenderer = ipc;
 }
 
-Kernel.prototype.handleInput = function(input, output, draft, mode) {
+Kernel.prototype.handleInput = function(input, output, draft, mode, revision) {
     // Reload Config, because it could have changed
     cfg['base_dir'] = config.get('base_dir', 'H:\\Zeichnungen\\');
     cfg['default_file_type'] = config.get('default_file_type', 'pdf');
 
-    run(input, draft, mode)
+    run(input, draft, mode, revision)
         .then((msg) => {
             if (returnQuery === '') {
                 output.end(msg);

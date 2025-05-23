@@ -17,7 +17,11 @@
  */
 'use strict';
 
-// Constructor
+/**
+ * Constructor
+ *
+ * @param {string[]} argv
+ */
 function Input(argv) {
     this.argv = ['node', 'ged'];
 

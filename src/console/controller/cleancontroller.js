@@ -38,12 +38,12 @@ CleanController.prototype.register = function(commander) {
         .description('Remove unused and old files next to a draft')
         .option('--all-revisions', 'Check files of all revisions')
         .option('--only-previous-revision', 'Clean only files for the previous revision of the defined/latest revision')
-        .action((draft, command) => {
-            this.executeCommand(draft, command, commander.output);
+        .action((draft, options, command) => {
+            this.executeCommand(draft, options, commander.output);
         });
 };
 
-CleanController.prototype.executeCommand = function(draft, command, output) {
+CleanController.prototype.executeCommand = function(draft, options, output) {
     if (! draft) {
         output.destroy('Warte auf Eingabe...');
         return;
@@ -61,7 +61,7 @@ CleanController.prototype.executeCommand = function(draft, command, output) {
     this.draftpool.findDraftByIdentifier(input.getIdentifier())
         .then((draft) => {
             // Call clean function for previous revision
-            if (command.onlyPreviousRevision) {
+            if (options.onlyPreviousRevision) {
                 this.cleanPreviousRevisionOfDraft(draft, input, output);
             }
         })

@@ -20,34 +20,54 @@
 const LegacyController = require('./controller/legacycontroller.js');
 const ChmodController = require('./controller/chmodcontroller.js');
 const CleanController = require('./controller/cleancontroller.js');
+const ListController = require('./controller/listcontroller.js');
 const VersionController = require('./controller/versioncontroller.js');
 const { Command } = require('commander');
 
 // Constructor
-function Application() {
-    this.program = null;
+function Application(Logger) {
+    this.logger = Logger;
+
+    this.logger.info('App started');
+
     this.controllers = [];
 }
 
-Application.prototype.setupCommander = function() {
+Application.prototype.setupCommander = function(output) {
     // Commander kann nicht mehrfach verwendet werden, sondern muss immer wieder
     // neu geladen werden, siehe https://github.com/tj/commander.js/pull/499
-    this.program = new Command();
-    this.program
-        .version('unknown', '-OV, --original-version');
+    var program = new Command();
 
-    this.program
-        .command('*')
+    program.output = output;
+
+    program.configureOutput({
+        writeOut: function(str) {
+            program.output.end(str);
+        },
+        writeErr: function(str) {
+             program.output.end(str);
+        },
+        outputError: function(err) {
+            program.output.end(err);
+        },
+    });
+
+    program
+        .command('default', { isDefault: true })
+        .allowUnknownOption(true)
+        .allowExcessArguments(true)
         .description('catch-all for errors')
         .action(() => {
-            this.program.output.destroy('Unerwartete Eingabe');
+            program.output.end('Unerwartete Eingabe');
         });
 
     for (var i = 0; i < this.controllers.length; i++) {
         var controller = this.controllers[i];
 
-        controller.register(this.program);
+        controller.register(program);
     }
+
+    return program;
 };
 
 // class methods
@@ -56,24 +76,20 @@ Application.prototype.addController = function(controller) {
 };
 
 Application.prototype.run = function(input, output) {
-    // Setup commander
-    this.setupCommander();
-
-    this.program.output = output;
-    this.program.parse(input.getArgv());
-
-    this.program = null;
+    // Setup and run command
+    return this.setupCommander(output).parseAsync(input.getArgv());
 };
 
 // Factory method
-Application.create = function(config, fs, ipcRenderer) {
-    var app = new Application();
+Application.create = function(config, fs, ipcRenderer, logger) {
+    var app = new Application(logger);
 
     // Register Controllers
     app.addController(new VersionController(config));
-    app.addController(new LegacyController(config, fs, ipcRenderer));
+    app.addController(new LegacyController(config, fs, ipcRenderer, logger));
     app.addController(new ChmodController(config, fs, ipcRenderer));
     app.addController(new CleanController(config, fs, ipcRenderer));
+    app.addController(new ListController(config, fs, ipcRenderer));
 
     return app;
 };

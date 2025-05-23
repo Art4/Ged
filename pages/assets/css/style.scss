@@ -16,15 +16,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~bootstrap/scss/bootstrap";
+
+body {
+    background-color: transparent;
+}
 
 #search__wrapper {
     padding: 0px;
     height: 100%;
-    color: $white;
     font-size: 14px;
     background-color: $blue;
-    overflow:hidden;
+    overflow: hidden;
+    border-radius: 0.25rem;
 }
 
 #search__main {

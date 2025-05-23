@@ -27,8 +27,8 @@ VersionController.prototype.register = function(commander) {
     commander
         .command('version')
         .description('output the version number')
-        .action((command) => {
-            this.executeCommand(command, command.parent.output);
+        .action((options, command) => {
+            this.executeCommand(command, commander.output);
         });
 };
 

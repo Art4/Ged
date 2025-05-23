@@ -17,6 +17,10 @@
         margin-bottom: 15px;
         padding-bottom: 15px;
     }
+    #formOpacityExample {
+        background: linear-gradient(to left, rgba(var(--bs-primary-rgb)), rgba(var(--bs-primary-rgb), 0.1));
+        border-radius: 0.25rem;
+    }
     footer {
         position: absolute;
         bottom: 0;
@@ -29,80 +33,80 @@
 </head>
 <body>
 <div id="settings__wrapper" class="container-fluid">
-    <h3><span class="fas fa-sliders-h"></span> Einstellungen</h3>
+    <h3><span class="fa-solid fa-sliders"></span> Einstellungen</h3>
     <form>
     <div class="row">
-        <div class="col-12">
-            <p class="text-muted">
-                <span class="fas fa-question-circle"></span> Hier kann das Verhalten und Aussehen von Ged angepasst werden.
-            </p>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label for="formDefaultFileTypeInput">
-                    <!-- <span class="fas fa-file"></span> --><span class="h6">Bevorzugtes Zeichnungsformat</span><br />
-                    <span class="text-muted">Falls vorhanden, wird Ged beim Öffnen einer Zeichnung immer das bevorzugte Format wählen.</span>
-                </label>
-                <select id="formDefaultFileTypeInput" class="form-control">
-                    <option value="pdf" selected>PDF (.pdf)</option>
-                    <option value="dft">Solid Edge Draft (.dft)</option>
-                    <option value="dwg">AutoCAD Drawing (.dwg)</option>
-                </select>
+        <div class="col-12 mb-3">
+            <label for="formDefaultFileTypeInput">
+                <!-- <span class="fa-solid fa-file"></span> --><span class="h6">Bevorzugte Software</span>
+            </label>
+            <select id="formDefaultFileTypeInput" class="form-control">
+                <option value="pdf" selected>PDF Viewer (.pdf)</option>
+                <option value="dft">Solid Edge (.dft)</option>
+                <option value="dwg">AutoCAD (.dwg)</option>
+            </select>
+            <div class="form-text">
+                Falls vorhanden, wird Ged beim Öffnen einer Zeichnung immer das bevorzugte Format wählen.
             </div>
         </div>
+        <div class="col-12 mb-3">
+            <label for="formDefaultActionInput">
+                <!-- <span class="fa-solid fa-file"></span> --><span class="h6">Nach Absenden einer Zeichnungsnummer wird die Datei…</span>
+            </label>
+            <select id="formDefaultActionInput" class="form-control">
+                <option value="open" selected>direkt geöffnet (falls möglich).</option>
+                <option value="show-in-folder">im Windows Explorer angezeigt.</option>
+            </select>
+        </div>
         <div class="col-12">
-            <div class="form-check form-group">
+            <div class="form-check form-switch mb-3">
                 <input class="form-check-input" type="checkbox" id="formAlwaysForegroundInput">
                 <label class="form-check-label" for="formAlwaysForegroundInput">
-                    <!-- <span class="fas fa-window-restore"></span> --><span class="h6">Immer im Vordergrund</span><br />
-                    <span class="text-muted">Ged wird nicht durch andere Fenster überdeckt werden</span>
+                    <!-- <span class="fa-solid fa-window-restore"></span> --><span class="h6">Immer im Vordergrund zeigen</span>
                 </label>
+                <div class="form-text">Ged wird nicht durch andere Anwendungs-Fenster überdeckt werden.</div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-check form-group">
+            <div class="form-check form-switch mb-3">
                 <input class="form-check-input" type="checkbox" id="formAutolaunchInput">
                 <label class="form-check-label" for="formAutolaunchInput">
-                    <span class="h6">Autostart bei Anmeldung</span><br />
-                    <span class="text-muted">Ged startet nach der Anmeldung automatisch</span>
+                    <span class="h6">Autostart bei Anmeldung</span>
                 </label>
+                <div class="form-text">Ged startet nach der Anmeldung bei Windows automatisch.</div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-check form-group">
+            <div class="form-check form-switch mb-3">
                 <input class="form-check-input" type="checkbox" id="formSkipTaskbarInput">
                 <label class="form-check-label" for="formSkipTaskbarInput">
-                    <span class="h6">In Taskleiste anzeigen</span><br />
-                    <span class="text-muted">Wenn Ged läuft, kann es über die Taskleiste aufgerufen werden</span>
+                    <span class="h6">In Taskleiste anzeigen</span>
                 </label>
+                <div class="form-text">Wenn Ged läuft, kann es über die Taskleiste aufgerufen werden.</div>
             </div>
         </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label for="formOpacityInput">
-                    <span class="h6">Transparenz</span><br />
-                    <span class="text-muted">Ged wird teilweise durchsichtig, wenn die Maus nicht darüber gefahren ist.</span>
-                </label>
-                <select id="formOpacityInput" class="form-control">
-                    <option value="1" selected>0% (keine Transparenz)</option>
-                    <option value="0.8">20%</option>
-                    <option value="0.6">40%</option>
-                    <option value="0.4">60%</option>
-                    <option value="0.2">80%</option>
-                </select>
+        <div class="col-12 mb-3">
+            <label for="formOpacityInput" class="form-label">
+                <span class="h6">Transparenz</span>
+            </label>
+            <div id="formOpacityExample" class="">
+                <div class="row">
+                    <div class="col ms-1 small">Kaum sichtbar</div>
+                    <div class="col me-1 small text-end text-white">Gut sichtbar</div>
+                </div>
+            </div>
+            <input type="range" class="form-range" min="0.2" max="1" step="0.1" id="formOpacityInput">
+            <div class="form-text">
+                Ged wird teilweise durchsichtig dargestellt, wenn es nicht verwendet wird.
             </div>
         </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label for="formDraftPathInput">
-                    <!-- <span class="fas fa-folder-open"></span> --><span class="h6">Pfad zum Zeichnungs-Ordner</span><br />
-                    <span class="text-muted">Der absolute Pfad zum Zeichnungs-Ordner lautet in der Regel <code>H:\Zeichnungen\</code></span>
-                </label>
-                <input type="text" class="form-control" id="formDraftPathInput" placeholder="H:\Zeichnungen\">
+        <div class="col-12 mb-3">
+            <label for="formDraftPathInput">
+                <!-- <span class="fa-solid fa-folder-open"></span> --><span class="h6">Pfad zum Zeichnungs-Ordner</span><br />
+            </label>
+            <input type="text" class="form-control" id="formDraftPathInput" placeholder="H:\Zeichnungen\">
+            <div class="form-text">
+                Der absolute Pfad zum Zeichnungs-Ordner lautet in der Regel: <code>H:\Zeichnungen\</code>
             </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-12 mb-3">
             <button id="formSaveButton" type="button" class="btn btn-primary">Speichern</button>
             <button id="formAbortButton" type="button" class="btn btn-light">Abbrechen</button>
         </div>
@@ -113,7 +117,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <span class="text-muted">Ged <span class="app-version"></span></span> <a href="https://github.com/Art4/Ged/blob/master/LICENSE" class="open-external"><img src="assets/img/license-GPL3-brightgreen.png" /></a> <a href="https://github.com/Art4/Ged" class="open-external"><img src="assets/img/source-Art4_Ged-blue.png" /></a>
+                <span class="text-muted">Ged <span class="app-version"></span></span> <a href="https://github.com/Art4/Ged/blob/master/LICENSE" class="open-external"><img src="assets/img/Lizenz-GNU-GPL-v3.svg" /></a> <a href="https://github.com/Art4/Ged" class="open-external"><img src="assets/img/GitHub-Art4_Ged.svg" /></a>
             </div>
         </div>
     </div>

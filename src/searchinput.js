@@ -19,11 +19,15 @@
 
 const { Input } = require('./console');
 
-function analyseQuery(query) {
+function analyseQuery(query, default_action) {
     var raw = query.split(' ');
     var argv = [];
 
     if (! raw[1]) {
+        if (default_action === 'show-in-folder') {
+            return ['open', raw[0], '--in-folder'];
+        }
+
         return ['open', raw[0]];
     }
 
@@ -61,9 +65,9 @@ function analyseQuery(query) {
 
 // Class
 class SearchInput extends Input {
-    constructor(query) {
+    constructor(query, default_action) {
         query = String(query);
-        var rawArgv = analyseQuery(query);
+        var rawArgv = analyseQuery(query, default_action);
         var argv = [];
 
         for (var i = 0; i < rawArgv.length; i++) {

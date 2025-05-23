@@ -21,11 +21,17 @@ const Draftpool = require('../draftpool.js');
 const LegacyKernel = require('../legacykernel.js');
 const StringInput = require('../stringinput.js');
 
+const revisionStore = new Array(
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+    'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+);
+
 // Constructor
-function LegacyController(config, fs, ipcRenderer) {
+function LegacyController(config, fs, ipcRenderer, Logger) {
     this.config = config;
     this.fs = fs;
     this.ipcRenderer = ipcRenderer;
+    this.logger = Logger.scope('LegacyController');
 
     this.draftpool = new Draftpool(this.fs, this.config.get('base_dir'));
 
@@ -40,22 +46,25 @@ LegacyController.prototype.register = function(commander) {
         .option('--in-folder', 'Open the folder that contains the draft')
         .option('--in-3d-folder', 'Open the 3D folder of the draft')
         .option('--search-in-3d-folder', 'Search also in 3D folder for the draft')
-        .action((draft, command) => {
+        .action((draft, options, command) => {
             var mode = 'o';
 
-            if (command.inFolder) {
+            if (options.inFolder) {
                 mode = 'i';
-            } else if (command.in3dFolder) {
+            } else if (options.in3dFolder) {
                 mode = 'e';
-            } else if (command.searchIn3dFolder) {
+            } else if (options.searchIn3dFolder) {
                 mode = 'a';
             }
-            this.executeCommand(draft, command, commander.output, mode);
+
+            this.logger.info(mode, draft, options);
+            this.executeCommand(draft, options, commander.output, mode);
         });
 };
 
-LegacyController.prototype.executeCommand = function(draft, command, output, mode) {
+LegacyController.prototype.executeCommand = function(draft, options, output, mode) {
     if (! draft) {
+        this.logger.info('empty input');
         output.destroy('Warte auf Eingabe...');
         return;
     }
@@ -65,19 +74,65 @@ LegacyController.prototype.executeCommand = function(draft, command, output, mod
     // Abort, if invalid identifier provided
     if (input.getIdentifier() === null)
     {
+        this.logger.info('invalid identifier');
         output.destroy('Ungültige Zeichnungsnummer');
         return;
     }
 
     this.draftpool.findDraftByIdentifier(input.getIdentifier())
         .then((draft) => {
+            var revision = this.getOrGuessRevision(input, draft);
+
             // Call LegacyKernel
-            this.kernel.handleInput(input, output, draft, mode);
+            this.logger.debug('draft:', draft);
+            this.logger.debug('revision:', revision);
+            this.logger.debug('mode:', mode);
+            this.kernel.handleInput(input, output, draft, mode, revision);
         })
         .catch((err) => {
             // Abort, if draft not found
+            this.logger.info('draft not found', err);
             output.destroy(input.getIdentifier() + ' wurde nicht gefunden');
         });
+};
+
+LegacyController.prototype.getOrGuessRevision = function(input, draft) {
+    let guessedRevision = input.getRevision();
+
+    if (guessedRevision !== null) {
+        return guessedRevision;
+    }
+
+    let fileType = input.getType();
+
+    if (fileType === null) {
+        fileType = this.config.get('default_file_type', 'pdf');
+    }
+
+    let biggestRevisionIndex = 0;
+    let foundRevisionIndex = 0;
+
+    draft.getFiles().forEach((f) => {
+        if (f.getRevision() === null) {
+            return;
+        }
+
+        if (f.getExtension().toLowerCase() !== fileType) {
+            return;
+        }
+
+        foundRevisionIndex = revisionStore.findIndex((element) => element === f.getRevision());
+
+        if (foundRevisionIndex === -1) {
+            return;
+        }
+
+        if (foundRevisionIndex > biggestRevisionIndex) {
+            biggestRevisionIndex = foundRevisionIndex;
+        }
+    });
+
+    return revisionStore[biggestRevisionIndex];
 };
 
 // export the class
