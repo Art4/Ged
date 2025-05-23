@@ -27,10 +27,11 @@ const revisionStore = new Array(
 );
 
 // Constructor
-function LegacyController(config, fs, ipcRenderer) {
+function LegacyController(config, fs, ipcRenderer, Logger) {
     this.config = config;
     this.fs = fs;
     this.ipcRenderer = ipcRenderer;
+    this.logger = Logger.scope('LegacyController');
 
     this.draftpool = new Draftpool(this.fs, this.config.get('base_dir'));
 
@@ -55,12 +56,15 @@ LegacyController.prototype.register = function(commander) {
             } else if (options.searchIn3dFolder) {
                 mode = 'a';
             }
+
+            this.logger.info(mode, draft, options);
             this.executeCommand(draft, options, commander.output, mode);
         });
 };
 
 LegacyController.prototype.executeCommand = function(draft, options, output, mode) {
     if (! draft) {
+        this.logger.info('empty input');
         output.destroy('Warte auf Eingabe...');
         return;
     }
@@ -70,6 +74,7 @@ LegacyController.prototype.executeCommand = function(draft, options, output, mod
     // Abort, if invalid identifier provided
     if (input.getIdentifier() === null)
     {
+        this.logger.info('invalid identifier');
         output.destroy('Ungültige Zeichnungsnummer');
         return;
     }
@@ -79,10 +84,14 @@ LegacyController.prototype.executeCommand = function(draft, options, output, mod
             var revision = this.getOrGuessRevision(input, draft);
 
             // Call LegacyKernel
+            this.logger.debug('draft:', draft);
+            this.logger.debug('revision:', revision);
+            this.logger.debug('mode:', mode);
             this.kernel.handleInput(input, output, draft, mode, revision);
         })
         .catch((err) => {
             // Abort, if draft not found
+            this.logger.info('draft not found', err);
             output.destroy(input.getIdentifier() + ' wurde nicht gefunden');
         });
 };

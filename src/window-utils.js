@@ -19,7 +19,6 @@
 const {app, BrowserWindow, ipcMain, ipcRenderer, Menu, MenuItem, nativeImage, screen, shell} = require('electron');
 const Config = require('./config.js');
 const config = new Config();
-const packageData = require('../package.json');
 
 let appBounds = {};
 

@@ -23,11 +23,10 @@ const CleanController = require('./controller/cleancontroller.js');
 const ListController = require('./controller/listcontroller.js');
 const VersionController = require('./controller/versioncontroller.js');
 const { Command } = require('commander');
-const Logger = require('electron-log');
 
 // Constructor
-function Application() {
-    this.logger = Logger.scope('Ged');
+function Application(Logger) {
+    this.logger = Logger;
 
     this.logger.info('App started');
 
@@ -77,17 +76,17 @@ Application.prototype.addController = function(controller) {
 };
 
 Application.prototype.run = function(input, output) {
-    // Setup commander
+    // Setup and run command
     return this.setupCommander(output).parseAsync(input.getArgv());
 };
 
 // Factory method
-Application.create = function(config, fs, ipcRenderer) {
-    var app = new Application();
+Application.create = function(config, fs, ipcRenderer, logger) {
+    var app = new Application(logger);
 
     // Register Controllers
     app.addController(new VersionController(config));
-    app.addController(new LegacyController(config, fs, ipcRenderer));
+    app.addController(new LegacyController(config, fs, ipcRenderer, logger));
     app.addController(new ChmodController(config, fs, ipcRenderer));
     app.addController(new CleanController(config, fs, ipcRenderer));
     app.addController(new ListController(config, fs, ipcRenderer));
