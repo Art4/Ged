@@ -202,7 +202,7 @@ searchWin.addEventListener('mouseleave', (event) => {
         ipcRenderer.send('isGedEol');
 
         ipcRenderer.on('gedIsEol', (e) => {
-            if(confirm('Die Weiterentwicklung von Ged wurde eingestellt. Es wird empfohlen, Ged nicht mehr zu nutzen.\r\n\r\nSoll Ged jetzt beendet werden?') === true)
+            if(confirm('Ged wird nicht mehr weiterentwickelt und sollte aus Sicherheitsgründen nicht mehr verwendet werden.\r\n\r\nSoll Ged jetzt beendet werden?') === true)
             {
                 ipcRenderer.send('closeapp');
             }

@@ -148,7 +148,7 @@ Utils.createWindows = function(isDevEnv) {
     // Focus search field on focus window
     mainWindow.on('focus', () => {
         Utils.changeWindowOpacity(mainWindow.getOpacity(), 1, function(opacity) {
-            mainWindow.setOpacity(opacity);
+            mainWindow && mainWindow.setOpacity(opacity);
         });
         mainWindow.webContents.send('windowgetfocused');
     });
@@ -158,7 +158,7 @@ Utils.createWindows = function(isDevEnv) {
         // wait 100ms to avoid racecondition with mouseover event
         setTimeout(function() {
             Utils.changeWindowOpacity(mainWindow.getOpacity(), config.get('opacity', 1), function(opacity) {
-                mainWindow.setOpacity(opacity);
+                mainWindow && mainWindow.setOpacity(opacity);
             });
         }, 100);
     });
@@ -174,7 +174,7 @@ Utils.createWindows = function(isDevEnv) {
     ipcMain.on('setopacity', function (e) {
         if (! mainWindow.isFocused()) {
             Utils.changeWindowOpacity(mainWindow.getOpacity(), config.get('opacity', 1), function(opacity) {
-                mainWindow.setOpacity(opacity);
+                mainWindow && mainWindow.setOpacity(opacity);
             });
         }
     });
@@ -184,7 +184,7 @@ Utils.createWindows = function(isDevEnv) {
             // wait 100ms to avoid racecondition with mouseover event
             setTimeout(function() {
                 Utils.changeWindowOpacity(mainWindow.getOpacity(), 1, function(opacity) {
-                    mainWindow.setOpacity(opacity);
+                    mainWindow && mainWindow.setOpacity(opacity);
                 });
             }, 100);
         }

@@ -58,6 +58,8 @@ app.on('ready', function createMainWindow () {
     // Create windows for search and settings
     mainWindow = Utils.createWindows(isDevEnv);
 
+    // autoUpdater.forceDevUpdateConfig = true;
+
     // Log errors from autoUpdater
     autoUpdater.logger = updateLogger;
 
