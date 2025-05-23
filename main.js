@@ -47,6 +47,7 @@ app.on('second-instance', (event, commandLine, workingDirectory) => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', function createMainWindow () {
     Logger.initialize();
+    Logger.transports.file.fileName = isDevEnv ? 'dev.log' : 'main.log';
 
     const updateLogger = Logger.scope('AutoUpdater');
 
@@ -55,17 +56,24 @@ app.on('ready', function createMainWindow () {
     // Create windows for search and settings
     mainWindow = Utils.createWindows(isDevEnv);
 
-    // Ignore errors in autoUpdater
-    autoUpdater.on('error', (err) => {
-        // #TODO Log autoUpdater errors
-        updateLogger.error(err);
+    autoUpdater.forceDevUpdateConfig = true;
+
+    // Log errors from autoUpdater
+    autoUpdater.logger = updateLogger;
+
+    autoUpdater.on('update-available', (info) => {
+        updateLogger.info('new version is available: ' + info.version);
+    });
+
+    autoUpdater.on('update-not-available', (info) => {
+        updateLogger.info('no update available');
     });
 
     // Restart after update downloaded
     autoUpdater.on('update-downloaded', (info) => {
-        updateLogger.info(info);
+        updateLogger.info('new version was downloaded: ' + info.version);
         new Notification({
-            title: 'Neues Update ist verfügbar',
+            title: 'Für Ged ist ein Update verfügbar',
             body: `Ged Version ${info.version} wurde heruntergeladen und wird jetzt automatisch installiert.`,
             icon: `${app.getAppPath()}/pages/assets/img/icon-256.png`
         }).show();
@@ -75,14 +83,9 @@ app.on('ready', function createMainWindow () {
         }, 5000);
     });
 
-    autoUpdater.on('update-not-available', (info) => {
-        updateLogger.info('no update available');
-        updateLogger.info(info);
-    });
-
     // Check for updates
     setTimeout(() => {
-        updateLogger.info('check for updates');
+        updateLogger.info('start check for updates');
         autoUpdater.checkForUpdates();
     }, 2000);
 });
