@@ -6,6 +6,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased](https://github.com/Art4/Ged/compare/v2.13.0...HEAD)
 
+### Added
+
+- Unter `%APPDATA%\Ged\logs` werden Log-Dateien abgelegt, um im Fehlerfall die Ursache zu finden.
+
 ### Changed
 
 - Upgrade Electron von v22.0.1 auf v35.4.0

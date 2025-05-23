@@ -214,6 +214,12 @@ Die Dateien sehen dann so aus:
 - 12345-R1.dft (schreibgeschützt)
 - 12345-R2.dft
 
+## Logs
+
+Ged erstellt Log-Dateien, die bei einem Fehlerfall helfen können, die Ursache zu finden oder den Fehler zu rekonstruieren.
+
+Die Log-Dateien liegen unter Windows im Verzeichnis `%APPDATA%\Ged\logs\`.
+
 ## Technische Details
 
 Ged v1 war als Windows Gadget umgesetzt, welche seit Windows 8 nicht mehr unterstützt werden. Daher wurde Ged auf Basis von [Electron](https://electronjs.org/) komplett neu geschrieben.

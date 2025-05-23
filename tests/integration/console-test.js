@@ -20,6 +20,10 @@ const { Application, Input, Output } = require('../../src/console');
 const EventEmitter = require('events');
 const { Volume } = require('memfs');
 const Path = require('path');
+const Logger = require('electron-log');
+
+Logger.transports.file.level = false;
+Logger.transports.console.level = false;
 
 const fs = Volume.fromJSON(
     {
@@ -184,7 +188,7 @@ describe('The application with valuemap', () => {
                     checkExpectations();
                 });
 
-                Application.create(config, fs, ipcRenderer).run(new Input(stdin), output);
+                Application.create(config, fs, ipcRenderer, Logger).run(new Input(stdin), output);
             });
         });
     }
