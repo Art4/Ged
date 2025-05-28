@@ -133,13 +133,47 @@ inputField.addEventListener('keyup', (event) => {
     if (menubox.classList.contains('show')) {
         menuButton.click();
     }
-    if (event.keyCode === 13) {
-        search.emit('search.start', new SearchInput(event.target.value, config.get('default_action')));
-    } else if (event.target.value.length === 5) {
-        search.emit('search.quickvalidation', new Input(['list', event.target.value]));
-    } else if (event.target.value.length < 5) {
+
+    // Initialize history array and index
+    if (!window.inputHistory) {
+        window.inputHistory = [];
+        window.inputHistoryIndex = -1;
+    }
+
+    if (event.key === 'Enter') {
+        // Save to history if not empty and not duplicate of last entry
+        const value = event.target.value;
+        if (value.length > 0) {
+            window.inputHistory.push(value);
+        }
+        window.inputHistoryIndex = window.inputHistory.length;
+        search.emit('search.start', new SearchInput(value, config.get('default_action')));
+    } else if (event.key === 'ArrowUp') {
+        if (window.inputHistory.length > 0 && window.inputHistoryIndex > 0) {
+            window.inputHistoryIndex--;
+            inputField.value = window.inputHistory[window.inputHistoryIndex];
+            inputField.setSelectionRange(inputField.value.length, inputField.value.length);
+        } else {
+            // If we are at the top of the history, keep cursor at the end
+            inputField.setSelectionRange(inputField.value.length, inputField.value.length);
+        }
+    } else if (event.key === 'ArrowDown') {
+        if (window.inputHistory.length > 0 && window.inputHistoryIndex < window.inputHistory.length - 1) {
+            window.inputHistoryIndex++;
+            inputField.value = window.inputHistory[window.inputHistoryIndex];
+            inputField.setSelectionRange(inputField.value.length, inputField.value.length);
+        } else if (window.inputHistoryIndex === window.inputHistory.length - 1) {
+            window.inputHistoryIndex++;
+            inputField.value = '';
+        }
+    }
+
+    // quick validation
+    if (inputField.value.length < 5) {
         inputField.classList.remove('is-valid');
         inputField.classList.remove('is-invalid');
+    } else if (inputField.value.length === 5) {
+        search.emit('search.quickvalidation', new Input(['list', inputField.value]));
     }
 });
 
