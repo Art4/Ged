@@ -15,6 +15,15 @@ Die Änderungen des Projekts können im [Changelog](CHANGELOG.md) nachverfolgt w
 
 Der Quellcode ist auf [Github](https://github.com/Art4/Ged) zu finden und unterliegt der [GPL3](LICENSE).
 
+## Features
+
+- ⚡ Schnelles Öffnen von Zeichnungen anhand der Zeichnungsnummer mit automatischer Berücksichtigung der letzten Zeichnungsrevision
+- 📋 Schnelles Auflisten aller vorhandener Zeichnungsdateien
+- 🔍 Schnelles Öffnen einer Zeichnung mit bestimmten Revisionsstand und/oder Dateiformat
+- 📂 Schnelles Öffnen der 3D-Daten einer Zeichnung
+- 🧹 Automatische Bereinigung nach Erstellung einer Zeichnungsrevision
+- 🔒 Setzen und Entfenen des Schreibschutzes bei einer Zeichnungdatei
+
 ## Anwendung
 
 **Neu ab Version 2.7.0**: Die Zeichnungsnummer kann auch im gebräuchlicheren Format mit Schrägstrichen angegeben werden:
