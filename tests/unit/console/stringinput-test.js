@@ -1,6 +1,6 @@
 /*
  * Ged
- * Copyright (C) 2011-2019  Artur Weigandt  https://wlabs.de/kontakt
+ * Copyright (C) 2011-2025  Artur Weigandt  https://wlabs.de/kontakt
 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
