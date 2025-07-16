@@ -30,7 +30,7 @@ Ged ist eine kleine Anwendung, die primär über das Suchfeld bedient wird. Eine
 
 ![Ged](docs/img/ged-startup.png)
 
-Über einen Pfeil-Button wird ein Menü geöffnet, das die Option "App schließen", "Hilfe" und "Einstellungen" zeigt.
+Über einen Pfeil-Button wird ein Menü geöffnet, das die Optionen "App schließen", "Hilfe" und "Einstellungen" zeigt.
 
 ![Ged mit geöffnetem Menü](docs/img/ged-menu-open.png)
 
