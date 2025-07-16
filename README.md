@@ -24,6 +24,24 @@ Der Quellcode ist auf [Github](https://github.com/Art4/Ged) zu finden und unterl
 - 🧹 Automatische Bereinigung nach Erstellung einer Zeichnungsrevision
 - 🔒 Setzen und Entfenen des Schreibschutzes bei einer Zeichnungdatei
 
+## Bedienung
+
+Ged ist eine kleine Anwendung, die primär über das Suchfeld bedient wird. Eine Suche bzw. Befehl wird mit der `Enter`-Taste abgesendet.
+
+![Ged](docs/img/ged-startup.png)
+
+Über einen Pfeil-Button wird ein Menü geöffnet, das die Optionen "App schließen", "Hilfe" und "Einstellungen" zeigt.
+
+![Ged mit geöffnetem Menü](docs/img/ged-menu-open.png)
+
+Über die Einstellungen wird das Verhalten und Aussehen von Ged konfiguriert.
+
+![Einstellungs-Fenster](docs/img/ged-settings.png)
+
+Ged kann per Drag-and-Drop verschoben werden.
+
+![Ged verschieben](docs/img/ged-moving.gif)
+
 ## Anwendung
 
 **Neu ab Version 2.7.0**: Die Zeichnungsnummer kann auch im gebräuchlicheren Format mit Schrägstrichen angegeben werden:
