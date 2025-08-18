@@ -19,6 +19,8 @@
 const electron = require('electron');
 const {app, ipcMain, Notification} = electron;
 const Utils = require('./src/window-utils.js');
+const Config = require('./src/config.js');
+const config = new Config();
 const autoUpdater = require('electron-updater').autoUpdater;
 const isDevEnv = ('ELECTRON_IS_DEV' in process.env);
 const Logger = require('electron-log');
@@ -27,7 +29,14 @@ const packageData = require('./package.json');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-let isGedEol = (new Date() > new Date(Date.UTC(2025, 7, 1))); // Ged is EOL since 2025-10-01
+
+// Ged is EOL (End of Life) since 2025-10-01, so we will not check for updates anymore.
+// Setting this to `false` will allow Ged to check and install updates from a 3rd-party server
+// what is not recommended because it could contain malware or other harmful code.
+// Only set this to `false` if you know what you are doing!
+// Setting this to `true` will disable update checks and show a warning in the UI
+// that Ged is EOL and no updates will be provided anymore.
+let isGedEol = (Date.now() > Date.parse('2025-10-01T00:00:00.000Z'));
 
 // Quit app in favor of the first instance
 if (!app.requestSingleInstanceLock()) {
@@ -83,27 +92,28 @@ app.on('ready', function createMainWindow () {
     ipcMain.on('ged-is-eol-check', function (e) {
         Logger.info('isGedEol:', isGedEol);
 
-        if (isGedEol === true) {
-            e.reply('ged-is-eol-response', 'Ged is end of life.');
+        // show warning if last update check was more than 30 days ago
+        if (Date.now() - 30 * 24 * 60 * 60 * 1000 > Date.parse(config.get('last_update_check', new Date().toISOString()))) {
+            e.reply('ged-is-eol-response', 'Update-Server ist nicht erreichbar.');
         }
     });
 
     // Check for updates
     setTimeout(() => {
+        updateLogger.info('start check for updates');
+
         if (isGedEol === true) {
             updateLogger.info('Ged is end of life, no updates will be checked');
             return;
         }
 
-        updateLogger.info('start check for updates');
+        updateLogger.info('last update check:', config.get('last_update_check', 'never'));
+
         autoUpdater.checkForUpdates().then(info => {
-            updateLogger.info(info);
-            // Wenn Updateserver erreichbar ist, wird Ged noch maintained
-            isGedEol = false;
+            updateLogger.info('update result:', info);
+            config.set('last_update_check', new Date().toISOString());
         }).catch(err => {
-            updateLogger.info(err);
-            // Wenn Updateserver erreichbar ist, wird Ged noch maintained
-            isGedEol = true;
+            updateLogger.info('update error:', err);
         });
     }, 2000);
 });

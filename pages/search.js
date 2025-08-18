@@ -232,7 +232,7 @@ searchWin.addEventListener('mouseleave', (event) => {
     });
 
     ipcRenderer.on('ged-is-eol-response', (e, message) => {
-        searchLogger.info('Ged is EOL', message);
+        searchLogger.info('ged-is-eol-response: ', message);
         search.emit('search.output', '<span class="text-bg-warning">' + message + '</span>');
     });
 

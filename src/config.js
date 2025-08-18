@@ -82,6 +82,14 @@ function migrateConfigIfNeeded(config) {
         config.set('app_version', '2.10.0');
     }
 
+    // Migrate to 2.15.0
+    if (compareVersions(config.get('app_version', '').toString(), '2.15.0') === -1) {
+        config.set('last_update_check', new Date().toISOString());
+
+        // Update app_version
+        config.set('app_version', '2.15.0');
+    }
+
     config.set('app_version', packageData.version);
 }
 
@@ -109,6 +117,7 @@ function Config() {
             displayY: null,
             skip_taskbar: true,
             default_action: 'open',
+            last_update_check: new Date().toISOString(),
         };
     }
 
