@@ -4,10 +4,15 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased](https://github.com/Art4/Ged/compare/v2.13.0...HEAD)
+## [Unreleased](https://github.com/Art4/Ged/compare/v2.14.0...HEAD)
+
+Noch nichts.
+
+## [2.14.0 - 2025-05-28](https://github.com/Art4/Ged/compare/v2.13.0...v2.14.0)
 
 ### Added
 
+- Im Suchfeld kann mit den Tasten `Pfeil-oben` und `Pfeil-unten` durch die vorangegangenen Einträge gewechselt werden.
 - Unter `%APPDATA%\Ged\logs` werden Log-Dateien abgelegt, um im Fehlerfall die Ursache zu finden.
 
 ### Changed
