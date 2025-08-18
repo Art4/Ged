@@ -231,15 +231,12 @@ searchWin.addEventListener('mouseleave', (event) => {
         inputField.focus();
     });
 
-    // Show closing dialog
-    setTimeout(() => {
-        ipcRenderer.send('isGedEol');
+    ipcRenderer.on('ged-is-eol-response', (e, message) => {
+        searchLogger.info('Ged is EOL', message);
+        search.emit('search.output', '<span class="text-bg-warning">' + message + '</span>');
+    });
 
-        ipcRenderer.on('gedIsEol', (e) => {
-            if(confirm('Ged wird nicht mehr weiterentwickelt und sollte aus Sicherheitsgründen nicht mehr verwendet werden.\r\n\r\nSoll Ged jetzt beendet werden?') === true)
-            {
-                ipcRenderer.send('closeapp');
-            }
-        });
+    setTimeout(() => {
+        ipcRenderer.send('ged-is-eol-check');
     }, 10000);
 })();

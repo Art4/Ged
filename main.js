@@ -27,7 +27,7 @@ const packageData = require('./package.json');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-let isGedEol = true;
+let isGedEol = (new Date() > new Date(Date.UTC(2025, 7, 1))); // Ged is EOL since 2025-10-01
 
 // Quit app in favor of the first instance
 if (!app.requestSingleInstanceLock()) {
@@ -80,14 +80,21 @@ app.on('ready', function createMainWindow () {
         }, 5000);
     });
 
-    ipcMain.on('isGedEol', function (e) {
+    ipcMain.on('ged-is-eol-check', function (e) {
+        Logger.info('isGedEol:', isGedEol);
+
         if (isGedEol === true) {
-            e.reply('gedIsEol');
+            e.reply('ged-is-eol-response', 'Ged is end of life.');
         }
     });
 
     // Check for updates
     setTimeout(() => {
+        if (isGedEol === true) {
+            updateLogger.info('Ged is end of life, no updates will be checked');
+            return;
+        }
+
         updateLogger.info('start check for updates');
         autoUpdater.checkForUpdates().then(info => {
             updateLogger.info(info);
