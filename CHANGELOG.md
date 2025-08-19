@@ -6,7 +6,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased](https://github.com/Art4/Ged/compare/v2.14.0...HEAD)
 
-Noch nichts.
+### Added
+
+- In den Einstellungen wird ab dem 01.10.2025 ein Hinweis angezeigt, dass Ged nicht mehr weiterentwickelt wird.
+- Wenn Ged seit 30 Tage keine Verbindung zu einem Update-Server hatte, wird eine Warnung angezeigt.
 
 ## [2.14.0 - 2025-05-28](https://github.com/Art4/Ged/compare/v2.13.0...v2.14.0)
 

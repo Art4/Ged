@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const {app, BrowserWindow, ipcMain, ipcRenderer, Menu, MenuItem, nativeImage, screen, shell} = require('electron');
+const {app, BrowserWindow, ipcMain, Menu, MenuItem, nativeImage, screen, shell} = require('electron');
 const Config = require('./config.js');
 const config = new Config();
 
@@ -148,7 +148,7 @@ Utils.createWindows = function(isDevEnv) {
     // Focus search field on focus window
     mainWindow.on('focus', () => {
         Utils.changeWindowOpacity(mainWindow.getOpacity(), 1, function(opacity) {
-            mainWindow.setOpacity(opacity);
+            mainWindow && mainWindow.setOpacity(opacity);
         });
         mainWindow.webContents.send('windowgetfocused');
     });
@@ -158,7 +158,7 @@ Utils.createWindows = function(isDevEnv) {
         // wait 100ms to avoid racecondition with mouseover event
         setTimeout(function() {
             Utils.changeWindowOpacity(mainWindow.getOpacity(), config.get('opacity', 1), function(opacity) {
-                mainWindow.setOpacity(opacity);
+                mainWindow && mainWindow.setOpacity(opacity);
             });
         }, 100);
     });
@@ -174,7 +174,7 @@ Utils.createWindows = function(isDevEnv) {
     ipcMain.on('setopacity', function (e) {
         if (! mainWindow.isFocused()) {
             Utils.changeWindowOpacity(mainWindow.getOpacity(), config.get('opacity', 1), function(opacity) {
-                mainWindow.setOpacity(opacity);
+                mainWindow && mainWindow.setOpacity(opacity);
             });
         }
     });
@@ -184,7 +184,7 @@ Utils.createWindows = function(isDevEnv) {
             // wait 100ms to avoid racecondition with mouseover event
             setTimeout(function() {
                 Utils.changeWindowOpacity(mainWindow.getOpacity(), 1, function(opacity) {
-                    mainWindow.setOpacity(opacity);
+                    mainWindow && mainWindow.setOpacity(opacity);
                 });
             }, 100);
         }
@@ -284,8 +284,6 @@ Utils.createWindows = function(isDevEnv) {
 };
 
 Utils.changeWindowOpacity = function(startOpacity, endOpacity, changeOpacityCallback) {
-    // var startOpacity = ipcRenderer.sendSync('getopacity');
-
     var diffOpacity = endOpacity - startOpacity;
     var increaseOpacity = (diffOpacity > 0);
     var steps = Math.abs(Math.floor(diffOpacity/0.1));

@@ -230,4 +230,17 @@ searchWin.addEventListener('mouseleave', (event) => {
     ipcRenderer.on('windowgetfocused', (e) => {
         inputField.focus();
     });
+
+    ipcRenderer.on('health-check-response', (e, results) => {
+        if (results.length > 0) {
+            let result = results[0];
+            search.emit('search.output', '<span class="text-bg-' + result.severity + '">' + result.title + '</span>');
+
+            searchLogger.info('show health-check response: ', result);
+        }
+    });
+
+    setTimeout(() => {
+        ipcRenderer.send('health-check');
+    }, 10000);
 })();

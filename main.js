@@ -17,8 +17,10 @@
  */
 
 const electron = require('electron');
-const {app, Notification} = electron;
+const {app, ipcMain, Notification} = electron;
 const Utils = require('./src/window-utils.js');
+const Config = require('./src/config.js');
+const config = new Config();
 const autoUpdater = require('electron-updater').autoUpdater;
 const isDevEnv = ('ELECTRON_IS_DEV' in process.env);
 const Logger = require('electron-log');
@@ -27,6 +29,14 @@ const packageData = require('./package.json');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+
+// Ged is EOL (End of Life) since 2025-10-01, so we will not check for updates anymore.
+// Setting this to `false` will allow Ged to check and install updates from a 3rd-party server
+// what is not recommended because it could contain malware or other harmful code.
+// Only set this to `false` if you know what you are doing!
+// Setting this to `true` will disable update checks and show a warning in the UI
+// that Ged is EOL and no updates will be provided anymore.
+let isGedEol = (Date.now() > Date.parse('2025-10-01T00:00:00.000Z'));
 
 // Quit app in favor of the first instance
 if (!app.requestSingleInstanceLock()) {
@@ -77,10 +87,50 @@ app.on('ready', function createMainWindow () {
         }, 5000);
     });
 
+    ipcMain.on('health-check', function (e) {
+        let results = [];
+
+        // show warning if last update check was more than 30 days ago
+        if (Date.now() - 30 * 24 * 60 * 60 * 1000 > Date.parse(config.get('last_update_check', new Date().toISOString()))) {
+            results.push({
+                type: 'https://github.com/Art4/Ged?tab=readme-ov-file#update-server-nicht-erreichbar',
+                title: 'Update-Server nicht erreichbar',
+                detail: 'Prüfe, ob eine Verbindung ins Internet besteht und ob der Update-Server erreichbar ist.',
+                severity: 'warning',
+            });
+        }
+
+        if (isGedEol === true) {
+            results.push({
+                type: 'https://github.com/Art4/Ged?tab=readme-ov-file#ged-support-wurde-eingestellt',
+                title: 'Ged-Support wurde eingestellt',
+                detail: 'Die Weiterentwicklung von Ged wurde beendet und es werden keine neuen Udpates mehr zur Verfügung gestellt. Es wird empfohlen, Ged nicht mehr zu verwenden.',
+                severity: 'danger',
+            });
+        }
+
+        Logger.scope('HealthCheck').info('results:', results);
+
+        e.reply('health-check-response', results);
+    });
+
     // Check for updates
     setTimeout(() => {
         updateLogger.info('start check for updates');
-        autoUpdater.checkForUpdates();
+
+        if (isGedEol === true) {
+            updateLogger.info('Ged is end of life, no updates will be checked');
+            return;
+        }
+
+        updateLogger.info('last update check:', config.get('last_update_check', 'never'));
+
+        autoUpdater.checkForUpdates().then(info => {
+            updateLogger.info('update result:', info);
+            config.set('last_update_check', new Date().toISOString());
+        }).catch(err => {
+            updateLogger.info('update error:', err);
+        });
     }, 2000);
 });
 

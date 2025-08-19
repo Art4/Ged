@@ -247,6 +247,20 @@ Ged erstellt Log-Dateien, die bei einem Fehlerfall helfen können, die Ursache z
 
 Die Log-Dateien liegen unter Windows im Verzeichnis `%APPDATA%\Ged\logs\`.
 
+## Fehler-Meldungen
+
+### Update-Server nicht erreichbar
+
+Für den sicheren Betrieb benötigt Ged regelmäßige Updates und fragt daher bei jedem Start beim Update-Server an, ob neue Udpates verfügbar sind. Wenn nach über 30 Tagen keine Verbindung zum Update-Server aufgebaut werden konnte, wird diese Warnung angezeigt.
+
+Prüfe, ob eine Verbindung ins Internet besteht und ob der Update-Server erreichbar ist.
+
+### Ged-Support wurde eingestellt
+
+Ged basiert auf Software, die regelmäßige Sicherheits-Updates benötigen. Diese Meldung wird angezeigt, weil die Weiterentwicklung von Ged beendet wurde und daher auch keine neuen Udpates mehr zur Verfügung gestellt werden.
+
+Es wird empfohlen, Ged nicht mehr zu verwenden.
+
 ## Technische Details
 
 Ged v1 war als Windows Gadget umgesetzt, welche seit Windows 8 nicht mehr unterstützt werden. Daher wurde Ged auf Basis von [Electron](https://electronjs.org/) komplett neu geschrieben.
