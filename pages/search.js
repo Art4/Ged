@@ -231,12 +231,12 @@ searchWin.addEventListener('mouseleave', (event) => {
         inputField.focus();
     });
 
-    ipcRenderer.on('ged-is-eol-response', (e, message) => {
-        searchLogger.info('ged-is-eol-response: ', message);
+    ipcRenderer.on('health-check-response', (e, message) => {
+        searchLogger.info('health-check-response: ', message);
         search.emit('search.output', '<span class="text-bg-warning">' + message + '</span>');
     });
 
     setTimeout(() => {
-        ipcRenderer.send('ged-is-eol-check');
+        ipcRenderer.send('health-check');
     }, 10000);
 })();

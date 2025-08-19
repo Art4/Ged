@@ -89,12 +89,12 @@ app.on('ready', function createMainWindow () {
         }, 5000);
     });
 
-    ipcMain.on('ged-is-eol-check', function (e) {
-        Logger.info('isGedEol:', isGedEol);
+    ipcMain.on('health-check', function (e) {
+        Logger.info('health-check: isGedEol:', isGedEol);
 
         // show warning if last update check was more than 30 days ago
         if (Date.now() - 30 * 24 * 60 * 60 * 1000 > Date.parse(config.get('last_update_check', new Date().toISOString()))) {
-            e.reply('ged-is-eol-response', 'Update-Server ist nicht erreichbar.');
+            e.reply('health-check-response', 'Update-Server ist nicht erreichbar.');
         }
     });
 
