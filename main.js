@@ -90,12 +90,30 @@ app.on('ready', function createMainWindow () {
     });
 
     ipcMain.on('health-check', function (e) {
-        Logger.info('health-check: isGedEol:', isGedEol);
+        let results = [];
 
         // show warning if last update check was more than 30 days ago
         if (Date.now() - 30 * 24 * 60 * 60 * 1000 > Date.parse(config.get('last_update_check', new Date().toISOString()))) {
-            e.reply('health-check-response', 'Update-Server ist nicht erreichbar.');
+            results.push({
+                type: 'https://github.com/Art4/Ged?tab=readme-ov-file#update-server-nicht-erreichbar',
+                title: 'Update-Server nicht erreichbar',
+                detail: 'Prüfe, ob eine Verbindung ins Internet besteht und ob der Update-Server erreichbar ist.',
+                severity: 'warning',
+            });
         }
+
+        if (isGedEol === true) {
+            results.push({
+                type: 'https://github.com/Art4/Ged?tab=readme-ov-file#ged-support-wurde-eingestellt',
+                title: 'Ged-Support wurde eingestellt',
+                detail: 'Die Weiterentwicklung von Ged wurde beendet und es werden keine neuen Udpates mehr zur Verfügung gestellt. Es wird empfohlen, Ged nicht mehr zu verwenden.',
+                severity: 'danger',
+            });
+        }
+
+        Logger.scope('HealthCheck').info('results:', results);
+
+        e.reply('health-check-response', results);
     });
 
     // Check for updates

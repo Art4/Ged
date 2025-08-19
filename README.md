@@ -257,7 +257,7 @@ Prüfe, ob eine Verbindung ins Internet besteht und ob der Update-Server erreich
 
 ### Ged-Support wurde eingestellt
 
-Ged basiert auf Software, die regelmäßige Sicherheits-Updates benötigen. Da die Weiterentwicklung von Ged beendet wurde, werde auch keine neuen Udpates mehr zur Verfügung gestellt.
+Ged basiert auf Software, die regelmäßige Sicherheits-Updates benötigen. Diese Meldung wird angezeigt, weil die Weiterentwicklung von Ged beendet wurde und daher auch keine neuen Udpates mehr zur Verfügung gestellt werden.
 
 Es wird empfohlen, Ged nicht mehr zu verwenden.
 
