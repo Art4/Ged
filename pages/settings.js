@@ -21,6 +21,7 @@ const Config = require('../src/config.js');
 const config = new Config();
 const packageData = require('../package.json');
 
+const helathCheckResults = document.getElementById('healthCheckResults');
 const draftPathInput = document.getElementById('formDraftPathInput');
 const defaultFileTypeInput = document.getElementById('formDefaultFileTypeInput');
 const defaultActionInput = document.getElementById('formDefaultActionInput');
@@ -30,6 +31,26 @@ const skipTaskbarInput = document.getElementById('formSkipTaskbarInput');
 const opacityInput = document.getElementById('formOpacityInput');
 const saveButton = document.getElementById('formSaveButton');
 const abortButton = document.getElementById('formAbortButton');
+
+ipcRenderer.on('health-check-response', (e, results) => {
+    results.map((result) => {
+        helathCheckResults.innerHTML += '<div class="alert alert-' + result.severity + '" role="alert">' +
+        '<h4 class="alert-heading">' + result.title + '</h4>' +
+        '<p>' + result.detail + '</p>' +
+        '<p><a href="' + result.type + '" class="open-external">Mehr <span class="fa-solid fa-up-right-from-square"></span></p>' +
+        '</div>';
+    });
+
+    // open links in external browser
+    var externalButtons = helathCheckResults.getElementsByClassName('open-external');
+
+    for (var i = 0; i < externalButtons.length; i++) {
+        externalButtons[i].addEventListener('click', function(e) {
+            e.preventDefault();
+            ipcRenderer.send('openexternalpage', this.href);
+        }, false);
+    }
+});
 
 // Allow context menu on input and textarea fields
 document.body.addEventListener('contextmenu', (e) => {
@@ -47,7 +68,7 @@ document.body.addEventListener('contextmenu', (e) => {
     }
 });
 
-// Prevent middleclick on links of they will be open in a browser window
+// Prevent middleclick on links or they will be open in a browser window
 document.addEventListener('auxclick', (event) => {
     if (event.target.localName === 'a') {
         event.preventDefault();
@@ -61,6 +82,8 @@ document.addEventListener('auxclick', (event) => {
 }, false);
 
 (function() {
+    ipcRenderer.send('health-check');
+
     draftPathInput.value = config.get('base_dir', '');
     defaultFileTypeInput.value = config.get('default_file_type', 'pdf');
     defaultActionInput.value = config.get('default_action', 'open');
