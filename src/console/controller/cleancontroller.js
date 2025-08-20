@@ -146,7 +146,16 @@ CleanController.prototype.cleanPreviousRevisionOfDraft = function(draft, input, 
         // Sicherheits-Abfrage, bevor eine Datei gelöscht wird
         if(confirm('Datei ' + f.getName() + ' wird entfernt?') === true)
         {
-            this.fs.unlinkSync(f.getAbsolutePath());
+            this.fs.unlink(f.getAbsolutePath(), (err) => {
+                if (err) {
+                    console.error('Error deleting file:', f.getAbsolutePath(), err);
+                    output.destroy('Fehler beim Löschen von ' + f.getName());
+                    alert('Fehler beim Löschen der Datei: ' + f.getName());
+                    return;
+                }
+
+                console.log(f.getAbsolutePath() + ' was deleted');
+            });
         }
     });
 
