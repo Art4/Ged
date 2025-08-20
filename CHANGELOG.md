@@ -4,7 +4,11 @@ Alle signifikanten Änderungen zu diesem Projekt werden in dieser Datei dokument
 
 Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased](https://github.com/Art4/Ged/compare/v2.14.0...HEAD)
+## [Unreleased](https://github.com/Art4/Ged/compare/v2.15.0...HEAD)
+
+Noch nichts.
+
+## [2.15.0 - 2025-08-20](https://github.com/Art4/Ged/compare/v2.14.0...v2.15.0)
 
 ### Added
 
@@ -15,6 +19,10 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Upgrade Electron von v35.4.0 auf v37.3.1
 - Alle Bibliotheken wurden aktualisiert
+
+### Fixed
+
+- Wenn die Clean-Aktion einen Datei nicht löschen konnte, dann wird der Benutzer mit einer Fehlerwarnung darüber informiert.
 
 ## [2.14.0 - 2025-05-28](https://github.com/Art4/Ged/compare/v2.13.0...v2.14.0)
 
@@ -27,10 +35,6 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Upgrade Electron von v22.0.1 auf v35.4.0
 - Alle Bibliotheken wurden aktualisiert
-
-### Fixed
-
-- Wenn die Clean-Aktion einen Datei nicht löschen konnte, dann wird der Benutzer mit einer Fehlerwarnung darüber informiert.
 
 ## [2.13.0 - 2023-01-11](https://github.com/Art4/Ged/compare/v2.12.0...v2.13.0)
 
