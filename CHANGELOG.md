@@ -11,6 +11,11 @@ Das Format basiert auf [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - In den Einstellungen wird ab dem 01.10.2025 ein Hinweis angezeigt, dass Ged nicht mehr weiterentwickelt wird.
 - Wenn Ged seit 30 Tage keine Verbindung zu einem Update-Server hatte, wird eine Warnung angezeigt.
 
+### Changed
+
+- Upgrade Electron von v35.4.0 auf v37.3.1
+- Alle Bibliotheken wurden aktualisiert
+
 ## [2.14.0 - 2025-05-28](https://github.com/Art4/Ged/compare/v2.13.0...v2.14.0)
 
 ### Added
